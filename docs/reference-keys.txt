@@ -1,0 +1,14 @@
+introduction
+project-overview
+loading-dataset
+cleaning-validating-transforming
+explain-variables-of-interest
+create-new-variables
+validating-count-handedness-game-year
+remove-and-transform-event-values
+event-outcome-frequency-by-count
+average-delta-run-expectancy
+join-lookup-table-to-main-data
+addressing-pitch-types
+cleaning-pitch-locations
+count-of-all-observations
