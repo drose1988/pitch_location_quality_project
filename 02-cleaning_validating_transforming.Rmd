@@ -601,7 +601,7 @@ mutate(hand = "LvR"))
 mlbraw2 <- bind_rows(mlbraw_r_r, mlbraw_l_l,
 mlbraw_r_l, mlbraw_l_r)
 
-rm(mlbraw_r_r, mlbraw_l_l, mlbraw_r_l, mlbraw_l_r)
+rm(mlbraw_r_r, mlbraw_l_l, mlbraw_r_l, mlbraw_l_r, mlbraw)
 ```
 
 The same heatmap now shows double the number of observations for each combination of handedness, pitch type, and count. Some combinations still have low number of observations but it's an improvement over the previous data set before doubling up.

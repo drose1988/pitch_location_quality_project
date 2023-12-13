@@ -1,4 +1,4 @@
---- 
+---
 title: "Location Quality"
 author: "Doug Rose"
 date: "`r Sys.Date()`"
@@ -48,7 +48,7 @@ library(shinydashboard)
 library(rsconnect)
 ```
 
-```{r import data}
+```{r import data, messages = FALSE}
 mlbraw2014 <- read_csv("/Users/dougrose/Desktop/location/raw_statcast/mlbraw2014.csv",show_col_types=0)
 mlbraw2015 <- read_csv("/Users/dougrose/Desktop/location/raw_statcast/mlbraw2015.csv",show_col_types=0)
 mlbraw2016 <- read_csv("/Users/dougrose/Desktop/location/raw_statcast/mlbraw2016.csv",show_col_types=0)
@@ -87,4 +87,3 @@ mlbraw <- mlbraw %>% arrange(desc(game_year), desc(game_date), game_pk)
 rm(mlbraw2014, mlbraw2015, mlbraw2016, mlbraw2017, mlbraw2018, 
    mlbraw2019, mlbraw2020, mlbraw2021, mlbraw2022, mlbraw2023)
 ```
-

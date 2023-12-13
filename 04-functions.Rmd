@@ -1,0 +1,130 @@
+# Functions
+
+These functions essentially repeat the previous steps for the example model. The parameters can be imputed into the functions to give us a resulting data frame and plot to visualise for each unique combination of handedness, count, and pitch type. 
+
+
+## Function 1
+
+```{r}
+function_p_type_hand_ptiles <- function(df, hand, pitch_type) {
+  hand = enquo(hand)
+  pitch_type = enquo(pitch_type)
+  hand_pitch_df <- df %>% filter(UQ(hand) == hand, UQ(pitch_type) == pitch_type)
+
+  gf <- gam(re ~ s(x, y), data = hand_pitch_df)
+}
+```
+
+## Function 2
+
+```{r}
+location_quality <- function(df, hand, pitch_type, count, gf) {
+  
+  hand = enquo(hand)
+  pitch_type = enquo(pitch_type)
+  count = enquo(count)
+  count_df <- df %>% filter(UQ(count) == count)
+  hand_pitch_df <- df %>% filter(UQ(hand) == hand, UQ(pitch_type) == pitch_type)
+  hand_pitch_count_df <- df %>% filter(UQ(hand) == hand, UQ(pitch_type) == pitch_type, UQ(count) == count)
+  hand_count_df <- df %>% filter(UQ(hand) == hand, UQ(count) == count)
+
+g <- expand.grid(x = seq(-4, 4, 0.01), y = seq(-2, 6, 0.01)) %>% 
+  mutate(x=round(x,2), y=round(y,2)) %>% 
+  as_tibble()
+  
+#gf <- gam(re ~ s(x, y), data = hand_pitch_df)
+  
+gfa <- gf %>% augment()
+  
+gfa99 <- gfa %>% 
+  filter(.hat <= quantile(gfa$.hat, 0.99)) %>% 
+  select(x, y)
+
+aa <- gfa99 %>% group_by(x) %>% summarise(ymin=min(y), ymax=max(y))
+
+bb <- inner_join(g,aa, join_by(x==x, y>=ymin, y<=ymax)) %>% select(-y) %>% distinct()
+
+cc <- g %>% left_join(bb, join_by(x==x, y>=ymin, y<=ymax)) %>% 
+  filter(!is.na(ymin), !is.na(ymax)) %>% select(x,y)
+
+dd <- cc %>% group_by(y) %>% summarise(xmin=min(x), xmax=max(x))
+
+ee <- inner_join(g,dd, join_by(y==y, x>=xmin, x<=xmax)) %>% select(-x) %>% distinct()
+
+ff <- g %>% left_join(ee, join_by(y==y, x>=xmin, x<=xmax)) %>% 
+  filter(!is.na(xmin), !is.na(xmax)) %>% select(x,y)
+
+gg <- bind_rows(cc,ff) %>% distinct()
+
+aa <- gg %>% group_by(x) %>% summarise(ymin=min(y), ymax=max(y))
+
+bb <- inner_join(g,aa, join_by(x==x, y>=ymin, y<=ymax)) %>% select(-y) %>% distinct()
+
+cc <- g %>% left_join(bb, join_by(x==x, y>=ymin, y<=ymax)) %>% 
+  filter(!is.na(ymin), !is.na(ymax)) %>% select(x,y)
+
+dd <- cc %>% group_by(y) %>% summarise(xmin=min(x), xmax=max(x))
+
+ee <- inner_join(g,dd, join_by(y==y, x>=xmin, x<=xmax)) %>% select(-x) %>% distinct()
+
+ff <- g %>% left_join(ee, join_by(y==y, x>=xmin, x<=xmax)) %>% 
+  filter(!is.na(xmin), !is.na(xmax)) %>% select(x,y)
+
+gg <- bind_rows(cc,ff) %>% distinct()
+
+gf1 <- gam(re ~ s(x, y), data = hand_pitch_count_df, method = "REML") #k=40
+  
+gg$lp <- predict(gf1, gg, type = "response")
+
+gg <- gg %>%
+  mutate(hand = unique(hand_pitch_count_df$hand),
+         pitch_type = unique(hand_pitch_count_df$pitch_type),
+         count = unique(hand_pitch_count_df$count)) %>%
+  select(hand, pitch_type, count, x, y, lp)
+
+gg <- gg %>% mutate(lp2 = (lp - min(lp)) / (max(lp) - min(lp))) %>% select(-lp) %>%
+  mutate(lp2 = 1-lp2)
+
+return(gg)
+}
+```
+
+## Function 3
+
+```{r}
+location_quality_plot <- function(df) {
+  
+    hand <- tibble(hand_id = c(1,2,3,4), hand = c("RvR","RvL","LvL","LvR"))
+    pitch_type <- tibble(pitch_type_id = c(1,2,3,4,5,6), 
+                         pitch_type = c("FF","SI","FC","CH","CU","SL"))
+    count <- tibble(count_id = c(1,2,3,4,5,6,7,8,9,10,11,12), 
+                    count = c("0-0","0-1","0-2","1-0","1-1","1-2","2-0","2-1","2-2","3-0","3-1","3-2"))
+
+  df <- df %>%
+    inner_join(hand, join_by(hand==hand_id)) %>%
+    select(-hand) %>%
+    rename(hand=hand.y) %>%
+    inner_join(pitch_type, join_by(pitch_type==pitch_type_id)) %>%
+    select(-pitch_type) %>%
+    rename(pitch_type=pitch_type.y) %>%
+    inner_join(count, join_by(count==count_id)) %>%
+    select(-count) %>%
+    rename(count=count.y)
+  
+  rm(hand, pitch_type, count)
+  
+  df <- df %>% mutate(label = paste(hand, pitch_type, count, sep = " "))
+    ggplot() +
+      geom_tile(data= df, aes(x,y, fill = lp2), show.legend = FALSE) +
+      geom_rect(aes(ymax = 3.50, ymin = 1.5, xmax = 0.83, xmin = -0.83),
+                alpha = 0, linewidth=0.1, colour = "red") +
+      ggtitle(unique(df$label)) +
+      theme_bw() + 
+      scale_fill_viridis_c(direction = 1, limits = c(0,1)) +
+      theme(axis.title = element_blank(),
+            plot.title = element_text(hjust = 0.5, size = 12),
+            panel.grid.major = element_blank(), 
+            panel.grid.minor = element_blank())+
+      coord_fixed()
+}
+```

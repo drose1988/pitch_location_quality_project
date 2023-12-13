@@ -1,0 +1,12 @@
+name: location_quality_app
+title: location_quality_app
+username: drose1988
+account: drose1988
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 10773329
+bundleId: 8038426
+url: https://drose1988.shinyapps.io/location_quality_app/
+version: 1
+asMultiple: FALSE
+asStatic: FALSE

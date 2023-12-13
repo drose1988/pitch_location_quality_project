@@ -1,0 +1,169 @@
+# Example Model
+
+## Scatterplot of Example
+
+Lets look at a specific pitch type thrown in a specific count by a specific combination of batter/pitcher handedness. This plot accounts for all recorded sliders thrown by RHP to RHB in 2-2 counts. The red rectangle signifies the strikezone for reference.
+
+```{r example data frames}
+count_df <- mlbraw2 %>% filter(count == "2-2")
+hand_pitch_df <- mlbraw2 %>% 
+  filter(hand == "RvR", pitch_type == "SL")
+hand_pitch_count_df <- mlbraw2 %>% 
+  filter(hand == "RvR", pitch_type == "SL", count == "2-2")
+hand_count_df <- mlbraw2 %>% 
+  filter(hand == "RvR", count == "2-2")
+```
+
+```{r example plot all, fig.height = 7, fig.width = 7, fig.align = "left"}
+ggplot() +
+  geom_point(data = hand_pitch_count_df, 
+             aes(x,y), size = 0.1, alpha=0.2, 
+             show.legend = TRUE) +
+  geom_rect(aes(ymax = 3.50, ymin = 1.5, 
+                xmax = 0.83, xmin = -0.83),
+            alpha = 0, linewidth=0.5, colour = "red") +
+  ggtitle("RvR SL 2-2") +
+  theme_bw() + 
+  theme(axis.title = element_blank(),
+        plot.title = element_text(hjust = 0.5, size = 20),
+        panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank())+
+  xlim(-4,5)+
+  ylim(-3,6.5)+
+  coord_fixed()
+```
+
+This plot accounts for all 50,909 recorded sliders thrown by RHP to RHB in 2-2 counts from 2014-2023. The blue rectangle represents the strike zone for reference. The goal here is to use these location points along with run expectancy change associated with the event outcome to tell us where the best and worst possible pitch locations are for pitches thrown under these conditions.
+
+A challenge presenting itself here is that clearly these pitches are concentrated in certain regions. An oval shape forms centered in the bottom right corner of the strike zone and the further it expands outward the less observations there are.
+
+In some areas of this plot the observations are so infrequent that attempting to model a smooth doesn't work. So instead of using the whole region to fit a model, we can limit the region to just areas in a higher concentration of observations eliminating pitch outlier regions.
+
+## Example Scatterplot Filtered
+
+Here is the same plot, but eliminating the top 1% outlier points.
+
+```{r create example without outliers}
+g <- expand.grid(x = seq(-4, 4, 0.01), y = seq(-2, 6, 0.01)) %>% 
+  mutate(x=round(x,2), y=round(y,2)) %>% 
+  as_tibble()
+  
+gf <- gam(re ~ s(x, y), data = hand_pitch_df)
+  
+gfa <- gf %>% augment()
+  
+gfa99 <- gfa %>% 
+  filter(.hat <= quantile(gfa$.hat, 0.99)) %>% 
+  select(x, y)
+```
+
+```{r create example plot limited}
+hand_pitch_count_df_lim <- hand_pitch_count_df %>% semi_join(gfa99, join_by(x,y))
+```
+
+```{r example plot limited, fig.height = 7, fig.width = 7, fig.align = "left"}
+ggplot() +
+  geom_point(data = hand_pitch_count_df_lim, aes(x,y), 
+             size = 0.1, alpha=0.2, show.legend =TRUE) +
+  geom_rect(aes(ymax = 3.50, ymin = 1.5, xmax = 0.83, xmin = -0.83),
+            alpha = 0, linewidth=0.5, colour = "red") +
+  ggtitle("RvR SL 2-2") +
+  theme_bw() + 
+  theme(axis.title = element_blank(),
+        plot.title = element_text(hjust = 0.5, size = 20),
+        panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank())+
+  xlim(-4,5)+
+  ylim(-3,6.5)+
+  coord_fixed()
+```
+
+## Create grid to base the model locations off of
+
+```{r make the grid for the example}
+aa <- gfa99 %>% group_by(x) %>% summarise(ymin=min(y), ymax=max(y))
+
+bb <- inner_join(g,aa, join_by(x==x, y>=ymin, y<=ymax)) %>% select(-y) %>% distinct()
+
+cc <- g %>% left_join(bb, join_by(x==x, y>=ymin, y<=ymax)) %>% 
+  filter(!is.na(ymin), !is.na(ymax)) %>% select(x,y)
+
+dd <- cc %>% group_by(y) %>% summarise(xmin=min(x), xmax=max(x))
+
+ee <- inner_join(g,dd, join_by(y==y, x>=xmin, x<=xmax)) %>% select(-x) %>% distinct()
+
+ff <- g %>% left_join(ee, join_by(y==y, x>=xmin, x<=xmax)) %>% 
+  filter(!is.na(xmin), !is.na(xmax)) %>% select(x,y)
+
+gg <- bind_rows(cc,ff) %>% distinct()
+
+aa <- gg %>% group_by(x) %>% summarise(ymin=min(y), ymax=max(y))
+
+bb <- inner_join(g,aa, join_by(x==x, y>=ymin, y<=ymax)) %>% select(-y) %>% distinct()
+
+cc <- g %>% left_join(bb, join_by(x==x, y>=ymin, y<=ymax)) %>% 
+  filter(!is.na(ymin), !is.na(ymax)) %>% select(x,y)
+
+dd <- cc %>% group_by(y) %>% summarise(xmin=min(x), xmax=max(x))
+
+ee <- inner_join(g,dd, join_by(y==y, x>=xmin, x<=xmax)) %>% select(-x) %>% distinct()
+
+ff <- g %>% left_join(ee, join_by(y==y, x>=xmin, x<=xmax)) %>% 
+  filter(!is.na(xmin), !is.na(xmax)) %>% select(x,y)
+
+gg <- bind_rows(cc,ff) %>% distinct()
+```
+
+
+A grid region can be created based on the location of these pitches not counting outlier points. This grid represents the region where 99% of all sliders thrown by RHP to RHB are located.
+
+
+```{r plot the grid, fig.height = 7, fig.width = 7, fig.align = "left"}
+ggplot() +
+  geom_point(data = gg, aes(x = x, y = y),
+            color="black",
+            alpha=0.1,
+            size = 0.000001,
+            show.legend = FALSE) +
+  geom_rect(aes(ymax = 3.50, ymin = 1.5, xmax = 0.83, xmin = -0.83),
+            alpha = 0, linewidth=0.5, colour = "red") +
+  ggtitle("RvR SL 2-2") +
+  theme_bw() + 
+  theme(axis.title = element_blank(),
+        plot.title = element_text(hjust = 0.5, size = 20),
+        panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank())+
+  coord_fixed()
+```
+
+## Apply the game data results to the grid
+
+Next I'll use the GAM function to estimate the change in run expectancy based on pitch location. The resulting plot shows a smooth of optimal and sub-optimal pitch locations for these unique pitch parameters, with best locations appearing bright yellow and worst locations appearing dark blue. As you can see, pitches around the edges of the strike zone rate highest, particularly the low and outside corner where a slider moving away from hitter is generally viewed as an effective location. The further away pitches are from the edge of the strike zone, the less effective they become, as it becomes easier for hitters to recognize an easy take.
+
+I would like to note that the a transformation has been made to the output average run expectancy value. The range of these values differ greatly depending on the count a pitch is thrown in. Pitches in 0-0 counts have considerably less extreme run expectancy values compared to 3-2 counts. In order to effectively evaluate the quality of a pitch location and keep the scale consistent regardless of the count a pitch is thrown in, I've normalized the output values to be take on a value ranging from 0 to 1.  
+
+```{r plot the grid with the lp fill, fig.height = 7, fig.width = 7, fig.align = "left"}
+  gf1 <- gam(re ~ s(x, y, k=40), data = hand_pitch_count_df, method = "REML") #k=40
+  
+  gg$lp <- predict(gf1, gg, type = "response")
+  
+  gg <- gg %>% mutate(lp2 = (lp - min(lp)) / (max(lp) - min(lp)))
+  
+  ggplot() + 
+    geom_tile(data = gg, aes(x = x, y = y, fill = lp2), show.legend = FALSE) +
+    geom_rect(aes(ymax = 3.50, ymin = 1.50, xmax = 0.83, xmin = -0.83),
+              alpha = 0, linewidth=0.5, colour = "red") +
+    scale_fill_viridis_c(direction = -1, limits = c(0,1)) +
+  ggtitle("RvR SL 2-2") +
+  theme_bw() + 
+  theme(axis.title = element_blank(),
+        plot.title = element_text(hjust = 0.5, size = 20),
+        panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank())+
+  coord_fixed()
+```
+
+```{r remove all not needed rest of the way}
+rm(re_lookup,count_df, hand_count_df, hand_pitch_count_df, hand_pitch_count_df_lim, hand_pitch_df,
+   aa, bb, cc, dd, ee, ff, g, gf, gf1, gfa, gfa99, gg)
+```

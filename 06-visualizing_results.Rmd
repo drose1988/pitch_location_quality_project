@@ -1,0 +1,348 @@
+
+# Visualizing Resulting Plots
+
+Here's the resulting plots for every unique combination of handedness, pitch type, and count.
+
+I would like to note that the output values (change in run expectancy) have a considerably different range of values depending on the count the pitch is thrown in. For example, pitches in 0-0 counts have less leverage than pitches in 3-2 counts. Here is a breakdown of the events and their associated change in run expectancy in 0-0 counts compared to 3-2 counts. As a result of this, the GAM smooth will have differing range of expected values depending on the count. This presents an issue in attempting to create a pitch location quality metric. If I were to analyze a season's worth of pitches for a particular pitcher, their pitches thrown in high leverage counts would completely dwarf those in low leverage counts. And an aggregation like average pitch location quality would be influenced much more by some counts over others.
+
+Instead I'll normalize the output values of each plot transforming the values to be between a range of 0 to 1. This way pitches from different unique situations can be evaluated the same. 
+
+```{r r_r_ff plot, fig.height = 10, fig.width = 10, fig.align = "left"}
+r_r_ff
+```
+
+```{r r_r_si plot, fig.height = 10, fig.width = 10, fig.align = "left"}
+r_r_si
+```
+
+```{r r_r_fc plot, fig.height = 10, fig.width = 10, fig.align = "left"}
+r_r_fc
+```
+
+```{r r_r_ch plot, fig.height = 10, fig.width = 10, fig.align = "left"}
+r_r_ch
+```
+
+```{r r_r_cu plot, fig.height = 10, fig.width = 10, fig.align = "left"}
+r_r_cu
+```
+
+```{r r_r_sl plot, fig.height = 10, fig.width = 10, fig.align = "left"}
+r_r_sl
+```
+
+```{r r_rl_ff plot, fig.height = 10, fig.width = 10, fig.align = "left"}
+r_l_ff
+```
+
+```{r r_l_si plot, fig.height = 10, fig.width = 10, fig.align = "left"}
+r_l_si
+```
+
+```{r r_l_fc plot, fig.height = 10, fig.width = 10, fig.align = "left"}
+r_l_fc
+```
+
+```{r r_l_ch plot, fig.height = 10, fig.width = 10, fig.align = "left"}
+r_l_ch
+```
+
+```{r r_l_cu plot, fig.height = 10, fig.width = 10, fig.align = "left"}
+r_l_cu
+```
+
+```{r r_l_sl plot, fig.height = 10, fig.width = 10, fig.align = "left"}
+r_l_sl
+```
+
+```{r l_rl_ff plot, fig.height = 10, fig.width = 10, fig.align = "left"}
+l_l_ff
+```
+
+```{r l_l_si plot, fig.height = 10, fig.width = 10, fig.align = "left"}
+l_l_si
+```
+
+```{r l_l_fc plot, fig.height = 10, fig.width = 10, fig.align = "left"}
+l_l_fc
+```
+
+```{r l_l_ch plot, fig.height = 10, fig.width = 10, fig.align = "left"}
+l_l_ch
+```
+
+```{r l_l_cu plot, fig.height = 10, fig.width = 10, fig.align = "left"}
+l_l_cu
+```
+
+```{r l_l_sl plot, fig.height = 10, fig.width = 10, fig.align = "left"}
+l_l_sl
+```
+
+```{r l_r_ff plot, fig.height = 10, fig.width = 10, fig.align = "left"}
+l_r_ff
+```
+
+```{r l_r_si plot, fig.height = 10, fig.width = 10, fig.align = "left"}
+l_r_si
+```
+
+```{r l_r_fc plot, fig.height = 10, fig.width = 10, fig.align = "left"}
+l_r_fc
+```
+
+```{r l_r_ch plot, fig.height = 10, fig.width = 10, fig.align = "left"}
+l_r_ch
+```
+
+```{r l_r_cu plot, fig.height = 10, fig.width = 10, fig.align = "left"}
+l_r_cu
+```
+
+```{r l_r_sl plot, fig.height = 10, fig.width = 10, fig.align = "left"}
+l_r_sl
+```
+
+```{r, echo=FALSE}
+huge_lookup <- 
+  bind_rows(r_r_ff_0_0, r_r_si_0_0, r_r_fc_0_0, r_r_ch_0_0, r_r_cu_0_0, r_r_sl_0_0,
+            r_r_ff_0_1, r_r_si_0_1, r_r_fc_0_1, r_r_ch_0_1, r_r_cu_0_1, r_r_sl_0_1,
+            r_r_ff_0_2, r_r_si_0_2, r_r_fc_0_2, r_r_ch_0_2, r_r_cu_0_2, r_r_sl_0_2,
+            r_r_ff_1_0, r_r_si_1_0, r_r_fc_1_0, r_r_ch_1_0, r_r_cu_1_0, r_r_sl_1_0,
+            r_r_ff_1_1, r_r_si_1_1, r_r_fc_1_1, r_r_ch_1_1, r_r_cu_1_1, r_r_sl_1_1,
+            r_r_ff_1_2, r_r_si_1_2, r_r_fc_1_2, r_r_ch_1_2, r_r_cu_1_2, r_r_sl_1_2,
+            r_r_ff_2_0, r_r_si_2_0, r_r_fc_2_0, r_r_ch_2_0, r_r_cu_2_0, r_r_sl_2_0,
+            r_r_ff_2_1, r_r_si_2_1, r_r_fc_2_1, r_r_ch_2_1, r_r_cu_2_1, r_r_sl_2_1,
+            r_r_ff_2_2, r_r_si_2_2, r_r_fc_2_2, r_r_ch_2_2, r_r_cu_2_2, r_r_sl_2_2,
+            r_r_ff_3_0, r_r_si_3_0, r_r_fc_3_0, r_r_ch_3_0, r_r_cu_3_0, r_r_sl_3_0,
+            r_r_ff_3_1, r_r_si_3_1, r_r_fc_3_1, r_r_ch_3_1, r_r_cu_3_1, r_r_sl_3_1,
+            r_r_ff_3_2, r_r_si_3_2, r_r_fc_3_2, r_r_ch_3_2, r_r_cu_3_2, r_r_sl_3_2,
+            r_l_ff_0_0, r_l_si_0_0, r_l_fc_0_0, r_l_ch_0_0, r_l_cu_0_0, r_l_sl_0_0,
+            r_l_ff_0_1, r_l_si_0_1, r_l_fc_0_1, r_l_ch_0_1, r_l_cu_0_1, r_l_sl_0_1,
+            r_l_ff_0_2, r_l_si_0_2, r_l_fc_0_2, r_l_ch_0_2, r_l_cu_0_2, r_l_sl_0_2,
+            r_l_ff_1_0, r_l_si_1_0, r_l_fc_1_0, r_l_ch_1_0, r_l_cu_1_0, r_l_sl_1_0,
+            r_l_ff_1_1, r_l_si_1_1, r_l_fc_1_1, r_l_ch_1_1, r_l_cu_1_1, r_l_sl_1_1,
+            r_l_ff_1_2, r_l_si_1_2, r_l_fc_1_2, r_l_ch_1_2, r_l_cu_1_2, r_l_sl_1_2,
+            r_l_ff_2_0, r_l_si_2_0, r_l_fc_2_0, r_l_ch_2_0, r_l_cu_2_0, r_l_sl_2_0,
+            r_l_ff_2_1, r_l_si_2_1, r_l_fc_2_1, r_l_ch_2_1, r_l_cu_2_1, r_l_sl_2_1,
+            r_l_ff_2_2, r_l_si_2_2, r_l_fc_2_2, r_l_ch_2_2, r_l_cu_2_2, r_l_sl_2_2,
+            r_l_ff_3_0, r_l_si_3_0, r_l_fc_3_0, r_l_ch_3_0, r_l_cu_3_0, r_l_sl_3_0,
+            r_l_ff_3_1, r_l_si_3_1, r_l_fc_3_1, r_l_ch_3_1, r_l_cu_3_1, r_l_sl_3_1,
+            r_l_ff_3_2, r_l_si_3_2, r_l_fc_3_2, r_l_ch_3_2, r_l_cu_3_2, r_l_sl_3_2,
+            l_r_ff_0_0, l_r_si_0_0, l_r_fc_0_0, l_r_ch_0_0, l_r_cu_0_0, l_r_sl_0_0,
+            l_r_ff_0_1, l_r_si_0_1, l_r_fc_0_1, l_r_ch_0_1, l_r_cu_0_1, l_r_sl_0_1,
+            l_r_ff_0_2, l_r_si_0_2, l_r_fc_0_2, l_r_ch_0_2, l_r_cu_0_2, l_r_sl_0_2,
+            l_r_ff_1_0, l_r_si_1_0, l_r_fc_1_0, l_r_ch_1_0, l_r_cu_1_0, l_r_sl_1_0,
+            l_r_ff_1_1, l_r_si_1_1, l_r_fc_1_1, l_r_ch_1_1, l_r_cu_1_1, l_r_sl_1_1,
+            l_r_ff_1_2, l_r_si_1_2, l_r_fc_1_2, l_r_ch_1_2, l_r_cu_1_2, l_r_sl_1_2,
+            l_r_ff_2_0, l_r_si_2_0, l_r_fc_2_0, l_r_ch_2_0, l_r_cu_2_0, l_r_sl_2_0,
+            l_r_ff_2_1, l_r_si_2_1, l_r_fc_2_1, l_r_ch_2_1, l_r_cu_2_1, l_r_sl_2_1,
+            l_r_ff_2_2, l_r_si_2_2, l_r_fc_2_2, l_r_ch_2_2, l_r_cu_2_2, l_r_sl_2_2,
+            l_r_ff_3_0, l_r_si_3_0, l_r_fc_3_0, l_r_ch_3_0, l_r_cu_3_0, l_r_sl_3_0,
+            l_r_ff_3_1, l_r_si_3_1, l_r_fc_3_1, l_r_ch_3_1, l_r_cu_3_1, l_r_sl_3_1,
+            l_r_ff_3_2, l_r_si_3_2, l_r_fc_3_2, l_r_ch_3_2, l_r_cu_3_2, l_r_sl_3_2,
+            l_l_ff_0_0, l_l_si_0_0, l_l_fc_0_0, l_l_ch_0_0, l_l_cu_0_0, l_l_sl_0_0,
+            l_l_ff_0_1, l_l_si_0_1, l_l_fc_0_1, l_l_ch_0_1, l_l_cu_0_1, l_l_sl_0_1,
+            l_l_ff_0_2, l_l_si_0_2, l_l_fc_0_2, l_l_ch_0_2, l_l_cu_0_2, l_l_sl_0_2,
+            l_l_ff_1_0, l_l_si_1_0, l_l_fc_1_0, l_l_ch_1_0, l_l_cu_1_0, l_l_sl_1_0,
+            l_l_ff_1_1, l_l_si_1_1, l_l_fc_1_1, l_l_ch_1_1, l_l_cu_1_1, l_l_sl_1_1,
+            l_l_ff_1_2, l_l_si_1_2, l_l_fc_1_2, l_l_ch_1_2, l_l_cu_1_2, l_l_sl_1_2,
+            l_l_ff_2_0, l_l_si_2_0, l_l_fc_2_0, l_l_ch_2_0, l_l_cu_2_0, l_l_sl_2_0,
+            l_l_ff_2_1, l_l_si_2_1, l_l_fc_2_1, l_l_ch_2_1, l_l_cu_2_1, l_l_sl_2_1,
+            l_l_ff_2_2, l_l_si_2_2, l_l_fc_2_2, l_l_ch_2_2, l_l_cu_2_2, l_l_sl_2_2,
+            l_l_ff_3_0, l_l_si_3_0, l_l_fc_3_0, l_l_ch_3_0, l_l_cu_3_0, l_l_sl_3_0,
+            l_l_ff_3_1, l_l_si_3_1, l_l_fc_3_1, l_l_ch_3_1, l_l_cu_3_1, l_l_sl_3_1,
+            l_l_ff_3_2, l_l_si_3_2, l_l_fc_3_2, l_l_ch_3_2, l_l_cu_3_2, l_l_sl_3_2)
+```
+
+```{r, echo=FALSE}
+rm(r_r_ff_0_0, r_r_si_0_0, r_r_fc_0_0, r_r_ch_0_0, r_r_cu_0_0, r_r_sl_0_0,
+   r_r_ff_0_1, r_r_si_0_1, r_r_fc_0_1, r_r_ch_0_1, r_r_cu_0_1, r_r_sl_0_1,
+   r_r_ff_0_2, r_r_si_0_2, r_r_fc_0_2, r_r_ch_0_2, r_r_cu_0_2, r_r_sl_0_2,
+   r_r_ff_1_0, r_r_si_1_0, r_r_fc_1_0, r_r_ch_1_0, r_r_cu_1_0, r_r_sl_1_0,
+   r_r_ff_1_1, r_r_si_1_1, r_r_fc_1_1, r_r_ch_1_1, r_r_cu_1_1, r_r_sl_1_1,
+   r_r_ff_1_2, r_r_si_1_2, r_r_fc_1_2, r_r_ch_1_2, r_r_cu_1_2, r_r_sl_1_2,
+   r_r_ff_2_0, r_r_si_2_0, r_r_fc_2_0, r_r_ch_2_0, r_r_cu_2_0, r_r_sl_2_0,
+   r_r_ff_2_1, r_r_si_2_1, r_r_fc_2_1, r_r_ch_2_1, r_r_cu_2_1, r_r_sl_2_1,
+   r_r_ff_2_2, r_r_si_2_2, r_r_fc_2_2, r_r_ch_2_2, r_r_cu_2_2, r_r_sl_2_2,
+   r_r_ff_3_0, r_r_si_3_0, r_r_fc_3_0, r_r_ch_3_0, r_r_cu_3_0, r_r_sl_3_0,
+   r_r_ff_3_1, r_r_si_3_1, r_r_fc_3_1, r_r_ch_3_1, r_r_cu_3_1, r_r_sl_3_1,
+   r_r_ff_3_2, r_r_si_3_2, r_r_fc_3_2, r_r_ch_3_2, r_r_cu_3_2, r_r_sl_3_2,
+   r_l_ff_0_0, r_l_si_0_0, r_l_fc_0_0, r_l_ch_0_0, r_l_cu_0_0, r_l_sl_0_0,
+   r_l_ff_0_1, r_l_si_0_1, r_l_fc_0_1, r_l_ch_0_1, r_l_cu_0_1, r_l_sl_0_1,
+   r_l_ff_0_2, r_l_si_0_2, r_l_fc_0_2, r_l_ch_0_2, r_l_cu_0_2, r_l_sl_0_2,
+   r_l_ff_1_0, r_l_si_1_0, r_l_fc_1_0, r_l_ch_1_0, r_l_cu_1_0, r_l_sl_1_0,
+   r_l_ff_1_1, r_l_si_1_1, r_l_fc_1_1, r_l_ch_1_1, r_l_cu_1_1, r_l_sl_1_1,
+   r_l_ff_1_2, r_l_si_1_2, r_l_fc_1_2, r_l_ch_1_2, r_l_cu_1_2, r_l_sl_1_2,
+   r_l_ff_2_0, r_l_si_2_0, r_l_fc_2_0, r_l_ch_2_0, r_l_cu_2_0, r_l_sl_2_0,
+   r_l_ff_2_1, r_l_si_2_1, r_l_fc_2_1, r_l_ch_2_1, r_l_cu_2_1, r_l_sl_2_1,
+   r_l_ff_2_2, r_l_si_2_2, r_l_fc_2_2, r_l_ch_2_2, r_l_cu_2_2, r_l_sl_2_2,
+   r_l_ff_3_0, r_l_si_3_0, r_l_fc_3_0, r_l_ch_3_0, r_l_cu_3_0, r_l_sl_3_0,
+   r_l_ff_3_1, r_l_si_3_1, r_l_fc_3_1, r_l_ch_3_1, r_l_cu_3_1, r_l_sl_3_1,
+   r_l_ff_3_2, r_l_si_3_2, r_l_fc_3_2, r_l_ch_3_2, r_l_cu_3_2, r_l_sl_3_2,
+   l_r_ff_0_0, l_r_si_0_0, l_r_fc_0_0, l_r_ch_0_0, l_r_cu_0_0, l_r_sl_0_0,
+   l_r_ff_0_1, l_r_si_0_1, l_r_fc_0_1, l_r_ch_0_1, l_r_cu_0_1, l_r_sl_0_1,
+   l_r_ff_0_2, l_r_si_0_2, l_r_fc_0_2, l_r_ch_0_2, l_r_cu_0_2, l_r_sl_0_2,
+   l_r_ff_1_0, l_r_si_1_0, l_r_fc_1_0, l_r_ch_1_0, l_r_cu_1_0, l_r_sl_1_0,
+   l_r_ff_1_1, l_r_si_1_1, l_r_fc_1_1, l_r_ch_1_1, l_r_cu_1_1, l_r_sl_1_1,
+   l_r_ff_1_2, l_r_si_1_2, l_r_fc_1_2, l_r_ch_1_2, l_r_cu_1_2, l_r_sl_1_2,
+   l_r_ff_2_0, l_r_si_2_0, l_r_fc_2_0, l_r_ch_2_0, l_r_cu_2_0, l_r_sl_2_0,
+   l_r_ff_2_1, l_r_si_2_1, l_r_fc_2_1, l_r_ch_2_1, l_r_cu_2_1, l_r_sl_2_1,
+   l_r_ff_2_2, l_r_si_2_2, l_r_fc_2_2, l_r_ch_2_2, l_r_cu_2_2, l_r_sl_2_2,
+   l_r_ff_3_0, l_r_si_3_0, l_r_fc_3_0, l_r_ch_3_0, l_r_cu_3_0, l_r_sl_3_0,
+   l_r_ff_3_1, l_r_si_3_1, l_r_fc_3_1, l_r_ch_3_1, l_r_cu_3_1, l_r_sl_3_1,
+   l_r_ff_3_2, l_r_si_3_2, l_r_fc_3_2, l_r_ch_3_2, l_r_cu_3_2, l_r_sl_3_2,
+   l_l_ff_0_0, l_l_si_0_0, l_l_fc_0_0, l_l_ch_0_0, l_l_cu_0_0, l_l_sl_0_0,
+   l_l_ff_0_1, l_l_si_0_1, l_l_fc_0_1, l_l_ch_0_1, l_l_cu_0_1, l_l_sl_0_1,
+   l_l_ff_0_2, l_l_si_0_2, l_l_fc_0_2, l_l_ch_0_2, l_l_cu_0_2, l_l_sl_0_2,
+   l_l_ff_1_0, l_l_si_1_0, l_l_fc_1_0, l_l_ch_1_0, l_l_cu_1_0, l_l_sl_1_0,
+   l_l_ff_1_1, l_l_si_1_1, l_l_fc_1_1, l_l_ch_1_1, l_l_cu_1_1, l_l_sl_1_1,
+   l_l_ff_1_2, l_l_si_1_2, l_l_fc_1_2, l_l_ch_1_2, l_l_cu_1_2, l_l_sl_1_2,
+   l_l_ff_2_0, l_l_si_2_0, l_l_fc_2_0, l_l_ch_2_0, l_l_cu_2_0, l_l_sl_2_0,
+   l_l_ff_2_1, l_l_si_2_1, l_l_fc_2_1, l_l_ch_2_1, l_l_cu_2_1, l_l_sl_2_1,
+   l_l_ff_2_2, l_l_si_2_2, l_l_fc_2_2, l_l_ch_2_2, l_l_cu_2_2, l_l_sl_2_2,
+   l_l_ff_3_0, l_l_si_3_0, l_l_fc_3_0, l_l_ch_3_0, l_l_cu_3_0, l_l_sl_3_0,
+   l_l_ff_3_1, l_l_si_3_1, l_l_fc_3_1, l_l_ch_3_1, l_l_cu_3_1, l_l_sl_3_1,
+   l_l_ff_3_2, l_l_si_3_2, l_l_fc_3_2, l_l_ch_3_2, l_l_cu_3_2, l_l_sl_3_2)
+```
+
+```{r, echo=FALSE}
+rm(plot_r_r_ff_0_0, plot_r_r_si_0_0, plot_r_r_fc_0_0, 
+   plot_r_r_ch_0_0, plot_r_r_cu_0_0,plot_r_r_sl_0_0, 
+   plot_r_r_ff_0_1, plot_r_r_si_0_1, plot_r_r_fc_0_1, 
+   plot_r_r_ch_0_1, plot_r_r_cu_0_1, plot_r_r_sl_0_1, 
+   plot_r_r_ff_0_2, plot_r_r_si_0_2, plot_r_r_fc_0_2,
+   plot_r_r_ch_0_2, plot_r_r_cu_0_2, plot_r_r_sl_0_2, 
+   plot_r_r_ff_1_0, plot_r_r_si_1_0, plot_r_r_fc_1_0, 
+   plot_r_r_ch_1_0, plot_r_r_cu_1_0, plot_r_r_sl_1_0, 
+   plot_r_r_ff_1_1, plot_r_r_si_1_1, plot_r_r_fc_1_1, 
+   plot_r_r_ch_1_1, plot_r_r_cu_1_1, plot_r_r_sl_1_1,
+   plot_r_r_ff_1_2, plot_r_r_si_1_2, plot_r_r_fc_1_2, 
+   plot_r_r_ch_1_2, plot_r_r_cu_1_2, plot_r_r_sl_1_2, 
+   plot_r_r_ff_2_0, plot_r_r_si_2_0, plot_r_r_fc_2_0, 
+   plot_r_r_ch_2_0, plot_r_r_cu_2_0, plot_r_r_sl_2_0, 
+   plot_r_r_ff_2_1, plot_r_r_si_2_1, plot_r_r_fc_2_1,
+   plot_r_r_ch_2_1, plot_r_r_cu_2_1, plot_r_r_sl_2_1, 
+   plot_r_r_ff_2_2, plot_r_r_si_2_2, plot_r_r_fc_2_2, 
+   plot_r_r_ch_2_2, plot_r_r_cu_2_2, plot_r_r_sl_2_2,
+   plot_r_r_ff_3_0, plot_r_r_si_3_0, plot_r_r_fc_3_0, 
+   plot_r_r_ch_3_0, plot_r_r_cu_3_0, plot_r_r_sl_3_0,
+   plot_r_r_ff_3_1, plot_r_r_si_3_1, plot_r_r_fc_3_1, 
+   plot_r_r_ch_3_1, plot_r_r_cu_3_1, plot_r_r_sl_3_1,
+   plot_r_r_ff_3_2, plot_r_r_si_3_2, plot_r_r_fc_3_2, 
+   plot_r_r_ch_3_2, plot_r_r_cu_3_2, plot_r_r_sl_3_2,
+   
+   plot_r_l_ff_0_0, plot_r_l_si_0_0, plot_r_l_fc_0_0, 
+   plot_r_l_ch_0_0, plot_r_l_cu_0_0, plot_r_l_sl_0_0,
+   plot_r_l_ff_0_1, plot_r_l_si_0_1, plot_r_l_fc_0_1, 
+   plot_r_l_ch_0_1, plot_r_l_cu_0_1, plot_r_l_sl_0_1,
+   plot_r_l_ff_0_2, plot_r_l_si_0_2, plot_r_l_fc_0_2, 
+   plot_r_l_ch_0_2, plot_r_l_cu_0_2, plot_r_l_sl_0_2,
+   plot_r_l_ff_1_0, plot_r_l_si_1_0, plot_r_l_fc_1_0, 
+   plot_r_l_ch_1_0, plot_r_l_cu_1_0, plot_r_l_sl_1_0,
+   plot_r_l_ff_1_1, plot_r_l_si_1_1, plot_r_l_fc_1_1, 
+   plot_r_l_ch_1_1, plot_r_l_cu_1_1, plot_r_l_sl_1_1,
+   plot_r_l_ff_1_2, plot_r_l_si_1_2, plot_r_l_fc_1_2, 
+   plot_r_l_ch_1_2, plot_r_l_cu_1_2, plot_r_l_sl_1_2,
+   plot_r_l_ff_2_0, plot_r_l_si_2_0, plot_r_l_fc_2_0, 
+   plot_r_l_ch_2_0, plot_r_l_cu_2_0, plot_r_l_sl_2_0,
+   plot_r_l_ff_2_1, plot_r_l_si_2_1, plot_r_l_fc_2_1, 
+   plot_r_l_ch_2_1, plot_r_l_cu_2_1, plot_r_l_sl_2_1,
+   plot_r_l_ff_2_2, plot_r_l_si_2_2, plot_r_l_fc_2_2, 
+   plot_r_l_ch_2_2, plot_r_l_cu_2_2, plot_r_l_sl_2_2,
+   plot_r_l_ff_3_0, plot_r_l_si_3_0, plot_r_l_fc_3_0, 
+   plot_r_l_ch_3_0, plot_r_l_cu_3_0, plot_r_l_sl_3_0,
+   plot_r_l_ff_3_1, plot_r_l_si_3_1, plot_r_l_fc_3_1, 
+   plot_r_l_ch_3_1, plot_r_l_cu_3_1, plot_r_l_sl_3_1,
+   plot_r_l_ff_3_2, plot_r_l_si_3_2, plot_r_l_fc_3_2, 
+   plot_r_l_ch_3_2, plot_r_l_cu_3_2, plot_r_l_sl_3_2,
+   
+   plot_l_r_ff_0_0, plot_l_r_si_0_0, plot_l_r_fc_0_0, 
+   plot_l_r_ch_0_0, plot_l_r_cu_0_0, plot_l_r_sl_0_0,
+   plot_l_r_ff_0_1, plot_l_r_si_0_1, plot_l_r_fc_0_1, 
+   plot_l_r_ch_0_1, plot_l_r_cu_0_1, plot_l_r_sl_0_1,
+   plot_l_r_ff_0_2, plot_l_r_si_0_2, plot_l_r_fc_0_2, 
+   plot_l_r_ch_0_2, plot_l_r_cu_0_2, plot_l_r_sl_0_2,
+   plot_l_r_ff_1_0, plot_l_r_si_1_0, plot_l_r_fc_1_0, 
+   plot_l_r_ch_1_0, plot_l_r_cu_1_0, plot_l_r_sl_1_0,
+   plot_l_r_ff_1_1, plot_l_r_si_1_1, plot_l_r_fc_1_1, 
+   plot_l_r_ch_1_1, plot_l_r_cu_1_1, plot_l_r_sl_1_1,
+   plot_l_r_ff_1_2, plot_l_r_si_1_2, plot_l_r_fc_1_2, 
+   plot_l_r_ch_1_2, plot_l_r_cu_1_2, plot_l_r_sl_1_2,
+   plot_l_r_ff_2_0, plot_l_r_si_2_0, plot_l_r_fc_2_0, 
+   plot_l_r_ch_2_0, plot_l_r_cu_2_0, plot_l_r_sl_2_0,
+   plot_l_r_ff_2_1, plot_l_r_si_2_1, plot_l_r_fc_2_1, 
+   plot_l_r_ch_2_1, plot_l_r_cu_2_1, plot_l_r_sl_2_1,
+   plot_l_r_ff_2_2, plot_l_r_si_2_2, plot_l_r_fc_2_2, 
+   plot_l_r_ch_2_2, plot_l_r_cu_2_2, plot_l_r_sl_2_2,
+   plot_l_r_ff_3_0, plot_l_r_si_3_0, plot_l_r_fc_3_0, 
+   plot_l_r_ch_3_0, plot_l_r_cu_3_0, plot_l_r_sl_3_0,
+   plot_l_r_ff_3_1, plot_l_r_si_3_1, plot_l_r_fc_3_1, 
+   plot_l_r_ch_3_1, plot_l_r_cu_3_1, plot_l_r_sl_3_1,
+   plot_l_r_ff_3_2, plot_l_r_si_3_2, plot_l_r_fc_3_2, 
+   plot_l_r_ch_3_2, plot_l_r_cu_3_2, plot_l_r_sl_3_2,
+   
+   plot_l_l_ff_0_0, plot_l_l_si_0_0, plot_l_l_fc_0_0, 
+   plot_l_l_ch_0_0, plot_l_l_cu_0_0, plot_l_l_sl_0_0,
+   plot_l_l_ff_0_1, plot_l_l_si_0_1, plot_l_l_fc_0_1, 
+   plot_l_l_ch_0_1, plot_l_l_cu_0_1, plot_l_l_sl_0_1,
+   plot_l_l_ff_0_2, plot_l_l_si_0_2, plot_l_l_fc_0_2, 
+   plot_l_l_ch_0_2, plot_l_l_cu_0_2, plot_l_l_sl_0_2,
+   plot_l_l_ff_1_0, plot_l_l_si_1_0, plot_l_l_fc_1_0, 
+   plot_l_l_ch_1_0, plot_l_l_cu_1_0, plot_l_l_sl_1_0, 
+   plot_l_l_ff_1_1, plot_l_l_si_1_1, plot_l_l_fc_1_1, 
+   plot_l_l_ch_1_1, plot_l_l_cu_1_1, plot_l_l_sl_1_1,
+   plot_l_l_ff_1_2, plot_l_l_si_1_2, plot_l_l_fc_1_2, 
+   plot_l_l_ch_1_2, plot_l_l_cu_1_2, plot_l_l_sl_1_2,
+   plot_l_l_ff_2_0, plot_l_l_si_2_0, plot_l_l_fc_2_0, 
+   plot_l_l_ch_2_0, plot_l_l_cu_2_0, plot_l_l_sl_2_0, 
+   plot_l_l_ff_2_1, plot_l_l_si_2_1, plot_l_l_fc_2_1, 
+   plot_l_l_ch_2_1, plot_l_l_cu_2_1, plot_l_l_sl_2_1,
+   plot_l_l_ff_2_2, plot_l_l_si_2_2, plot_l_l_fc_2_2, 
+   plot_l_l_ch_2_2, plot_l_l_cu_2_2, plot_l_l_sl_2_2,
+   plot_l_l_ff_3_0, plot_l_l_si_3_0, plot_l_l_fc_3_0, 
+   plot_l_l_ch_3_0, plot_l_l_cu_3_0, plot_l_l_sl_3_0, 
+   plot_l_l_ff_3_1, plot_l_l_si_3_1, plot_l_l_fc_3_1, 
+   plot_l_l_ch_3_1, plot_l_l_cu_3_1, plot_l_l_sl_3_1,
+   plot_l_l_ff_3_2, plot_l_l_si_3_2, plot_l_l_fc_3_2, 
+   plot_l_l_ch_3_2, plot_l_l_cu_3_2, plot_l_l_sl_3_2)
+```
+
+```{r, echo=FALSE}
+rm(gf_r_r_ff, gf_r_r_si, gf_r_r_fc, gf_r_r_ch, gf_r_r_cu, gf_r_r_sl,
+   gf_r_l_ff, gf_r_l_si, gf_r_l_fc, gf_r_l_ch, gf_r_l_cu, gf_r_l_sl,
+   gf_l_l_ff, gf_l_l_si, gf_l_l_fc, gf_l_l_ch, gf_l_l_cu, gf_l_l_sl,
+   gf_l_r_ff, gf_l_r_si, gf_l_r_fc, gf_l_r_ch, gf_l_r_cu, gf_l_r_sl)
+```
+
+```{r, echo=FALSE}
+rm(function_p_type_hand_ptiles, location_quality, location_quality_plot)
+rm(mlbraw2)
+rm(r_r_ff, r_r_si, r_r_fc, r_r_ch, r_r_cu, r_r_sl,
+   r_l_ff, r_l_si, r_l_fc, r_l_ch, r_l_cu, r_l_sl,
+   l_l_ff, l_l_si, l_l_fc, l_l_ch, l_l_cu, l_l_sl,
+   l_r_ff, l_r_si, l_r_fc, l_r_ch, l_r_cu, l_r_sl)
+```
+
+```{r}
+hand <- tibble(hand_id = c(1,2,3,4), hand = c("RvR","RvL","LvL","LvR"))
+pitch_type <- tibble(pitch_type_id = c(1,2,3,4,5,6), 
+                     pitch_type = c("FF","SI","FC","CH","CU","SL"))
+count <- tibble(count_id = c(1,2,3,4,5,6,7,8,9,10,11,12), 
+                count = c("0-0","0-1","0-2","1-0","1-1","1-2","2-0","2-1","2-2","3-0","3-1","3-2"))
+
+huge_lookup <- huge_lookup %>%
+  inner_join(hand, join_by(hand==hand_id)) %>%
+  select(-hand) %>%
+  rename(hand=hand.y) %>%
+  inner_join(pitch_type, join_by(pitch_type==pitch_type_id)) %>%
+  select(-pitch_type) %>%
+  rename(pitch_type=pitch_type.y) %>%
+  inner_join(count, join_by(count==count_id)) %>%
+  select(-count) %>%
+  rename(count=count.y) %>%
+  select(hand, pitch_type, count, x, y, lp2)
+
+rm(hand, pitch_type, count)
+  
+```

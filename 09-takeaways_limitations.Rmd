@@ -1,0 +1,13 @@
+
+
+I hope to test and update this metric further, evaluate to see how reliable the resulting value of a pitch location. There are a number of directions to go from here: track how a pitcher's quality of location improves/declines over time, compare the metric with game results to see how strongly correlated it is with overall pitcher performance. For now, I'll point out some shortcomings of this project metric at its current state.
+
+Perhaps most importantly, each pitch thrown of a distinct pitch type class gets evaluated the same regardless of all the other characteristics. A 4-Seam Fastball thrown by one pitcher can be of much higher quality than another pitcher in terms of velocity, spin rate, movement, release point etc. An 89 MPH fastball thrown to the top of the strike zone is a far worse pitch compared to a 99 MPH fastball in that same location. This metric would evaluate both pitch locations the same. However, I've purposely left out these factors from the metric. If a pitcher's "stuff" rates extremely well, pitch location is simply not as important a factor in the overall quality of a pitch.
+
+Of the 288 data frames used to create individual plots, there is a wide range of observations between them. Because of this, some combinations of handedness, pitch type, and count yield a very defined plot with clear mapped out regions of good and bad location quality, while some combinations are more vague.
+
+Splitters(Split-Finger Fastballs) are evaluated using the same location quality as Changeups due to the lack of observations. The two pitches are quite similar in velocity and direction of movement, but also have distinct characteristics so in reality they shouldn't be evaluated as the same pitch type.
+
+For simplicity purposes, outlier pitches (pitches falling outside of the range established by 99% of a particular pitch type) have been removed. And therefore, these regions have not been represented in the formation of the metric. For the time being, a pitcher who throws wild pitches more often than another pitcher is not discredited more even though he should.
+
+Overall, I hope the results from the project are insightful and bring a fresh new focus to the way we evaluate pitchers in 2023. Pitch location is important, and possibly underappreciated in today's baseball analytics space so heavily centered around Statcast data. So hopefully this new location metric can move us one step closer towards a full picture of pitcher evaluations.

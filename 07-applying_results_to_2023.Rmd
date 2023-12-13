@@ -1,0 +1,318 @@
+# Applying Results to 2023 Season
+
+Now we have a compiled pitch quality data frame that can be joined to a season's worth of data. So any given pitch from 2023 will have a corresponding pitch location value. However, outlier pitches falling outside the 99% region will not have a corresponding pitch value. For the time being, these pitches are removed from the analysis going forward.
+
+Here, I'll load 2023 season data back in and do some cleaning before joining the pitch quality lookup data frame to it. 
+
+## Cleaning 2023 Dataset
+
+```{r cleaning 2023}
+mlbraw2023 <- read.csv("/Users/dougrose/Desktop/location/raw_statcast/mlbraw2023.csv")
+mlbraw2023$game_date <- as.Date(mlbraw2023$game_date, format="%m/%d/%y")
+
+mlbraw2023 <- mlbraw2023 %>%
+  mutate(events = if_else(is.na(events) | events == "", type, events)) %>%
+  mutate(events = if_else(events == "B", "ball", 
+                          if_else(events == "S", "strike", events))) %>%
+  mutate(count = paste(balls, strikes, sep="-")) %>%
+  mutate(hand = paste(p_throws, stand, sep = "v")) %>%
+select(player_name, pitch_type, pitch_name, count, hand, plate_x, plate_z)
+
+mlbraw2023 <- mlbraw2023 %>% 
+  filter(pitch_type %in% c("FF","SI","FC","FS","CH","CU",
+                           "CS","KC","SV","SL","ST"))
+
+mlbraw2023 <- mlbraw2023 %>%
+  mutate(pitch_type2 = if_else(pitch_type %in% c("CU","CS","KC","SV"), "CU",
+                              if_else(pitch_type %in% c("CH","FS"), "CH",
+                                      if_else(pitch_type %in% c("SL","ST"), "SL", 
+                                              pitch_type))))
+
+mlbraw2023 <- mlbraw2023 %>%
+  inner_join(huge_lookup, 
+             join_by(hand==hand, pitch_type2==pitch_type, count==count, plate_x==x, plate_z==y))
+
+mlbraw2023 <- mlbraw2023 %>%
+  mutate(pitch_type = if_else(pitch_type %in% c("CU","CS","KC","SV"), "CU", pitch_type)) %>%
+  select(-pitch_type2)
+
+mlbraw2023 <- mlbraw2023 %>% 
+  mutate(pitch_name = if_else(
+    pitch_name == "4-Seam Fastball", "Fastball",
+    if_else(pitch_name %in% c("Curveball","Slow Curve","Knuckle Curve", "Slurve"), "Curveball",
+            if_else(pitch_name == "Split-Finger", "Splitter", pitch_name))))
+```
+
+## Distribution of Location Quality by Pitch Type
+
+I'll briefly profile the resulting pitch quality metric. Accounting for all pitches in 2023 with a corresponding pitch location quality number, here is the distribution of values based on pitch type. Across all 6 pitch type levels, a similar distribution pattern emerges. We see the highest peak of around 0.8 across all pitch types followed by a lower peak around 0.25. 4-Seam Fastballs, Sinkers, and Cutters have better overall pitch location values compared to Changeups. Changeups have a more even distribution of values from 0 to 1. Meaning we would expect pitchers throwing a high rate of Changeups in 2023 to generally score lower than other pitchers.
+
+```{r distribution of location quality by pitch type, fig.height = 8, fig.width = 8, fig.align = "left"}
+ff <- mlbraw2023 %>%
+  filter(pitch_type == "FF") %>%
+  ggplot(aes(x = lp2)) +
+  geom_histogram(aes(y = after_stat(count / sum(count))), binwidth=0.025) +
+  ylim(0,0.06)+
+  ylab("4-seam fastballs")+
+  theme_classic()
+si <- mlbraw2023 %>%
+  filter(pitch_type == "SI") %>%
+  ggplot(aes(x = lp2)) +
+  geom_histogram(aes(y = after_stat(count / sum(count))), binwidth=0.025) +
+  ylim(0,0.06)+
+  ylab("sinkers")+
+  theme_classic()
+fc <- mlbraw2023 %>%
+  filter(pitch_type == "FC") %>%
+  ggplot(aes(x = lp2)) +
+  geom_histogram(aes(y = after_stat(count / sum(count))), binwidth=0.025) +
+  ylim(0,0.06)+
+  ylab("cutters")+
+  theme_classic()
+ch <- mlbraw2023 %>%
+  filter(pitch_type == "CH") %>%
+  ggplot(aes(x = lp2)) +
+  geom_histogram(aes(y = after_stat(count / sum(count))), binwidth=0.025) +
+  ylim(0,0.06)+
+  ylab("changeups")+
+  theme_classic()
+cu <- mlbraw2023 %>%
+  filter(pitch_type == "CU") %>%
+  ggplot(aes(x = lp2)) +
+  geom_histogram(aes(y = after_stat(count / sum(count))), binwidth=0.025) +
+  ylim(0,0.06)+
+  ylab("curveballs")+
+  theme_classic()
+sl <- mlbraw2023 %>%
+  filter(pitch_type == "SL") %>%
+  ggplot(aes(x = lp2)) +
+  geom_histogram(aes(y = after_stat(count / sum(count))), binwidth=0.025) +
+  ylim(0,0.06)+
+  ylab("sliders")+
+  theme_classic()
+
+ggarrange(ff, si, fc, ch, cu, sl, ncol=2, nrow=3)
+
+rm(ff, si, fc, ch, cu, sl)
+```
+
+## Distribution of Location Quality by Count
+
+```{r distribution of location quality by count, fig.height = 8, fig.width = 8, fig.align = "left"}
+zero_zero <- mlbraw2023 %>%
+  filter(count == "0-0") %>%
+  ggplot(aes(x = lp2)) +
+  geom_histogram(aes(y = after_stat(count / sum(count))), binwidth=0.01) +
+  ylim(0,0.05)+
+  ylab("0-0")+
+  theme_classic()
+zero_one <- mlbraw2023 %>%
+  filter(count == "0-1") %>%
+  ggplot(aes(x = lp2)) +
+  geom_histogram(aes(y = after_stat(count / sum(count))), binwidth=0.01) +
+  ylim(0,0.05)+
+  ylab("0-1")+
+  theme_classic()
+zero_two <- mlbraw2023 %>%
+  filter(count == "0-2") %>%
+  ggplot(aes(x = lp2)) +
+  geom_histogram(aes(y = after_stat(count / sum(count))), binwidth=0.01) +
+  ylim(0,0.05)+
+  ylab("0-2")+
+  theme_classic()
+one_zero <- mlbraw2023 %>%
+  filter(count == "1-0") %>%
+  ggplot(aes(x = lp2)) +
+  geom_histogram(aes(y = after_stat(count / sum(count))), binwidth=0.01) +
+  ylim(0,0.05)+
+  ylab("1-0")+
+  theme_classic()
+one_one <- mlbraw2023 %>%
+  filter(count == "1-1") %>%
+  ggplot(aes(x = lp2)) +
+  geom_histogram(aes(y = after_stat(count / sum(count))), binwidth=0.01) +
+  ylim(0,0.05)+
+  ylab("1-1")+
+  theme_classic()
+one_two <- mlbraw2023 %>%
+  filter(count == "1-2") %>%
+  ggplot(aes(x = lp2)) +
+  geom_histogram(aes(y = after_stat(count / sum(count))), binwidth=0.01) +
+  ylim(0,0.05)+
+  ylab("1-2")+
+  theme_classic()
+two_zero <- mlbraw2023 %>%
+  filter(count == "2-0") %>%
+  ggplot(aes(x = lp2)) +
+  geom_histogram(aes(y = after_stat(count / sum(count))), binwidth=0.01) +
+  ylim(0,0.05)+
+  ylab("2-0")+
+  theme_classic()
+two_one <- mlbraw2023 %>%
+  filter(count == "2-1") %>%
+  ggplot(aes(x = lp2)) +
+  geom_histogram(aes(y = after_stat(count / sum(count))), binwidth=0.01) +
+  ylim(0,0.05)+
+  ylab("2-1")+
+  theme_classic()
+two_two <- mlbraw2023 %>%
+  filter(count == "2-2") %>%
+  ggplot(aes(x = lp2)) +
+  geom_histogram(aes(y = after_stat(count / sum(count))), binwidth=0.01) +
+  ylim(0,0.05)+
+  ylab("2-2")+
+  theme_classic()
+three_zero <- mlbraw2023 %>%
+  filter(count == "3-0") %>%
+  ggplot(aes(x = lp2)) +
+  geom_histogram(aes(y = after_stat(count / sum(count))), binwidth=0.01) +
+  ylim(0,0.05)+
+  ylab("3-0")+
+  theme_classic()
+three_one <- mlbraw2023 %>%
+  filter(count == "3-1") %>%
+  ggplot(aes(x = lp2)) +
+  geom_histogram(aes(y = after_stat(count / sum(count))), binwidth=0.01) +
+  ylim(0,0.05)+
+  ylab("3-1")+
+  theme_classic()
+three_two <- mlbraw2023 %>%
+  filter(count == "3-2") %>%
+  ggplot(aes(x = lp2)) +
+  geom_histogram(aes(y = after_stat(count / sum(count))), binwidth=0.01) +
+  ylim(0,0.05)+
+  ylab("3-2")+
+  theme_classic()
+
+ggarrange(zero_zero, zero_one, zero_two,
+          one_zero, one_one, one_two,
+          two_zero, two_one, two_two,
+          three_zero, three_one, three_two
+          , ncol=3, nrow=4)
+
+rm(zero_zero, zero_one, zero_two,
+   one_zero, one_one, one_two,
+   two_zero, two_one, two_two,
+   three_zero, three_one, three_two)
+```
+
+## Final Cleaning
+
+Here is the final cleaning I'll apply to the 2023 data frame before plugging it into a dashboard and view how pitchers ranked across this new pitch location metric.
+
+```{r create lp2_cat}
+mlbraw2023 <- mlbraw2023 %>%
+  mutate(lp2_cat = if_else(lp2 >= 0.85, "excellent",
+                           if_else(lp2 >= 0.75, "good",
+                                   if_else(lp2 >= 0.65, "average",
+                                           if_else(lp2 >= 0.45, "bad",
+                                                   "terrible")))))
+```
+
+```{r filter top 100 pitchers}
+top100 <- mlbraw2023 %>% group_by(player_name) %>% count() %>% ungroup() %>% arrange(desc(n)) %>% head(100) %>% select(-n)
+top100 <- top100$player_name
+
+mlbraw2023 <- mlbraw2023 %>% filter(player_name %in% top100)
+
+mlbraw2023 <- mlbraw2023 %>% 
+  mutate(player_name = str_replace_all(player_name, "Su\303\241rez", "Suarez")) %>%
+  mutate(player_name = str_replace_all(player_name, "Berr\303\255os, Jos\303\251", "Berrios, Jose")) %>%
+  mutate(player_name = str_replace_all(player_name, "P\303\251rez, Mart\303\255n", "Perez, Martin")) %>%
+  mutate(player_name = str_replace_all(player_name, "L\303\263pez", "Lopez")) %>%
+  mutate(player_name = str_replace_all(player_name, "Jes\303\272s", "Jesus"))
+
+rm(top100)
+```
+
+```{r mutate pitch type percent}
+pitch_type_perc <- mlbraw2023 %>%group_by(player_name, pitch_type) %>% count() %>% ungroup() %>%
+  inner_join(mlbraw2023 %>%group_by(player_name) %>% count() %>% ungroup(),
+             join_by(player_name)) %>%
+  mutate(pitch_type_perc = 100*round(n.x/n.y, 2)) %>%
+  select(player_name, pitch_type, pitch_type_perc)
+
+mlbraw2023 <- mlbraw2023 %>% inner_join(pitch_type_perc, join_by(player_name, pitch_type))
+
+rm(pitch_type_perc)
+```
+
+```{r add rank to names}
+mlbraw2023 <- mlbraw2023 %>%
+  separate(player_name, c("name1", "name2"), ", ") %>%
+  mutate(player_name = paste(name2, name1, sep = " ")) %>%
+  select(player_name, pitch_type, pitch_name, count, hand, 
+         plate_x, plate_z, lp2, lp2_cat, pitch_type_perc)
+```
+
+```{r add rank to names 2}
+mlbraw2023 <- mlbraw2023 %>%
+  group_by(player_name) %>%
+  summarise(lp2=mean(lp2)) %>%
+  ungroup() %>%
+  arrange(desc(lp2)) %>%
+  mutate(rank = row_number()) %>%
+  mutate(player_rank = paste(rank, " - ", player_name)) %>%
+  inner_join(mlbraw2023, join_by(player_name)) %>%
+  rename(lp2 = lp2.y) %>%
+  select(player_rank, player_name, pitch_type, pitch_name, count, 
+         hand, plate_x, plate_z, lp2, lp2_cat, pitch_type_perc) %>%
+  mutate(player_name = player_rank) %>%
+  select(-player_rank)
+```
+
+```{r factor levels}
+mlbraw2023$lp2_cat <- factor(mlbraw2023$lp2_cat, 
+                             levels = c("excellent","good","average","bad","terrible"))
+mlbraw2023$pitch_type <- factor(mlbraw2023$pitch_type, 
+                                levels = c("FF","SI","FC","FS","CH","CU","SL","ST"))
+
+mlbraw2023$pitch_name <- factor(mlbraw2023$pitch_name, 
+                                levels = c("Sweeper","Slider","Curveball","Changeup",
+                                           "Splitter","Cutter","Sinker","Fastball"))
+```
+
+```{r}
+color_pitch <- tibble(pitch_name = unique(mlbraw2023$pitch_name),
+                      colors = c("#FBB4AE","#B3CDE3","#CCEBC5","#DECBE4",
+                                 "#FED9A6","#FFFFCC","#E5D8BD","#FDDAEC"))
+
+mlbraw2023 <- mlbraw2023 %>%
+  inner_join(color_pitch, join_by(pitch_name))
+
+rm(color_pitch)
+
+mlbraw2023$lp2 <- as.double(mlbraw2023$lp2)
+
+text <- mlbraw2023 %>%
+  group_by(player_name) %>%
+  summarise(lp2= round(mean(lp2),3), .groups = 'drop')
+
+loli <- mlbraw2023 %>%
+  group_by(player_name, pitch_name, pitch_type_perc, colors) %>%
+  summarise(lp2= round(mean(lp2),2), .groups = 'drop') %>%
+  filter(pitch_type_perc > 2)
+
+bar <- mlbraw2023 %>%
+  select(player_name, lp2)
+
+pie <- mlbraw2023 %>% group_by(player_name, pitch_name, colors) %>% count() %>% 
+  inner_join(mlbraw2023 %>% group_by(player_name) %>% count(),
+             join_by(player_name)) %>%
+  mutate(p=100*round(n.x/n.y, 2)) %>%
+  select(-n.x, -n.y) %>%
+  filter(p > 2)
+```
+
+```{r}
+write_csv(text,"/Users/dougrose/Desktop/pitch_location_quality/location_quality_app/text.csv")
+write_csv(loli,"/Users/dougrose/Desktop/pitch_location_quality/location_quality_app/loli.csv")
+write_csv(bar,"/Users/dougrose/Desktop/pitch_location_quality/location_quality_app/bar.csv")
+write_csv(pie,"/Users/dougrose/Desktop/pitch_location_quality/location_quality_app/pie.csv")
+```
+
+```{r, echo=FALSE}
+rm(text, loli, bar, pie)
+```
+
+
