@@ -1,4 +1,4 @@
-
+# Project Takeaways and Limitations
 
 I hope to test and update this metric further, evaluate to see how reliable the resulting value of a pitch location. There are a number of directions to go from here: track how a pitcher's quality of location improves/declines over time, compare the metric with game results to see how strongly correlated it is with overall pitcher performance. For now, I'll point out some shortcomings of this project metric at its current state.
 

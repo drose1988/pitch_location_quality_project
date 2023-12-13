@@ -48,22 +48,22 @@ library(shinydashboard)
 library(rsconnect)
 ```
 
-```{r import data, messages = FALSE}
-mlbraw2014 <- read_csv("/Users/dougrose/Desktop/location/raw_statcast/mlbraw2014.csv",show_col_types=0)
-mlbraw2015 <- read_csv("/Users/dougrose/Desktop/location/raw_statcast/mlbraw2015.csv",show_col_types=0)
-mlbraw2016 <- read_csv("/Users/dougrose/Desktop/location/raw_statcast/mlbraw2016.csv",show_col_types=0)
-mlbraw2017 <- read_csv("/Users/dougrose/Desktop/location/raw_statcast/mlbraw2017.csv",show_col_types=0)
-mlbraw2018 <- read_csv("/Users/dougrose/Desktop/location/raw_statcast/mlbraw2018.csv",show_col_types=0)
-mlbraw2019 <- read_csv("/Users/dougrose/Desktop/location/raw_statcast/mlbraw2019.csv",show_col_types=0)
-mlbraw2020 <- read_csv("/Users/dougrose/Desktop/location/raw_statcast/mlbraw2020.csv",show_col_types=0)
-mlbraw2021 <- read_csv("/Users/dougrose/Desktop/location/raw_statcast/mlbraw2021.csv",show_col_types=0)
-mlbraw2022 <- read_csv("/Users/dougrose/Desktop/location/raw_statcast/mlbraw2022.csv",show_col_types=0)
-mlbraw2023 <- read_csv("/Users/dougrose/Desktop/location/raw_statcast/mlbraw2023.csv",show_col_types=0)
+```{r import data}
+mlbraw2014 <- read_csv("/Users/dougrose/Desktop/location/raw_statcast/mlbraw2014.csv",show_col_types=0) %>% suppressMessages()
+mlbraw2015 <- read_csv("/Users/dougrose/Desktop/location/raw_statcast/mlbraw2015.csv",show_col_types=0) %>% suppressMessages()
+mlbraw2016 <- read_csv("/Users/dougrose/Desktop/location/raw_statcast/mlbraw2016.csv",show_col_types=0) %>% suppressMessages()
+mlbraw2017 <- read_csv("/Users/dougrose/Desktop/location/raw_statcast/mlbraw2017.csv",show_col_types=0) %>% suppressMessages()
+mlbraw2018 <- read_csv("/Users/dougrose/Desktop/location/raw_statcast/mlbraw2018.csv",show_col_types=0) %>% suppressMessages()
+mlbraw2019 <- read_csv("/Users/dougrose/Desktop/location/raw_statcast/mlbraw2019.csv",show_col_types=0) %>% suppressMessages()
+mlbraw2020 <- read_csv("/Users/dougrose/Desktop/location/raw_statcast/mlbraw2020.csv",show_col_types=0) %>% suppressMessages()
+mlbraw2021 <- read_csv("/Users/dougrose/Desktop/location/raw_statcast/mlbraw2021.csv",show_col_types=0) %>% suppressMessages()
+mlbraw2022 <- read_csv("/Users/dougrose/Desktop/location/raw_statcast/mlbraw2022.csv",show_col_types=0) %>% suppressMessages()
+mlbraw2023 <- read_csv("/Users/dougrose/Desktop/location/raw_statcast/mlbraw2023.csv",show_col_types=0) %>% suppressMessages()
 ```
 
 Format the game_date column to ensure all years have the same format.
 
-```{r transform dates}
+```{r transform dates, warning=FALSE}
 mlbraw2014$game_date <- as.Date(mlbraw2014$game_date, format="%m/%d/%y")
 mlbraw2015$game_date <- as.Date(mlbraw2015$game_date, format="%m/%d/%y")
 mlbraw2016$game_date <- as.Date(mlbraw2016$game_date, format="%m/%d/%y")

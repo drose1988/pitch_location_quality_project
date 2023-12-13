@@ -30,3 +30,7 @@ distribution-of-location-quality-by-pitch-type
 distribution-of-location-quality-by-count
 final-cleaning
 shiny-dashbaord
+project-takeaways-and-limitations
+introduction-1
+project-overview-1
+loading-dataset-1
