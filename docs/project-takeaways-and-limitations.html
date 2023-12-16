@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 9 Project Takeaways and Limitations | Quality of Location - developing a new pitch metric</title>
+  <meta name="description" content="Chapter 9 Project Takeaways and Limitations | Quality of Location - developing a new pitch metric" />
+  <meta name="generator" content="bookdown 0.37 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 9 Project Takeaways and Limitations | Quality of Location - developing a new pitch metric" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 9 Project Takeaways and Limitations | Quality of Location - developing a new pitch metric" />
+  
+  
+  
+
+<meta name="author" content="Doug Rose" />
+
+
+<meta name="date" content="2023-12-14" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="shiny-dashbaord.html"/>
+
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<link href="libs/tabwid-1.1.3/tabwid.css" rel="stylesheet" />
+<script src="libs/tabwid-1.1.3/tabwid.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Pitch Location Quality Project</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#project-overview"><i class="fa fa-check"></i><b>1.1</b> Project Overview</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="loading-cleaning-validating-transforming.html"><a href="loading-cleaning-validating-transforming.html"><i class="fa fa-check"></i><b>2</b> Loading, Cleaning, Validating, Transforming</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="loading-cleaning-validating-transforming.html"><a href="loading-cleaning-validating-transforming.html#loading-dataset"><i class="fa fa-check"></i><b>2.1</b> Loading Dataset</a></li>
+<li class="chapter" data-level="2.2" data-path="loading-cleaning-validating-transforming.html"><a href="loading-cleaning-validating-transforming.html#explain-variables-of-interest"><i class="fa fa-check"></i><b>2.2</b> Explain Variables of Interest</a></li>
+<li class="chapter" data-level="2.3" data-path="loading-cleaning-validating-transforming.html"><a href="loading-cleaning-validating-transforming.html#create-new-variables"><i class="fa fa-check"></i><b>2.3</b> Create New Variables</a></li>
+<li class="chapter" data-level="2.4" data-path="loading-cleaning-validating-transforming.html"><a href="loading-cleaning-validating-transforming.html#validating-count-handedness-game-year"><i class="fa fa-check"></i><b>2.4</b> Validating Count, Handedness, Game Year</a></li>
+<li class="chapter" data-level="2.5" data-path="loading-cleaning-validating-transforming.html"><a href="loading-cleaning-validating-transforming.html#remove-and-transform-event-values"><i class="fa fa-check"></i><b>2.5</b> Remove and Transform Event Values</a></li>
+<li class="chapter" data-level="2.6" data-path="loading-cleaning-validating-transforming.html"><a href="loading-cleaning-validating-transforming.html#event-outcome-frequency-by-count"><i class="fa fa-check"></i><b>2.6</b> Event Outcome Frequency by Count</a></li>
+<li class="chapter" data-level="2.7" data-path="loading-cleaning-validating-transforming.html"><a href="loading-cleaning-validating-transforming.html#average-delta-run-expectancy"><i class="fa fa-check"></i><b>2.7</b> Average Delta Run Expectancy</a></li>
+<li class="chapter" data-level="2.8" data-path="loading-cleaning-validating-transforming.html"><a href="loading-cleaning-validating-transforming.html#join-lookup-table-to-data-set"><i class="fa fa-check"></i><b>2.8</b> Join Lookup Table to Data Set</a></li>
+<li class="chapter" data-level="2.9" data-path="loading-cleaning-validating-transforming.html"><a href="loading-cleaning-validating-transforming.html#addressing-pitch-types"><i class="fa fa-check"></i><b>2.9</b> Addressing Pitch Types</a></li>
+<li class="chapter" data-level="2.10" data-path="loading-cleaning-validating-transforming.html"><a href="loading-cleaning-validating-transforming.html#cleaning-pitch-locations"><i class="fa fa-check"></i><b>2.10</b> Cleaning Pitch Locations</a></li>
+<li class="chapter" data-level="2.11" data-path="loading-cleaning-validating-transforming.html"><a href="loading-cleaning-validating-transforming.html#count-of-all-observations"><i class="fa fa-check"></i><b>2.11</b> Count of All Observations</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="example-model.html"><a href="example-model.html"><i class="fa fa-check"></i><b>3</b> Example Model</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="example-model.html"><a href="example-model.html#scatterplot-of-example-data"><i class="fa fa-check"></i><b>3.1</b> Scatterplot of Example Data</a></li>
+<li class="chapter" data-level="3.2" data-path="example-model.html"><a href="example-model.html#scatterplot-of-example-data-filtered"><i class="fa fa-check"></i><b>3.2</b> Scatterplot of Example Data Filtered</a></li>
+<li class="chapter" data-level="3.3" data-path="example-model.html"><a href="example-model.html#create-grid"><i class="fa fa-check"></i><b>3.3</b> Create Grid</a></li>
+<li class="chapter" data-level="3.4" data-path="example-model.html"><a href="example-model.html#apply-game-results-to-grid"><i class="fa fa-check"></i><b>3.4</b> Apply Game Results to Grid</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="functions.html"><a href="functions.html"><i class="fa fa-check"></i><b>4</b> Functions</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="functions.html"><a href="functions.html#function-1"><i class="fa fa-check"></i><b>4.1</b> Function 1</a></li>
+<li class="chapter" data-level="4.2" data-path="functions.html"><a href="functions.html#function-2"><i class="fa fa-check"></i><b>4.2</b> Function 2</a></li>
+<li class="chapter" data-level="4.3" data-path="functions.html"><a href="functions.html#function-3"><i class="fa fa-check"></i><b>4.3</b> Function 3</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="applying-functions.html"><a href="applying-functions.html"><i class="fa fa-check"></i><b>5</b> Applying Functions</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="applying-functions.html"><a href="applying-functions.html#create-data-frames"><i class="fa fa-check"></i><b>5.1</b> Create Data Frames</a></li>
+<li class="chapter" data-level="5.2" data-path="applying-functions.html"><a href="applying-functions.html#create-plots"><i class="fa fa-check"></i><b>5.2</b> Create Plots</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="visualizing-resulting-plots.html"><a href="visualizing-resulting-plots.html"><i class="fa fa-check"></i><b>6</b> Visualizing Resulting Plots</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="visualizing-resulting-plots.html"><a href="visualizing-resulting-plots.html#plot-outputs"><i class="fa fa-check"></i><b>6.1</b> Plot Outputs</a></li>
+<li class="chapter" data-level="6.2" data-path="visualizing-resulting-plots.html"><a href="visualizing-resulting-plots.html#compile-results-into-1-lookup-table"><i class="fa fa-check"></i><b>6.2</b> Compile Results into 1 Lookup Table</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="applying-results-to-2023-season.html"><a href="applying-results-to-2023-season.html"><i class="fa fa-check"></i><b>7</b> Applying Results to 2023 Season</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="applying-results-to-2023-season.html"><a href="applying-results-to-2023-season.html#cleaning-2023-dataset"><i class="fa fa-check"></i><b>7.1</b> Cleaning 2023 Dataset</a></li>
+<li class="chapter" data-level="7.2" data-path="applying-results-to-2023-season.html"><a href="applying-results-to-2023-season.html#location-quality-by-pitch-type"><i class="fa fa-check"></i><b>7.2</b> Location Quality by Pitch Type</a></li>
+<li class="chapter" data-level="7.3" data-path="applying-results-to-2023-season.html"><a href="applying-results-to-2023-season.html#location-quality-by-count"><i class="fa fa-check"></i><b>7.3</b> Location Quality by Count</a></li>
+<li class="chapter" data-level="7.4" data-path="applying-results-to-2023-season.html"><a href="applying-results-to-2023-season.html#final-cleaning"><i class="fa fa-check"></i><b>7.4</b> Final Cleaning</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="shiny-dashbaord.html"><a href="shiny-dashbaord.html"><i class="fa fa-check"></i><b>8</b> Shiny Dashbaord</a></li>
+<li class="chapter" data-level="9" data-path="project-takeaways-and-limitations.html"><a href="project-takeaways-and-limitations.html"><i class="fa fa-check"></i><b>9</b> Project Takeaways and Limitations</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Quality of Location - developing a new pitch metric</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="project-takeaways-and-limitations" class="section level1 hasAnchor" number="9">
+<h1><span class="header-section-number">Chapter 9</span> Project Takeaways and Limitations<a href="project-takeaways-and-limitations.html#project-takeaways-and-limitations" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>I hope to test and update this metric further, evaluate to see how reliable the resulting value of a pitch location. There are a number of directions to go from here: track how a pitcher’s quality of location improves/declines over time, compare the metric with game results to see how strongly correlated it is with overall pitcher performance. For now, I’ll point out some shortcomings of this project metric at its current state.</p>
+<p>Perhaps most importantly, each pitch thrown of a distinct pitch type class gets evaluated the same regardless of all the other characteristics. A 4-Seam Fastball thrown by one pitcher can be of much higher quality than another pitcher in terms of velocity, spin rate, movement, release point etc. An 89 MPH fastball thrown to the top of the strike zone is a far worse pitch compared to a 99 MPH fastball in that same location. This metric would evaluate both pitch locations the same. However, I’ve purposely left out these factors from the metric. If a pitcher’s “stuff” rates extremely well, pitch location is simply not as important a factor in the overall quality of a pitch.</p>
+<p>Of the 288 data frames used to create individual plots, there is a wide range of observations between them. Because of this, some combinations of handedness, pitch type, and count yield a very defined plot with clear mapped out regions of good and bad location quality, while some combinations are more vague.</p>
+<p>Splitters(Split-Finger Fastballs) are evaluated using the same location quality as Changeups due to the lack of observations. The two pitches are quite similar in velocity and direction of movement, but also have distinct characteristics so in reality they shouldn’t be evaluated as the same pitch type.</p>
+<p>For simplicity purposes, outlier pitches (pitches falling outside of the range established by 99% of a particular pitch type) have been removed. And therefore, these regions have not been represented in the formation of the metric. For the time being, a pitcher who throws wild pitches more often than another pitcher is not discredited more even though he should.</p>
+<p>Overall, I hope the results from the project are insightful and bring a fresh new focus to the way we evaluate pitchers in 2023. Pitch location is important, and possibly under appreciated in today’s baseball analytics space so heavily centered around Statcast data. So hopefully this new location metric can move us one step closer towards a full picture of pitcher evaluations.</p>
+
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="shiny-dashbaord.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/drose1988/pitch_location_quality_project/edit/main/09-takeaways_limitations.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": "https://github.com/drose1988/pitch_location_quality_project/blob/main/09-takeaways_limitations.Rmd",
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

@@ -1,6 +1,8 @@
 
 # Visualizing Resulting Plots
 
+## Plot Outputs
+
 Here's the resulting plots for every unique combination of handedness, pitch type, and count.
 
 I would like to note that the output values (change in run expectancy) have a considerably different range of values depending on the count the pitch is thrown in. For example, pitches in 0-0 counts have less leverage than pitches in 3-2 counts. Here is a breakdown of the events and their associated change in run expectancy in 0-0 counts compared to 3-2 counts. As a result of this, the GAM smooth will have differing range of expected values depending on the count. This presents an issue in attempting to create a pitch location quality metric. If I were to analyze a season's worth of pitches for a particular pitcher, their pitches thrown in high leverage counts would completely dwarf those in low leverage counts. And an aggregation like average pitch location quality would be influenced much more by some counts over others.
@@ -102,6 +104,8 @@ l_r_cu
 ```{r l_r_sl plot, fig.height = 10, fig.width = 10, fig.align = "left"}
 l_r_sl
 ```
+
+## Compile Results into 1 Lookup Table
 
 ```{r, echo=FALSE}
 huge_lookup <- 
@@ -341,7 +345,7 @@ huge_lookup <- huge_lookup %>%
   inner_join(count, join_by(count==count_id)) %>%
   select(-count) %>%
   rename(count=count.y) %>%
-  select(hand, pitch_type, count, x, y, lp2)
+  select(hand, pitch_type, count, x, y, pq)
 
 rm(hand, pitch_type, count)
   

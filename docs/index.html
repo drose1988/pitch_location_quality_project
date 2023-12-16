@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Location Quality</title>
-  <meta name="description" content="Location Quality" />
+  <title>Quality of Location - developing a new pitch metric</title>
+  <meta name="description" content="Quality of Location - developing a new pitch metric" />
   <meta name="generator" content="bookdown 0.37 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Location Quality" />
+  <meta property="og:title" content="Quality of Location - developing a new pitch metric" />
   <meta property="og:type" content="book" />
   
   
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Location Quality" />
+  <meta name="twitter:title" content="Quality of Location - developing a new pitch metric" />
   
   
   
@@ -23,7 +23,7 @@
 <meta name="author" content="Doug Rose" />
 
 
-<meta name="date" content="2023-12-12" />
+<meta name="date" content="2023-12-14" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -31,7 +31,7 @@
   
   
 
-<link rel="next" href="cleaning-validating-transforming.html"/>
+<link rel="next" href="loading-cleaning-validating-transforming.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -52,6 +52,8 @@
 <link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
 <link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
 <script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<link href="libs/tabwid-1.1.3/tabwid.css" rel="stylesheet" />
+<script src="libs/tabwid-1.1.3/tabwid.js"></script>
 
 
 <style type="text/css">
@@ -143,27 +145,27 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a>
 <ul>
 <li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#project-overview"><i class="fa fa-check"></i><b>1.1</b> Project Overview</a></li>
-<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#loading-dataset"><i class="fa fa-check"></i><b>1.2</b> Loading Dataset</a></li>
 </ul></li>
-<li class="chapter" data-level="2" data-path="cleaning-validating-transforming.html"><a href="cleaning-validating-transforming.html"><i class="fa fa-check"></i><b>2</b> Cleaning, Validating, Transforming</a>
+<li class="chapter" data-level="2" data-path="loading-cleaning-validating-transforming.html"><a href="loading-cleaning-validating-transforming.html"><i class="fa fa-check"></i><b>2</b> Loading, Cleaning, Validating, Transforming</a>
 <ul>
-<li class="chapter" data-level="2.1" data-path="cleaning-validating-transforming.html"><a href="cleaning-validating-transforming.html#explain-variables-of-interest"><i class="fa fa-check"></i><b>2.1</b> Explain Variables of Interest</a></li>
-<li class="chapter" data-level="2.2" data-path="cleaning-validating-transforming.html"><a href="cleaning-validating-transforming.html#create-new-variables"><i class="fa fa-check"></i><b>2.2</b> Create New Variables</a></li>
-<li class="chapter" data-level="2.3" data-path="cleaning-validating-transforming.html"><a href="cleaning-validating-transforming.html#validating-count-handedness-game-year"><i class="fa fa-check"></i><b>2.3</b> Validating Count, Handedness, Game Year</a></li>
-<li class="chapter" data-level="2.4" data-path="cleaning-validating-transforming.html"><a href="cleaning-validating-transforming.html#remove-and-transform-event-values"><i class="fa fa-check"></i><b>2.4</b> Remove and Transform Event Values</a></li>
-<li class="chapter" data-level="2.5" data-path="cleaning-validating-transforming.html"><a href="cleaning-validating-transforming.html#event-outcome-frequency-by-count"><i class="fa fa-check"></i><b>2.5</b> Event Outcome Frequency by Count</a></li>
-<li class="chapter" data-level="2.6" data-path="cleaning-validating-transforming.html"><a href="cleaning-validating-transforming.html#average-delta-run-expectancy"><i class="fa fa-check"></i><b>2.6</b> Average Delta Run Expectancy</a></li>
-<li class="chapter" data-level="2.7" data-path="cleaning-validating-transforming.html"><a href="cleaning-validating-transforming.html#join-lookup-table-to-main-data"><i class="fa fa-check"></i><b>2.7</b> Join Lookup Table To Main Data</a></li>
-<li class="chapter" data-level="2.8" data-path="cleaning-validating-transforming.html"><a href="cleaning-validating-transforming.html#addressing-pitch-types"><i class="fa fa-check"></i><b>2.8</b> Addressing Pitch Types</a></li>
-<li class="chapter" data-level="2.9" data-path="cleaning-validating-transforming.html"><a href="cleaning-validating-transforming.html#cleaning-pitch-locations"><i class="fa fa-check"></i><b>2.9</b> Cleaning Pitch Locations</a></li>
-<li class="chapter" data-level="2.10" data-path="cleaning-validating-transforming.html"><a href="cleaning-validating-transforming.html#count-of-all-observations"><i class="fa fa-check"></i><b>2.10</b> Count of All Observations</a></li>
+<li class="chapter" data-level="2.1" data-path="loading-cleaning-validating-transforming.html"><a href="loading-cleaning-validating-transforming.html#loading-dataset"><i class="fa fa-check"></i><b>2.1</b> Loading Dataset</a></li>
+<li class="chapter" data-level="2.2" data-path="loading-cleaning-validating-transforming.html"><a href="loading-cleaning-validating-transforming.html#explain-variables-of-interest"><i class="fa fa-check"></i><b>2.2</b> Explain Variables of Interest</a></li>
+<li class="chapter" data-level="2.3" data-path="loading-cleaning-validating-transforming.html"><a href="loading-cleaning-validating-transforming.html#create-new-variables"><i class="fa fa-check"></i><b>2.3</b> Create New Variables</a></li>
+<li class="chapter" data-level="2.4" data-path="loading-cleaning-validating-transforming.html"><a href="loading-cleaning-validating-transforming.html#validating-count-handedness-game-year"><i class="fa fa-check"></i><b>2.4</b> Validating Count, Handedness, Game Year</a></li>
+<li class="chapter" data-level="2.5" data-path="loading-cleaning-validating-transforming.html"><a href="loading-cleaning-validating-transforming.html#remove-and-transform-event-values"><i class="fa fa-check"></i><b>2.5</b> Remove and Transform Event Values</a></li>
+<li class="chapter" data-level="2.6" data-path="loading-cleaning-validating-transforming.html"><a href="loading-cleaning-validating-transforming.html#event-outcome-frequency-by-count"><i class="fa fa-check"></i><b>2.6</b> Event Outcome Frequency by Count</a></li>
+<li class="chapter" data-level="2.7" data-path="loading-cleaning-validating-transforming.html"><a href="loading-cleaning-validating-transforming.html#average-delta-run-expectancy"><i class="fa fa-check"></i><b>2.7</b> Average Delta Run Expectancy</a></li>
+<li class="chapter" data-level="2.8" data-path="loading-cleaning-validating-transforming.html"><a href="loading-cleaning-validating-transforming.html#join-lookup-table-to-data-set"><i class="fa fa-check"></i><b>2.8</b> Join Lookup Table to Data Set</a></li>
+<li class="chapter" data-level="2.9" data-path="loading-cleaning-validating-transforming.html"><a href="loading-cleaning-validating-transforming.html#addressing-pitch-types"><i class="fa fa-check"></i><b>2.9</b> Addressing Pitch Types</a></li>
+<li class="chapter" data-level="2.10" data-path="loading-cleaning-validating-transforming.html"><a href="loading-cleaning-validating-transforming.html#cleaning-pitch-locations"><i class="fa fa-check"></i><b>2.10</b> Cleaning Pitch Locations</a></li>
+<li class="chapter" data-level="2.11" data-path="loading-cleaning-validating-transforming.html"><a href="loading-cleaning-validating-transforming.html#count-of-all-observations"><i class="fa fa-check"></i><b>2.11</b> Count of All Observations</a></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="example-model.html"><a href="example-model.html"><i class="fa fa-check"></i><b>3</b> Example Model</a>
 <ul>
-<li class="chapter" data-level="3.1" data-path="example-model.html"><a href="example-model.html#scatterplot-of-example"><i class="fa fa-check"></i><b>3.1</b> Scatterplot of Example</a></li>
-<li class="chapter" data-level="3.2" data-path="example-model.html"><a href="example-model.html#example-scatterplot-filtered"><i class="fa fa-check"></i><b>3.2</b> Example Scatterplot Filtered</a></li>
-<li class="chapter" data-level="3.3" data-path="example-model.html"><a href="example-model.html#create-grid-to-base-the-model-locations-off-of"><i class="fa fa-check"></i><b>3.3</b> Create grid to base the model locations off of</a></li>
-<li class="chapter" data-level="3.4" data-path="example-model.html"><a href="example-model.html#apply-the-game-data-results-to-the-grid"><i class="fa fa-check"></i><b>3.4</b> Apply the game data results to the grid</a></li>
+<li class="chapter" data-level="3.1" data-path="example-model.html"><a href="example-model.html#scatterplot-of-example-data"><i class="fa fa-check"></i><b>3.1</b> Scatterplot of Example Data</a></li>
+<li class="chapter" data-level="3.2" data-path="example-model.html"><a href="example-model.html#scatterplot-of-example-data-filtered"><i class="fa fa-check"></i><b>3.2</b> Scatterplot of Example Data Filtered</a></li>
+<li class="chapter" data-level="3.3" data-path="example-model.html"><a href="example-model.html#create-grid"><i class="fa fa-check"></i><b>3.3</b> Create Grid</a></li>
+<li class="chapter" data-level="3.4" data-path="example-model.html"><a href="example-model.html#apply-game-results-to-grid"><i class="fa fa-check"></i><b>3.4</b> Apply Game Results to Grid</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="functions.html"><a href="functions.html"><i class="fa fa-check"></i><b>4</b> Functions</a>
 <ul>
@@ -173,14 +175,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="5" data-path="applying-functions.html"><a href="applying-functions.html"><i class="fa fa-check"></i><b>5</b> Applying Functions</a>
 <ul>
-<li class="chapter" data-level="5.1" data-path="applying-functions.html"><a href="applying-functions.html#create-data-frames-and-plots"><i class="fa fa-check"></i><b>5.1</b> Create Data Frames and Plots</a></li>
+<li class="chapter" data-level="5.1" data-path="applying-functions.html"><a href="applying-functions.html#create-data-frames"><i class="fa fa-check"></i><b>5.1</b> Create Data Frames</a></li>
+<li class="chapter" data-level="5.2" data-path="applying-functions.html"><a href="applying-functions.html#create-plots"><i class="fa fa-check"></i><b>5.2</b> Create Plots</a></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="visualizing-resulting-plots.html"><a href="visualizing-resulting-plots.html"><i class="fa fa-check"></i><b>6</b> Visualizing Resulting Plots</a></li>
+<li class="chapter" data-level="6" data-path="visualizing-resulting-plots.html"><a href="visualizing-resulting-plots.html"><i class="fa fa-check"></i><b>6</b> Visualizing Resulting Plots</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="visualizing-resulting-plots.html"><a href="visualizing-resulting-plots.html#plot-outputs"><i class="fa fa-check"></i><b>6.1</b> Plot Outputs</a></li>
+<li class="chapter" data-level="6.2" data-path="visualizing-resulting-plots.html"><a href="visualizing-resulting-plots.html#compile-results-into-1-lookup-table"><i class="fa fa-check"></i><b>6.2</b> Compile Results into 1 Lookup Table</a></li>
+</ul></li>
 <li class="chapter" data-level="7" data-path="applying-results-to-2023-season.html"><a href="applying-results-to-2023-season.html"><i class="fa fa-check"></i><b>7</b> Applying Results to 2023 Season</a>
 <ul>
 <li class="chapter" data-level="7.1" data-path="applying-results-to-2023-season.html"><a href="applying-results-to-2023-season.html#cleaning-2023-dataset"><i class="fa fa-check"></i><b>7.1</b> Cleaning 2023 Dataset</a></li>
-<li class="chapter" data-level="7.2" data-path="applying-results-to-2023-season.html"><a href="applying-results-to-2023-season.html#distribution-of-location-quality-by-pitch-type"><i class="fa fa-check"></i><b>7.2</b> Distribution of Location Quality by Pitch Type</a></li>
-<li class="chapter" data-level="7.3" data-path="applying-results-to-2023-season.html"><a href="applying-results-to-2023-season.html#distribution-of-location-quality-by-count"><i class="fa fa-check"></i><b>7.3</b> Distribution of Location Quality by Count</a></li>
+<li class="chapter" data-level="7.2" data-path="applying-results-to-2023-season.html"><a href="applying-results-to-2023-season.html#location-quality-by-pitch-type"><i class="fa fa-check"></i><b>7.2</b> Location Quality by Pitch Type</a></li>
+<li class="chapter" data-level="7.3" data-path="applying-results-to-2023-season.html"><a href="applying-results-to-2023-season.html#location-quality-by-count"><i class="fa fa-check"></i><b>7.3</b> Location Quality by Count</a></li>
 <li class="chapter" data-level="7.4" data-path="applying-results-to-2023-season.html"><a href="applying-results-to-2023-season.html#final-cleaning"><i class="fa fa-check"></i><b>7.4</b> Final Cleaning</a></li>
 </ul></li>
 <li class="chapter" data-level="8" data-path="shiny-dashbaord.html"><a href="shiny-dashbaord.html"><i class="fa fa-check"></i><b>8</b> Shiny Dashbaord</a></li>
@@ -196,7 +203,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <div class="body-inner">
         <div class="book-header" role="navigation">
           <h1>
-            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Location Quality</a>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Quality of Location - developing a new pitch metric</a>
           </h1>
         </div>
 
@@ -205,54 +212,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
             <section class="normal" id="section-">
 <div id="header">
-<h1 class="title">Location Quality</h1>
+<h1 class="title">Quality of Location - developing a new pitch metric</h1>
 <p class="author"><em>Doug Rose</em></p>
-<p class="date"><em>2023-12-12</em></p>
+<p class="date"><em>2023-12-14</em></p>
 </div>
 <div id="introduction" class="section level1 hasAnchor" number="1">
 <h1><span class="header-section-number">Chapter 1</span> Introduction<a href="index.html#introduction" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <div id="project-overview" class="section level2 hasAnchor" number="1.1">
 <h2><span class="header-section-number">1.1</span> Project Overview<a href="index.html#project-overview" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>The past decade so has brought an explosion of new developments in MLB player evaluation. With Statcast technology generating massive amounts of data related to ball movement tracking, baseball fans now have a clearer understanding of how metrics like release speed, spin rate, horizontal and vertical pitch movement impact the quality of a pitch thrown by a pitcher. Websites like Baseball Savant and Fangraphs offer a wealth information on any MLB pitcher covering batted ball results, effectiveness of pitch arsenal, profiling of each pitch type’s velocity, pitch movement, spin rate etc. There is certainly no shortage of available analytics related to MLB players in 2023.</p>
-<p>In my search for emerging baseball metrics attempting to paint a full picture of <strong>how good a pitcher is</strong> or <strong>how good an individual pitch is</strong>, I’ve found that one piece of the puzzle seems to be missing: pitch level location quality. Some metrics exist that effectively detail generally how good they are at locating pitches like BB%, FIP (Fielding Independent Pitching) to name a few. I have yet to come across a metric that evaluates pitchers on the basis of <strong>how good are the locations they throw their pitches in</strong>.</p>
-<p>The Baseball savant website includes player dashboards with distributions of a pitcher’s pitches in terms of location zone type regions. Zone types being heart, shadow, chase, waste. Though comparing pitchers on how their distribution of zone type regions isn’t so straightforward. One might assume that an ideal pitch location would be in the shadow region, so pitchers with the higher rate of shadow region should be the best at locating their pitches. But what if a pitch is thrown in a shadow region on a 3-0 count? And if that pitch is technically outside the strike zone, is it really a better location than a 3-0 pitch located in the heart of the plate? Furthermore, you would expect the pitch type to factor into the quality of the location. Is a 4-seam fastball thrown at the top of the strike zone in a 2-0 count really the same location quality as a curveball thrown in the same location in a 2-0 count? If you have enough of an understanding of baseball you’d conclude that no, these two pitches are not equal in terms of their location.</p>
+<p>The baseball industry has become increasingly more data-driven in recent years with organizations relying more and more advanced metrics and statistical analysis in their key decision making processes. This ongoing trend has brought fans an explosion of new information in how we can evaluate MLB players. Statcast technology generates massive amounts of data related to ball movement tracking, baseball fans now have a clearer understanding of how metrics like release speed, spin rate, horizontal and vertical pitch movement impact the quality of a pitch thrown by a pitcher. Websites like Baseball Savant and Fangraphs offer a wealth information on any MLB pitcher covering batted ball results, effectiveness of pitch arsenal, profiling of each pitch type’s velocity, pitch movement, spin rate etc. There is certainly no shortage of available analytics related to MLB players in 2023.</p>
+<p>In my search for emerging baseball metrics attempting to paint a full picture of <strong>how good a pitcher is</strong> or <strong>how good an individual pitch is</strong>, I’ve found that one piece of the puzzle is often underrepresented: pitch level location quality. Some metrics exist that effectively detail generally how good they are at locating pitches like BB%, FIP (Fielding Independent Pitching) to name a few. I have yet to come across a metric that evaluates pitchers on the basis of <strong>how good are the locations they throw their pitches</strong>.</p>
+<p>The Baseball Savant website includes player dashboards with distributions of a pitcher’s pitches in terms of location zone type regions. Zone types being heart, shadow, chase, waste. Though comparing pitchers on how their distribution of zone type regions isn’t so straightforward. One might assume that an ideal pitch location would be in the shadow region, so pitchers with the higher rate of shadow region should be the best at locating their pitches. But what if a pitch is thrown in a shadow region on a 3-0 count? And if that pitch is technically outside the strike zone, is it really a better location than a 3-0 pitch located in the heart of the plate? Furthermore, you would expect the pitch type to factor into the quality of the location. Is a 4-seam fastball thrown at the top of the strike zone in a 2-0 count really the same location quality as a curveball thrown in the same location in a 2-0 count? If you have enough of an understanding of baseball you’d conclude that no, these two pitches are not same in terms of location quality. So evaluating the quality of a pitch’s location is not that simple. The circumstance in which the pitch is made influences the quality of the pitch location.</p>
 <p>My aim in this project is to create a pitch-level metric that evaluates the quality of an individual pitch’s location. Several factors influence the metric including: the horizontal distance from the plate as the ball passes the plate (plate_x), the vertical height of the ball from the ground as it passes the plate (plate_z), the pitch type thrown (4-seam fastball, sinker, slider, curveball etc.), and the hitter count the pitch is thrown in (0-1, 2-2, 3-2 etc.)</p>
-<p>We can visualize the output and compare pitches under different sets of conditions to see what actually are ideal pitch locations given a set of circumstances and what locations are less than ideal.</p>
-<p>Finally these output can be applied to pitches thrown in previous seasons by particular players so we can effectively compare players on how effective they are at locating pitches. Let’s get started.</p>
-</div>
-<div id="loading-dataset" class="section level2 hasAnchor" number="1.2">
-<h2><span class="header-section-number">1.2</span> Loading Dataset<a href="index.html#loading-dataset" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>We’ll start by loading in Statcast data from the 2014 MLB season through the 2023 season, hosted on the baseball savant website. Each records represents a single pitch and every single pitch contains a wealth of information (93 fields). This code reads in each years worth of pitches (roughly 710,000 pitches per year) stored locally. To reproduce the following scripts for the rest of the project, each season’s worth of data will need to be scraped and stored with the scripts included in the github folder.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="index.html#cb1-1" tabindex="-1"></a><span class="fu">rm</span>(<span class="at">list =</span> <span class="fu">ls</span>())</span></code></pre></div>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="index.html#cb2-1" tabindex="-1"></a><span class="fu">suppressMessages</span>(mlbraw2014 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;/Users/dougrose/Desktop/location/raw_statcast/mlbraw2014.csv&quot;</span>,<span class="at">show_col_types=</span><span class="dv">0</span>))</span>
-<span id="cb2-2"><a href="index.html#cb2-2" tabindex="-1"></a><span class="fu">suppressMessages</span>(mlbraw2015 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;/Users/dougrose/Desktop/location/raw_statcast/mlbraw2015.csv&quot;</span>,<span class="at">show_col_types=</span><span class="dv">0</span>))</span>
-<span id="cb2-3"><a href="index.html#cb2-3" tabindex="-1"></a><span class="fu">suppressMessages</span>(mlbraw2016 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;/Users/dougrose/Desktop/location/raw_statcast/mlbraw2016.csv&quot;</span>,<span class="at">show_col_types=</span><span class="dv">0</span>))</span>
-<span id="cb2-4"><a href="index.html#cb2-4" tabindex="-1"></a><span class="fu">suppressMessages</span>(mlbraw2017 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;/Users/dougrose/Desktop/location/raw_statcast/mlbraw2017.csv&quot;</span>,<span class="at">show_col_types=</span><span class="dv">0</span>))</span>
-<span id="cb2-5"><a href="index.html#cb2-5" tabindex="-1"></a><span class="fu">suppressMessages</span>(mlbraw2018 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;/Users/dougrose/Desktop/location/raw_statcast/mlbraw2018.csv&quot;</span>,<span class="at">show_col_types=</span><span class="dv">0</span>))</span>
-<span id="cb2-6"><a href="index.html#cb2-6" tabindex="-1"></a><span class="fu">suppressMessages</span>(mlbraw2019 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;/Users/dougrose/Desktop/location/raw_statcast/mlbraw2019.csv&quot;</span>,<span class="at">show_col_types=</span><span class="dv">0</span>))</span>
-<span id="cb2-7"><a href="index.html#cb2-7" tabindex="-1"></a><span class="fu">suppressMessages</span>(mlbraw2020 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;/Users/dougrose/Desktop/location/raw_statcast/mlbraw2020.csv&quot;</span>,<span class="at">show_col_types=</span><span class="dv">0</span>))</span>
-<span id="cb2-8"><a href="index.html#cb2-8" tabindex="-1"></a><span class="fu">suppressMessages</span>(mlbraw2021 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;/Users/dougrose/Desktop/location/raw_statcast/mlbraw2021.csv&quot;</span>,<span class="at">show_col_types=</span><span class="dv">0</span>))</span>
-<span id="cb2-9"><a href="index.html#cb2-9" tabindex="-1"></a><span class="fu">suppressMessages</span>(mlbraw2022 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;/Users/dougrose/Desktop/location/raw_statcast/mlbraw2022.csv&quot;</span>,<span class="at">show_col_types=</span><span class="dv">0</span>))</span>
-<span id="cb2-10"><a href="index.html#cb2-10" tabindex="-1"></a><span class="fu">suppressMessages</span>(mlbraw2023 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;/Users/dougrose/Desktop/location/raw_statcast/mlbraw2023.csv&quot;</span>,<span class="at">show_col_types=</span><span class="dv">0</span>))</span></code></pre></div>
-<p>Format the game_date column to ensure all years have the same format.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="index.html#cb3-1" tabindex="-1"></a>mlbraw2014<span class="sc">$</span>game_date <span class="ot">&lt;-</span> <span class="fu">as.Date</span>(mlbraw2014<span class="sc">$</span>game_date, <span class="at">format=</span><span class="st">&quot;%m/%d/%y&quot;</span>)</span>
-<span id="cb3-2"><a href="index.html#cb3-2" tabindex="-1"></a>mlbraw2015<span class="sc">$</span>game_date <span class="ot">&lt;-</span> <span class="fu">as.Date</span>(mlbraw2015<span class="sc">$</span>game_date, <span class="at">format=</span><span class="st">&quot;%m/%d/%y&quot;</span>)</span>
-<span id="cb3-3"><a href="index.html#cb3-3" tabindex="-1"></a>mlbraw2016<span class="sc">$</span>game_date <span class="ot">&lt;-</span> <span class="fu">as.Date</span>(mlbraw2016<span class="sc">$</span>game_date, <span class="at">format=</span><span class="st">&quot;%m/%d/%y&quot;</span>)</span>
-<span id="cb3-4"><a href="index.html#cb3-4" tabindex="-1"></a>mlbraw2017<span class="sc">$</span>game_date <span class="ot">&lt;-</span> <span class="fu">as.Date</span>(mlbraw2017<span class="sc">$</span>game_date, <span class="at">format=</span><span class="st">&quot;%m/%d/%y&quot;</span>)</span>
-<span id="cb3-5"><a href="index.html#cb3-5" tabindex="-1"></a>mlbraw2018<span class="sc">$</span>game_date <span class="ot">&lt;-</span> <span class="fu">as.Date</span>(mlbraw2018<span class="sc">$</span>game_date, <span class="at">format=</span><span class="st">&quot;%m/%d/%y&quot;</span>)</span>
-<span id="cb3-6"><a href="index.html#cb3-6" tabindex="-1"></a>mlbraw2019<span class="sc">$</span>game_date <span class="ot">&lt;-</span> <span class="fu">as.Date</span>(mlbraw2019<span class="sc">$</span>game_date, <span class="at">format=</span><span class="st">&quot;%m/%d/%y&quot;</span>)</span>
-<span id="cb3-7"><a href="index.html#cb3-7" tabindex="-1"></a>mlbraw2020<span class="sc">$</span>game_date <span class="ot">&lt;-</span> <span class="fu">as.Date</span>(mlbraw2020<span class="sc">$</span>game_date, <span class="at">format=</span><span class="st">&quot;%m/%d/%y&quot;</span>)</span>
-<span id="cb3-8"><a href="index.html#cb3-8" tabindex="-1"></a>mlbraw2021<span class="sc">$</span>game_date <span class="ot">&lt;-</span> <span class="fu">as.Date</span>(mlbraw2021<span class="sc">$</span>game_date, <span class="at">format=</span><span class="st">&quot;%m/%d/%y&quot;</span>)</span>
-<span id="cb3-9"><a href="index.html#cb3-9" tabindex="-1"></a>mlbraw2022<span class="sc">$</span>game_date <span class="ot">&lt;-</span> <span class="fu">as.Date</span>(mlbraw2022<span class="sc">$</span>game_date, <span class="at">format=</span><span class="st">&quot;%m/%d/%y&quot;</span>)</span>
-<span id="cb3-10"><a href="index.html#cb3-10" tabindex="-1"></a>mlbraw2023<span class="sc">$</span>game_date <span class="ot">&lt;-</span> <span class="fu">as.Date</span>(mlbraw2023<span class="sc">$</span>game_date, <span class="at">format=</span><span class="st">&quot;%m/%d/%y&quot;</span>)</span></code></pre></div>
-<p>Create a single data frame containing all years and remove individual year data frames.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="index.html#cb4-1" tabindex="-1"></a>mlbraw <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(mlbraw2014, mlbraw2015, mlbraw2016, mlbraw2017, mlbraw2018, </span>
-<span id="cb4-2"><a href="index.html#cb4-2" tabindex="-1"></a>                    mlbraw2019, mlbraw2020, mlbraw2021, mlbraw2022, mlbraw2023)</span>
-<span id="cb4-3"><a href="index.html#cb4-3" tabindex="-1"></a></span>
-<span id="cb4-4"><a href="index.html#cb4-4" tabindex="-1"></a>mlbraw <span class="ot">&lt;-</span> mlbraw <span class="sc">%&gt;%</span> <span class="fu">arrange</span>(<span class="fu">desc</span>(game_year), <span class="fu">desc</span>(game_date), game_pk)</span>
-<span id="cb4-5"><a href="index.html#cb4-5" tabindex="-1"></a></span>
-<span id="cb4-6"><a href="index.html#cb4-6" tabindex="-1"></a><span class="fu">rm</span>(mlbraw2014, mlbraw2015, mlbraw2016, mlbraw2017, mlbraw2018, </span>
-<span id="cb4-7"><a href="index.html#cb4-7" tabindex="-1"></a>   mlbraw2019, mlbraw2020, mlbraw2021, mlbraw2022, mlbraw2023)</span></code></pre></div>
+<p>We can visualize the output and compare pitches under different circumstances to see what actually are ideal pitch locations given a set of circumstances and what locations are less than ideal.</p>
+<p>Finally these output can be applied to an pitch thrown in previous seasons by particular players so we can effectively compare players on how effective they are at locating pitches. Is a player better at location his fastball than his curveball? Has his overall pitch location been improving throughout the year or across his career? These are questions that hope to be answered by applying a new location quality metric. Let’s get started.</p>
 
 </div>
 </div>
@@ -262,7 +235,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
         </div>
       </div>
 
-<a href="cleaning-validating-transforming.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="loading-cleaning-validating-transforming.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

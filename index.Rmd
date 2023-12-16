@@ -1,5 +1,5 @@
 ---
-title: "Location Quality"
+title: "Quality of Location - developing a new pitch metric"
 author: "Doug Rose"
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
@@ -9,81 +9,14 @@ site: bookdown::bookdown_site
 
 ## Project Overview
 
-The past decade so has brought an explosion of new developments in MLB player evaluation. With Statcast technology generating massive amounts of data related to ball movement tracking, baseball fans now have a clearer understanding of how metrics like release speed, spin rate, horizontal and vertical pitch movement impact the quality of a pitch thrown by a pitcher. Websites like Baseball Savant and Fangraphs offer a wealth information on any MLB pitcher covering batted ball results, effectiveness of pitch arsenal, profiling of each pitch type's velocity, pitch movement, spin rate etc. There is certainly no shortage of available analytics related to MLB players in 2023.
+The baseball industry has become increasingly more data-driven in recent years with organizations relying more and more advanced metrics and statistical analysis in their key decision making processes. This ongoing trend has brought fans an explosion of new information in how we can evaluate MLB players. Statcast technology generates massive amounts of data related to ball movement tracking, baseball fans now have a clearer understanding of how metrics like release speed, spin rate, horizontal and vertical pitch movement impact the quality of a pitch thrown by a pitcher. Websites like Baseball Savant and Fangraphs offer a wealth information on any MLB pitcher covering batted ball results, effectiveness of pitch arsenal, profiling of each pitch type's velocity, pitch movement, spin rate etc. There is certainly no shortage of available analytics related to MLB players in 2023.
 
-In my search for emerging baseball metrics attempting to paint a full picture of **how good a pitcher is** or **how good an individual pitch is**, I've found that one piece of the puzzle seems to be missing: pitch level location quality. Some metrics exist that effectively detail generally how good they are at locating pitches like BB%, FIP (Fielding Independent Pitching) to name a few. I have yet to come across a metric that evaluates pitchers on the basis of **how good are the locations they throw their pitches in**.
+In my search for emerging baseball metrics attempting to paint a full picture of **how good a pitcher is** or **how good an individual pitch is**, I've found that one piece of the puzzle is often underrepresented: pitch level location quality. Some metrics exist that effectively detail generally how good they are at locating pitches like BB%, FIP (Fielding Independent Pitching) to name a few. I have yet to come across a metric that evaluates pitchers on the basis of **how good are the locations they throw their pitches**.
 
-The Baseball savant website includes player dashboards with distributions of a pitcher's pitches in terms of location zone type regions. Zone types being heart, shadow, chase, waste. Though comparing pitchers on how their distribution of zone type regions isn't so straightforward. One might assume that an ideal pitch location would be in the shadow region, so pitchers with the higher rate of shadow region should be the best at locating their pitches. But what if a pitch is thrown in a shadow region on a 3-0 count? And if that pitch is technically outside the strike zone, is it really a better location than a 3-0 pitch located in the heart of the plate? Furthermore, you would expect the pitch type to factor into the quality of the location. Is a 4-seam fastball thrown at the top of the strike zone in a 2-0 count really the same location quality as a curveball thrown in the same location in a 2-0 count? If you have enough of an understanding of baseball you'd conclude that no, these two pitches are not equal in terms of their location.
+The Baseball Savant website includes player dashboards with distributions of a pitcher's pitches in terms of location zone type regions. Zone types being heart, shadow, chase, waste. Though comparing pitchers on how their distribution of zone type regions isn't so straightforward. One might assume that an ideal pitch location would be in the shadow region, so pitchers with the higher rate of shadow region should be the best at locating their pitches. But what if a pitch is thrown in a shadow region on a 3-0 count? And if that pitch is technically outside the strike zone, is it really a better location than a 3-0 pitch located in the heart of the plate? Furthermore, you would expect the pitch type to factor into the quality of the location. Is a 4-seam fastball thrown at the top of the strike zone in a 2-0 count really the same location quality as a curveball thrown in the same location in a 2-0 count? If you have enough of an understanding of baseball you'd conclude that no, these two pitches are not same in terms of location quality. So evaluating the quality of a pitch's location is not that simple. The circumstance in which the pitch is made influences the quality of the pitch location.
 
 My aim in this project is to create a pitch-level metric that evaluates the quality of an individual pitch's location. Several factors influence the metric including: the horizontal distance from the plate as the ball passes the plate (plate_x), the vertical height of the ball from the ground as it passes the plate (plate_z), the pitch type thrown (4-seam fastball, sinker, slider, curveball etc.), and the hitter count the pitch is thrown in (0-1, 2-2, 3-2 etc.)
 
-We can visualize the output and compare pitches under different sets of conditions to see what actually are ideal pitch locations given a set of circumstances and what locations are less than ideal.
+We can visualize the output and compare pitches under different circumstances to see what actually are ideal pitch locations given a set of circumstances and what locations are less than ideal.
 
-Finally these output can be applied to pitches thrown in previous seasons by particular players so we can effectively compare players on how effective they are at locating pitches. Let's get started.
-
-## Loading Dataset
-
-We'll start by loading in Statcast data from the 2014 MLB season through the 2023 season, hosted on the baseball savant website. Each records represents a single pitch and every single pitch contains a wealth of information (93 fields). This code reads in each years worth of pitches (roughly 710,000 pitches per year) stored locally. To reproduce the following scripts for the rest of the project, each season's worth of data will need to be scraped and stored with the scripts included in the github folder.
-
-```{r}
-rm(list = ls())
-```
-
-```{r setup, include=FALSE}
-library(tidyverse)
-library(baseballr)
-library(CalledStrike)
-library(fuzzyjoin)
-library(broom)
-library(ggpubr)
-library(set)
-library(gsubfn)
-library(mgcv)
-library(gridExtra)
-library(kableExtra)
-library(flextable)
-library(magrittr)
-library(zoo)
-library(shinydashboard)
-library(rsconnect)
-```
-
-```{r import data}
-mlbraw2014 <- read_csv("/Users/dougrose/Desktop/location/raw_statcast/mlbraw2014.csv",show_col_types=0) %>% suppressMessages()
-mlbraw2015 <- read_csv("/Users/dougrose/Desktop/location/raw_statcast/mlbraw2015.csv",show_col_types=0) %>% suppressMessages()
-mlbraw2016 <- read_csv("/Users/dougrose/Desktop/location/raw_statcast/mlbraw2016.csv",show_col_types=0) %>% suppressMessages()
-mlbraw2017 <- read_csv("/Users/dougrose/Desktop/location/raw_statcast/mlbraw2017.csv",show_col_types=0) %>% suppressMessages()
-mlbraw2018 <- read_csv("/Users/dougrose/Desktop/location/raw_statcast/mlbraw2018.csv",show_col_types=0) %>% suppressMessages()
-mlbraw2019 <- read_csv("/Users/dougrose/Desktop/location/raw_statcast/mlbraw2019.csv",show_col_types=0) %>% suppressMessages()
-mlbraw2020 <- read_csv("/Users/dougrose/Desktop/location/raw_statcast/mlbraw2020.csv",show_col_types=0) %>% suppressMessages()
-mlbraw2021 <- read_csv("/Users/dougrose/Desktop/location/raw_statcast/mlbraw2021.csv",show_col_types=0) %>% suppressMessages()
-mlbraw2022 <- read_csv("/Users/dougrose/Desktop/location/raw_statcast/mlbraw2022.csv",show_col_types=0) %>% suppressMessages()
-mlbraw2023 <- read_csv("/Users/dougrose/Desktop/location/raw_statcast/mlbraw2023.csv",show_col_types=0) %>% suppressMessages()
-```
-
-Format the game_date column to ensure all years have the same format.
-
-```{r transform dates, warning=FALSE}
-mlbraw2014$game_date <- as.Date(mlbraw2014$game_date, format="%m/%d/%y")
-mlbraw2015$game_date <- as.Date(mlbraw2015$game_date, format="%m/%d/%y")
-mlbraw2016$game_date <- as.Date(mlbraw2016$game_date, format="%m/%d/%y")
-mlbraw2017$game_date <- as.Date(mlbraw2017$game_date, format="%m/%d/%y")
-mlbraw2018$game_date <- as.Date(mlbraw2018$game_date, format="%m/%d/%y")
-mlbraw2019$game_date <- as.Date(mlbraw2019$game_date, format="%m/%d/%y")
-mlbraw2020$game_date <- as.Date(mlbraw2020$game_date, format="%m/%d/%y")
-mlbraw2021$game_date <- as.Date(mlbraw2021$game_date, format="%m/%d/%y")
-mlbraw2022$game_date <- as.Date(mlbraw2022$game_date, format="%m/%d/%y")
-mlbraw2023$game_date <- as.Date(mlbraw2023$game_date, format="%m/%d/%y")
-```
-
-Create a single data frame containing all years and remove individual year data frames.
-
-```{r complile single data frame}
-mlbraw <- bind_rows(mlbraw2014, mlbraw2015, mlbraw2016, mlbraw2017, mlbraw2018, 
-                    mlbraw2019, mlbraw2020, mlbraw2021, mlbraw2022, mlbraw2023)
-
-mlbraw <- mlbraw %>% arrange(desc(game_year), desc(game_date), game_pk)
-
-rm(mlbraw2014, mlbraw2015, mlbraw2016, mlbraw2017, mlbraw2018, 
-   mlbraw2019, mlbraw2020, mlbraw2021, mlbraw2022, mlbraw2023)
-```
+Finally these output can be applied to an pitch thrown in previous seasons by particular players so we can effectively compare players on how effective they are at locating pitches. Is a player better at location his fastball than his curveball? Has his overall pitch location been improving throughout the year or across his career? These are questions that hope to be answered by applying a new location quality metric. Let's get started.

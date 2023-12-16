@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 4 Functions | Location Quality</title>
-  <meta name="description" content="Chapter 4 Functions | Location Quality" />
+  <title>Chapter 4 Functions | Quality of Location - developing a new pitch metric</title>
+  <meta name="description" content="Chapter 4 Functions | Quality of Location - developing a new pitch metric" />
   <meta name="generator" content="bookdown 0.37 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 4 Functions | Location Quality" />
+  <meta property="og:title" content="Chapter 4 Functions | Quality of Location - developing a new pitch metric" />
   <meta property="og:type" content="book" />
   
   
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 4 Functions | Location Quality" />
+  <meta name="twitter:title" content="Chapter 4 Functions | Quality of Location - developing a new pitch metric" />
   
   
   
@@ -23,7 +23,7 @@
 <meta name="author" content="Doug Rose" />
 
 
-<meta name="date" content="2023-12-11" />
+<meta name="date" content="2023-12-14" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -145,27 +145,27 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a>
 <ul>
 <li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#project-overview"><i class="fa fa-check"></i><b>1.1</b> Project Overview</a></li>
-<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#loading-dataset"><i class="fa fa-check"></i><b>1.2</b> Loading Dataset</a></li>
 </ul></li>
-<li class="chapter" data-level="2" data-path="cleaning-validating-transforming.html"><a href="cleaning-validating-transforming.html"><i class="fa fa-check"></i><b>2</b> Cleaning, Validating, Transforming</a>
+<li class="chapter" data-level="2" data-path="loading-cleaning-validating-transforming.html"><a href="loading-cleaning-validating-transforming.html"><i class="fa fa-check"></i><b>2</b> Loading, Cleaning, Validating, Transforming</a>
 <ul>
-<li class="chapter" data-level="2.1" data-path="cleaning-validating-transforming.html"><a href="cleaning-validating-transforming.html#explain-variables-of-interest"><i class="fa fa-check"></i><b>2.1</b> Explain Variables of Interest</a></li>
-<li class="chapter" data-level="2.2" data-path="cleaning-validating-transforming.html"><a href="cleaning-validating-transforming.html#create-new-variables"><i class="fa fa-check"></i><b>2.2</b> Create New Variables</a></li>
-<li class="chapter" data-level="2.3" data-path="cleaning-validating-transforming.html"><a href="cleaning-validating-transforming.html#validating-count-handedness-game-year"><i class="fa fa-check"></i><b>2.3</b> Validating Count, Handedness, Game Year</a></li>
-<li class="chapter" data-level="2.4" data-path="cleaning-validating-transforming.html"><a href="cleaning-validating-transforming.html#remove-and-transform-event-values"><i class="fa fa-check"></i><b>2.4</b> Remove and Transform Event Values</a></li>
-<li class="chapter" data-level="2.5" data-path="cleaning-validating-transforming.html"><a href="cleaning-validating-transforming.html#event-outcome-frequency-by-count"><i class="fa fa-check"></i><b>2.5</b> Event Outcome Frequency by Count</a></li>
-<li class="chapter" data-level="2.6" data-path="cleaning-validating-transforming.html"><a href="cleaning-validating-transforming.html#average-delta-run-expectancy"><i class="fa fa-check"></i><b>2.6</b> Average Delta Run Expectancy</a></li>
-<li class="chapter" data-level="2.7" data-path="cleaning-validating-transforming.html"><a href="cleaning-validating-transforming.html#join-lookup-table-to-main-data"><i class="fa fa-check"></i><b>2.7</b> Join Lookup Table To Main Data</a></li>
-<li class="chapter" data-level="2.8" data-path="cleaning-validating-transforming.html"><a href="cleaning-validating-transforming.html#addressing-pitch-types"><i class="fa fa-check"></i><b>2.8</b> Addressing Pitch Types</a></li>
-<li class="chapter" data-level="2.9" data-path="cleaning-validating-transforming.html"><a href="cleaning-validating-transforming.html#cleaning-pitch-locations"><i class="fa fa-check"></i><b>2.9</b> Cleaning Pitch Locations</a></li>
-<li class="chapter" data-level="2.10" data-path="cleaning-validating-transforming.html"><a href="cleaning-validating-transforming.html#count-of-all-observations"><i class="fa fa-check"></i><b>2.10</b> Count of All Observations</a></li>
+<li class="chapter" data-level="2.1" data-path="loading-cleaning-validating-transforming.html"><a href="loading-cleaning-validating-transforming.html#loading-dataset"><i class="fa fa-check"></i><b>2.1</b> Loading Dataset</a></li>
+<li class="chapter" data-level="2.2" data-path="loading-cleaning-validating-transforming.html"><a href="loading-cleaning-validating-transforming.html#explain-variables-of-interest"><i class="fa fa-check"></i><b>2.2</b> Explain Variables of Interest</a></li>
+<li class="chapter" data-level="2.3" data-path="loading-cleaning-validating-transforming.html"><a href="loading-cleaning-validating-transforming.html#create-new-variables"><i class="fa fa-check"></i><b>2.3</b> Create New Variables</a></li>
+<li class="chapter" data-level="2.4" data-path="loading-cleaning-validating-transforming.html"><a href="loading-cleaning-validating-transforming.html#validating-count-handedness-game-year"><i class="fa fa-check"></i><b>2.4</b> Validating Count, Handedness, Game Year</a></li>
+<li class="chapter" data-level="2.5" data-path="loading-cleaning-validating-transforming.html"><a href="loading-cleaning-validating-transforming.html#remove-and-transform-event-values"><i class="fa fa-check"></i><b>2.5</b> Remove and Transform Event Values</a></li>
+<li class="chapter" data-level="2.6" data-path="loading-cleaning-validating-transforming.html"><a href="loading-cleaning-validating-transforming.html#event-outcome-frequency-by-count"><i class="fa fa-check"></i><b>2.6</b> Event Outcome Frequency by Count</a></li>
+<li class="chapter" data-level="2.7" data-path="loading-cleaning-validating-transforming.html"><a href="loading-cleaning-validating-transforming.html#average-delta-run-expectancy"><i class="fa fa-check"></i><b>2.7</b> Average Delta Run Expectancy</a></li>
+<li class="chapter" data-level="2.8" data-path="loading-cleaning-validating-transforming.html"><a href="loading-cleaning-validating-transforming.html#join-lookup-table-to-data-set"><i class="fa fa-check"></i><b>2.8</b> Join Lookup Table to Data Set</a></li>
+<li class="chapter" data-level="2.9" data-path="loading-cleaning-validating-transforming.html"><a href="loading-cleaning-validating-transforming.html#addressing-pitch-types"><i class="fa fa-check"></i><b>2.9</b> Addressing Pitch Types</a></li>
+<li class="chapter" data-level="2.10" data-path="loading-cleaning-validating-transforming.html"><a href="loading-cleaning-validating-transforming.html#cleaning-pitch-locations"><i class="fa fa-check"></i><b>2.10</b> Cleaning Pitch Locations</a></li>
+<li class="chapter" data-level="2.11" data-path="loading-cleaning-validating-transforming.html"><a href="loading-cleaning-validating-transforming.html#count-of-all-observations"><i class="fa fa-check"></i><b>2.11</b> Count of All Observations</a></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="example-model.html"><a href="example-model.html"><i class="fa fa-check"></i><b>3</b> Example Model</a>
 <ul>
-<li class="chapter" data-level="3.1" data-path="example-model.html"><a href="example-model.html#scatterplot-of-example"><i class="fa fa-check"></i><b>3.1</b> Scatterplot of Example</a></li>
-<li class="chapter" data-level="3.2" data-path="example-model.html"><a href="example-model.html#example-scatterplot-filtered"><i class="fa fa-check"></i><b>3.2</b> Example Scatterplot Filtered</a></li>
-<li class="chapter" data-level="3.3" data-path="example-model.html"><a href="example-model.html#create-grid-to-base-the-model-locations-off-of"><i class="fa fa-check"></i><b>3.3</b> Create grid to base the model locations off of</a></li>
-<li class="chapter" data-level="3.4" data-path="example-model.html"><a href="example-model.html#apply-the-game-data-results-to-the-grid"><i class="fa fa-check"></i><b>3.4</b> Apply the game data results to the grid</a></li>
+<li class="chapter" data-level="3.1" data-path="example-model.html"><a href="example-model.html#scatterplot-of-example-data"><i class="fa fa-check"></i><b>3.1</b> Scatterplot of Example Data</a></li>
+<li class="chapter" data-level="3.2" data-path="example-model.html"><a href="example-model.html#scatterplot-of-example-data-filtered"><i class="fa fa-check"></i><b>3.2</b> Scatterplot of Example Data Filtered</a></li>
+<li class="chapter" data-level="3.3" data-path="example-model.html"><a href="example-model.html#create-grid"><i class="fa fa-check"></i><b>3.3</b> Create Grid</a></li>
+<li class="chapter" data-level="3.4" data-path="example-model.html"><a href="example-model.html#apply-game-results-to-grid"><i class="fa fa-check"></i><b>3.4</b> Apply Game Results to Grid</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="functions.html"><a href="functions.html"><i class="fa fa-check"></i><b>4</b> Functions</a>
 <ul>
@@ -175,17 +175,23 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="5" data-path="applying-functions.html"><a href="applying-functions.html"><i class="fa fa-check"></i><b>5</b> Applying Functions</a>
 <ul>
-<li class="chapter" data-level="5.1" data-path="applying-functions.html"><a href="applying-functions.html#create-data-frames-and-plots"><i class="fa fa-check"></i><b>5.1</b> Create Data Frames and Plots</a></li>
+<li class="chapter" data-level="5.1" data-path="applying-functions.html"><a href="applying-functions.html#create-data-frames"><i class="fa fa-check"></i><b>5.1</b> Create Data Frames</a></li>
+<li class="chapter" data-level="5.2" data-path="applying-functions.html"><a href="applying-functions.html#create-plots"><i class="fa fa-check"></i><b>5.2</b> Create Plots</a></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="visualizing-resulting-plots.html"><a href="visualizing-resulting-plots.html"><i class="fa fa-check"></i><b>6</b> Visualizing Resulting Plots</a></li>
+<li class="chapter" data-level="6" data-path="visualizing-resulting-plots.html"><a href="visualizing-resulting-plots.html"><i class="fa fa-check"></i><b>6</b> Visualizing Resulting Plots</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="visualizing-resulting-plots.html"><a href="visualizing-resulting-plots.html#plot-outputs"><i class="fa fa-check"></i><b>6.1</b> Plot Outputs</a></li>
+<li class="chapter" data-level="6.2" data-path="visualizing-resulting-plots.html"><a href="visualizing-resulting-plots.html#compile-results-into-1-lookup-table"><i class="fa fa-check"></i><b>6.2</b> Compile Results into 1 Lookup Table</a></li>
+</ul></li>
 <li class="chapter" data-level="7" data-path="applying-results-to-2023-season.html"><a href="applying-results-to-2023-season.html"><i class="fa fa-check"></i><b>7</b> Applying Results to 2023 Season</a>
 <ul>
 <li class="chapter" data-level="7.1" data-path="applying-results-to-2023-season.html"><a href="applying-results-to-2023-season.html#cleaning-2023-dataset"><i class="fa fa-check"></i><b>7.1</b> Cleaning 2023 Dataset</a></li>
-<li class="chapter" data-level="7.2" data-path="applying-results-to-2023-season.html"><a href="applying-results-to-2023-season.html#distribution-of-location-quality-by-pitch-type"><i class="fa fa-check"></i><b>7.2</b> Distribution of Location Quality by Pitch Type</a></li>
-<li class="chapter" data-level="7.3" data-path="applying-results-to-2023-season.html"><a href="applying-results-to-2023-season.html#distribution-of-location-quality-by-count"><i class="fa fa-check"></i><b>7.3</b> Distribution of Location Quality by Count</a></li>
+<li class="chapter" data-level="7.2" data-path="applying-results-to-2023-season.html"><a href="applying-results-to-2023-season.html#location-quality-by-pitch-type"><i class="fa fa-check"></i><b>7.2</b> Location Quality by Pitch Type</a></li>
+<li class="chapter" data-level="7.3" data-path="applying-results-to-2023-season.html"><a href="applying-results-to-2023-season.html#location-quality-by-count"><i class="fa fa-check"></i><b>7.3</b> Location Quality by Count</a></li>
 <li class="chapter" data-level="7.4" data-path="applying-results-to-2023-season.html"><a href="applying-results-to-2023-season.html#final-cleaning"><i class="fa fa-check"></i><b>7.4</b> Final Cleaning</a></li>
 </ul></li>
 <li class="chapter" data-level="8" data-path="shiny-dashbaord.html"><a href="shiny-dashbaord.html"><i class="fa fa-check"></i><b>8</b> Shiny Dashbaord</a></li>
+<li class="chapter" data-level="9" data-path="project-takeaways-and-limitations.html"><a href="project-takeaways-and-limitations.html"><i class="fa fa-check"></i><b>9</b> Project Takeaways and Limitations</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 </ul>
@@ -197,7 +203,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <div class="body-inner">
         <div class="book-header" role="navigation">
           <h1>
-            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Location Quality</a>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Quality of Location - developing a new pitch metric</a>
           </h1>
         </div>
 
@@ -207,7 +213,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="functions" class="section level1 hasAnchor" number="4">
 <h1><span class="header-section-number">Chapter 4</span> Functions<a href="functions.html#functions" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p>These functions essentially repeat the previous steps for the example model. The parameters can be imputed into the functions to give us a resulting data frame and plot to visualise for each unique combination of handedness, count, and pitch type.</p>
+<p>These functions essentially repeat the previous steps from the example model, but allow us to repeat the process for all combinations of handedness, pitch type, and count. The parameters can be inputted into the functions to give us a resulting data frame and plot to visualize for each unique combination of handedness, count, and pitch type.</p>
 <div id="function-1" class="section level2 hasAnchor" number="4.1">
 <h2><span class="header-section-number">4.1</span> Function 1<a href="functions.html#function-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="functions.html#cb50-1" tabindex="-1"></a>function_p_type_hand_ptiles <span class="ot">&lt;-</span> <span class="cf">function</span>(df, hand, pitch_type) {</span>
@@ -229,66 +235,74 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb51-7"><a href="functions.html#cb51-7" tabindex="-1"></a>  hand_pitch_df <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span> <span class="fu">filter</span>(<span class="fu">UQ</span>(hand) <span class="sc">==</span> hand, <span class="fu">UQ</span>(pitch_type) <span class="sc">==</span> pitch_type)</span>
 <span id="cb51-8"><a href="functions.html#cb51-8" tabindex="-1"></a>  hand_pitch_count_df <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span> <span class="fu">filter</span>(<span class="fu">UQ</span>(hand) <span class="sc">==</span> hand, <span class="fu">UQ</span>(pitch_type) <span class="sc">==</span> pitch_type, <span class="fu">UQ</span>(count) <span class="sc">==</span> count)</span>
 <span id="cb51-9"><a href="functions.html#cb51-9" tabindex="-1"></a>  hand_count_df <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span> <span class="fu">filter</span>(<span class="fu">UQ</span>(hand) <span class="sc">==</span> hand, <span class="fu">UQ</span>(count) <span class="sc">==</span> count)</span>
-<span id="cb51-10"><a href="functions.html#cb51-10" tabindex="-1"></a></span>
-<span id="cb51-11"><a href="functions.html#cb51-11" tabindex="-1"></a>g <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(<span class="at">x =</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">4</span>, <span class="dv">4</span>, <span class="fl">0.01</span>), <span class="at">y =</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">2</span>, <span class="dv">6</span>, <span class="fl">0.01</span>)) <span class="sc">%&gt;%</span> </span>
-<span id="cb51-12"><a href="functions.html#cb51-12" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">x=</span><span class="fu">round</span>(x,<span class="dv">2</span>), <span class="at">y=</span><span class="fu">round</span>(y,<span class="dv">2</span>)) <span class="sc">%&gt;%</span> </span>
-<span id="cb51-13"><a href="functions.html#cb51-13" tabindex="-1"></a>  <span class="fu">as_tibble</span>()</span>
-<span id="cb51-14"><a href="functions.html#cb51-14" tabindex="-1"></a>  </span>
-<span id="cb51-15"><a href="functions.html#cb51-15" tabindex="-1"></a><span class="co">#gf &lt;- gam(re ~ s(x, y), data = hand_pitch_df)</span></span>
-<span id="cb51-16"><a href="functions.html#cb51-16" tabindex="-1"></a>  </span>
-<span id="cb51-17"><a href="functions.html#cb51-17" tabindex="-1"></a>gfa <span class="ot">&lt;-</span> gf <span class="sc">%&gt;%</span> <span class="fu">augment</span>()</span>
+<span id="cb51-10"><a href="functions.html#cb51-10" tabindex="-1"></a>  </span>
+<span id="cb51-11"><a href="functions.html#cb51-11" tabindex="-1"></a>  n <span class="ot">&lt;-</span> hand_pitch_count_df <span class="sc">%&gt;%</span> <span class="fu">count</span>() <span class="sc">%&gt;%</span> <span class="fu">as_vector</span>()</span>
+<span id="cb51-12"><a href="functions.html#cb51-12" tabindex="-1"></a>  </span>
+<span id="cb51-13"><a href="functions.html#cb51-13" tabindex="-1"></a>  <span class="cf">if</span> (n <span class="sc">&gt;</span> <span class="dv">20000</span>) {</span>
+<span id="cb51-14"><a href="functions.html#cb51-14" tabindex="-1"></a>    hand_pitch_count_df <span class="ot">&lt;-</span> hand_pitch_count_df <span class="sc">%&gt;%</span> <span class="fu">slice_sample</span>(<span class="at">n=</span><span class="dv">20000</span>)</span>
+<span id="cb51-15"><a href="functions.html#cb51-15" tabindex="-1"></a>    } <span class="cf">else</span> {</span>
+<span id="cb51-16"><a href="functions.html#cb51-16" tabindex="-1"></a>      hand_pitch_count_df</span>
+<span id="cb51-17"><a href="functions.html#cb51-17" tabindex="-1"></a>    }</span>
 <span id="cb51-18"><a href="functions.html#cb51-18" tabindex="-1"></a>  </span>
-<span id="cb51-19"><a href="functions.html#cb51-19" tabindex="-1"></a>gfa99 <span class="ot">&lt;-</span> gfa <span class="sc">%&gt;%</span> </span>
-<span id="cb51-20"><a href="functions.html#cb51-20" tabindex="-1"></a>  <span class="fu">filter</span>(.hat <span class="sc">&lt;=</span> <span class="fu">quantile</span>(gfa<span class="sc">$</span>.hat, <span class="fl">0.99</span>)) <span class="sc">%&gt;%</span> </span>
-<span id="cb51-21"><a href="functions.html#cb51-21" tabindex="-1"></a>  <span class="fu">select</span>(x, y)</span>
-<span id="cb51-22"><a href="functions.html#cb51-22" tabindex="-1"></a></span>
-<span id="cb51-23"><a href="functions.html#cb51-23" tabindex="-1"></a>aa <span class="ot">&lt;-</span> gfa99 <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(x) <span class="sc">%&gt;%</span> <span class="fu">summarise</span>(<span class="at">ymin=</span><span class="fu">min</span>(y), <span class="at">ymax=</span><span class="fu">max</span>(y))</span>
-<span id="cb51-24"><a href="functions.html#cb51-24" tabindex="-1"></a></span>
-<span id="cb51-25"><a href="functions.html#cb51-25" tabindex="-1"></a>bb <span class="ot">&lt;-</span> <span class="fu">inner_join</span>(g,aa, <span class="fu">join_by</span>(x<span class="sc">==</span>x, y<span class="sc">&gt;=</span>ymin, y<span class="sc">&lt;=</span>ymax)) <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="sc">-</span>y) <span class="sc">%&gt;%</span> <span class="fu">distinct</span>()</span>
-<span id="cb51-26"><a href="functions.html#cb51-26" tabindex="-1"></a></span>
-<span id="cb51-27"><a href="functions.html#cb51-27" tabindex="-1"></a>cc <span class="ot">&lt;-</span> g <span class="sc">%&gt;%</span> <span class="fu">left_join</span>(bb, <span class="fu">join_by</span>(x<span class="sc">==</span>x, y<span class="sc">&gt;=</span>ymin, y<span class="sc">&lt;=</span>ymax)) <span class="sc">%&gt;%</span> </span>
-<span id="cb51-28"><a href="functions.html#cb51-28" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(ymin), <span class="sc">!</span><span class="fu">is.na</span>(ymax)) <span class="sc">%&gt;%</span> <span class="fu">select</span>(x,y)</span>
-<span id="cb51-29"><a href="functions.html#cb51-29" tabindex="-1"></a></span>
-<span id="cb51-30"><a href="functions.html#cb51-30" tabindex="-1"></a>dd <span class="ot">&lt;-</span> cc <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(y) <span class="sc">%&gt;%</span> <span class="fu">summarise</span>(<span class="at">xmin=</span><span class="fu">min</span>(x), <span class="at">xmax=</span><span class="fu">max</span>(x))</span>
-<span id="cb51-31"><a href="functions.html#cb51-31" tabindex="-1"></a></span>
-<span id="cb51-32"><a href="functions.html#cb51-32" tabindex="-1"></a>ee <span class="ot">&lt;-</span> <span class="fu">inner_join</span>(g,dd, <span class="fu">join_by</span>(y<span class="sc">==</span>y, x<span class="sc">&gt;=</span>xmin, x<span class="sc">&lt;=</span>xmax)) <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="sc">-</span>x) <span class="sc">%&gt;%</span> <span class="fu">distinct</span>()</span>
-<span id="cb51-33"><a href="functions.html#cb51-33" tabindex="-1"></a></span>
-<span id="cb51-34"><a href="functions.html#cb51-34" tabindex="-1"></a>ff <span class="ot">&lt;-</span> g <span class="sc">%&gt;%</span> <span class="fu">left_join</span>(ee, <span class="fu">join_by</span>(y<span class="sc">==</span>y, x<span class="sc">&gt;=</span>xmin, x<span class="sc">&lt;=</span>xmax)) <span class="sc">%&gt;%</span> </span>
-<span id="cb51-35"><a href="functions.html#cb51-35" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(xmin), <span class="sc">!</span><span class="fu">is.na</span>(xmax)) <span class="sc">%&gt;%</span> <span class="fu">select</span>(x,y)</span>
-<span id="cb51-36"><a href="functions.html#cb51-36" tabindex="-1"></a></span>
-<span id="cb51-37"><a href="functions.html#cb51-37" tabindex="-1"></a>gg <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(cc,ff) <span class="sc">%&gt;%</span> <span class="fu">distinct</span>()</span>
-<span id="cb51-38"><a href="functions.html#cb51-38" tabindex="-1"></a></span>
-<span id="cb51-39"><a href="functions.html#cb51-39" tabindex="-1"></a>aa <span class="ot">&lt;-</span> gg <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(x) <span class="sc">%&gt;%</span> <span class="fu">summarise</span>(<span class="at">ymin=</span><span class="fu">min</span>(y), <span class="at">ymax=</span><span class="fu">max</span>(y))</span>
-<span id="cb51-40"><a href="functions.html#cb51-40" tabindex="-1"></a></span>
-<span id="cb51-41"><a href="functions.html#cb51-41" tabindex="-1"></a>bb <span class="ot">&lt;-</span> <span class="fu">inner_join</span>(g,aa, <span class="fu">join_by</span>(x<span class="sc">==</span>x, y<span class="sc">&gt;=</span>ymin, y<span class="sc">&lt;=</span>ymax)) <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="sc">-</span>y) <span class="sc">%&gt;%</span> <span class="fu">distinct</span>()</span>
-<span id="cb51-42"><a href="functions.html#cb51-42" tabindex="-1"></a></span>
-<span id="cb51-43"><a href="functions.html#cb51-43" tabindex="-1"></a>cc <span class="ot">&lt;-</span> g <span class="sc">%&gt;%</span> <span class="fu">left_join</span>(bb, <span class="fu">join_by</span>(x<span class="sc">==</span>x, y<span class="sc">&gt;=</span>ymin, y<span class="sc">&lt;=</span>ymax)) <span class="sc">%&gt;%</span> </span>
-<span id="cb51-44"><a href="functions.html#cb51-44" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(ymin), <span class="sc">!</span><span class="fu">is.na</span>(ymax)) <span class="sc">%&gt;%</span> <span class="fu">select</span>(x,y)</span>
-<span id="cb51-45"><a href="functions.html#cb51-45" tabindex="-1"></a></span>
-<span id="cb51-46"><a href="functions.html#cb51-46" tabindex="-1"></a>dd <span class="ot">&lt;-</span> cc <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(y) <span class="sc">%&gt;%</span> <span class="fu">summarise</span>(<span class="at">xmin=</span><span class="fu">min</span>(x), <span class="at">xmax=</span><span class="fu">max</span>(x))</span>
-<span id="cb51-47"><a href="functions.html#cb51-47" tabindex="-1"></a></span>
-<span id="cb51-48"><a href="functions.html#cb51-48" tabindex="-1"></a>ee <span class="ot">&lt;-</span> <span class="fu">inner_join</span>(g,dd, <span class="fu">join_by</span>(y<span class="sc">==</span>y, x<span class="sc">&gt;=</span>xmin, x<span class="sc">&lt;=</span>xmax)) <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="sc">-</span>x) <span class="sc">%&gt;%</span> <span class="fu">distinct</span>()</span>
-<span id="cb51-49"><a href="functions.html#cb51-49" tabindex="-1"></a></span>
-<span id="cb51-50"><a href="functions.html#cb51-50" tabindex="-1"></a>ff <span class="ot">&lt;-</span> g <span class="sc">%&gt;%</span> <span class="fu">left_join</span>(ee, <span class="fu">join_by</span>(y<span class="sc">==</span>y, x<span class="sc">&gt;=</span>xmin, x<span class="sc">&lt;=</span>xmax)) <span class="sc">%&gt;%</span> </span>
-<span id="cb51-51"><a href="functions.html#cb51-51" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(xmin), <span class="sc">!</span><span class="fu">is.na</span>(xmax)) <span class="sc">%&gt;%</span> <span class="fu">select</span>(x,y)</span>
-<span id="cb51-52"><a href="functions.html#cb51-52" tabindex="-1"></a></span>
-<span id="cb51-53"><a href="functions.html#cb51-53" tabindex="-1"></a>gg <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(cc,ff) <span class="sc">%&gt;%</span> <span class="fu">distinct</span>()</span>
-<span id="cb51-54"><a href="functions.html#cb51-54" tabindex="-1"></a></span>
-<span id="cb51-55"><a href="functions.html#cb51-55" tabindex="-1"></a>gf1 <span class="ot">&lt;-</span> <span class="fu">gam</span>(re <span class="sc">~</span> <span class="fu">s</span>(x, y), <span class="at">data =</span> hand_pitch_count_df, <span class="at">method =</span> <span class="st">&quot;REML&quot;</span>) <span class="co">#k=40</span></span>
-<span id="cb51-56"><a href="functions.html#cb51-56" tabindex="-1"></a>  </span>
-<span id="cb51-57"><a href="functions.html#cb51-57" tabindex="-1"></a>gg<span class="sc">$</span>lp <span class="ot">&lt;-</span> <span class="fu">predict</span>(gf1, gg, <span class="at">type =</span> <span class="st">&quot;response&quot;</span>)</span>
-<span id="cb51-58"><a href="functions.html#cb51-58" tabindex="-1"></a></span>
-<span id="cb51-59"><a href="functions.html#cb51-59" tabindex="-1"></a>gg <span class="ot">&lt;-</span> gg <span class="sc">%&gt;%</span></span>
-<span id="cb51-60"><a href="functions.html#cb51-60" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">hand =</span> <span class="fu">unique</span>(hand_pitch_count_df<span class="sc">$</span>hand),</span>
-<span id="cb51-61"><a href="functions.html#cb51-61" tabindex="-1"></a>         <span class="at">pitch_type =</span> <span class="fu">unique</span>(hand_pitch_count_df<span class="sc">$</span>pitch_type),</span>
-<span id="cb51-62"><a href="functions.html#cb51-62" tabindex="-1"></a>         <span class="at">count =</span> <span class="fu">unique</span>(hand_pitch_count_df<span class="sc">$</span>count)) <span class="sc">%&gt;%</span></span>
-<span id="cb51-63"><a href="functions.html#cb51-63" tabindex="-1"></a>  <span class="fu">select</span>(hand, pitch_type, count, x, y, lp)</span>
-<span id="cb51-64"><a href="functions.html#cb51-64" tabindex="-1"></a></span>
-<span id="cb51-65"><a href="functions.html#cb51-65" tabindex="-1"></a>gg <span class="ot">&lt;-</span> gg <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">lp2 =</span> (lp <span class="sc">-</span> <span class="fu">min</span>(lp)) <span class="sc">/</span> (<span class="fu">max</span>(lp) <span class="sc">-</span> <span class="fu">min</span>(lp))) <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="sc">-</span>lp) <span class="sc">%&gt;%</span></span>
-<span id="cb51-66"><a href="functions.html#cb51-66" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">lp2 =</span> <span class="dv">1</span><span class="sc">-</span>lp2)</span>
-<span id="cb51-67"><a href="functions.html#cb51-67" tabindex="-1"></a></span>
-<span id="cb51-68"><a href="functions.html#cb51-68" tabindex="-1"></a><span class="fu">return</span>(gg)</span>
-<span id="cb51-69"><a href="functions.html#cb51-69" tabindex="-1"></a>}</span></code></pre></div>
+<span id="cb51-19"><a href="functions.html#cb51-19" tabindex="-1"></a>g <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(<span class="at">x =</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">4</span>, <span class="dv">4</span>, <span class="fl">0.01</span>), <span class="at">y =</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">2</span>, <span class="dv">6</span>, <span class="fl">0.01</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb51-20"><a href="functions.html#cb51-20" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">x=</span><span class="fu">round</span>(x,<span class="dv">2</span>), <span class="at">y=</span><span class="fu">round</span>(y,<span class="dv">2</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb51-21"><a href="functions.html#cb51-21" tabindex="-1"></a>  <span class="fu">as_tibble</span>()</span>
+<span id="cb51-22"><a href="functions.html#cb51-22" tabindex="-1"></a>  </span>
+<span id="cb51-23"><a href="functions.html#cb51-23" tabindex="-1"></a><span class="co">#gf &lt;- gam(re ~ s(x, y), data = hand_pitch_df)</span></span>
+<span id="cb51-24"><a href="functions.html#cb51-24" tabindex="-1"></a>  </span>
+<span id="cb51-25"><a href="functions.html#cb51-25" tabindex="-1"></a>gfa <span class="ot">&lt;-</span> gf <span class="sc">%&gt;%</span> <span class="fu">augment</span>()</span>
+<span id="cb51-26"><a href="functions.html#cb51-26" tabindex="-1"></a>  </span>
+<span id="cb51-27"><a href="functions.html#cb51-27" tabindex="-1"></a>gfa99 <span class="ot">&lt;-</span> gfa <span class="sc">%&gt;%</span> </span>
+<span id="cb51-28"><a href="functions.html#cb51-28" tabindex="-1"></a>  <span class="fu">filter</span>(.hat <span class="sc">&lt;=</span> <span class="fu">quantile</span>(gfa<span class="sc">$</span>.hat, <span class="fl">0.99</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb51-29"><a href="functions.html#cb51-29" tabindex="-1"></a>  <span class="fu">select</span>(x, y)</span>
+<span id="cb51-30"><a href="functions.html#cb51-30" tabindex="-1"></a></span>
+<span id="cb51-31"><a href="functions.html#cb51-31" tabindex="-1"></a>aa <span class="ot">&lt;-</span> gfa99 <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(x) <span class="sc">%&gt;%</span> <span class="fu">summarise</span>(<span class="at">ymin=</span><span class="fu">min</span>(y), <span class="at">ymax=</span><span class="fu">max</span>(y))</span>
+<span id="cb51-32"><a href="functions.html#cb51-32" tabindex="-1"></a></span>
+<span id="cb51-33"><a href="functions.html#cb51-33" tabindex="-1"></a>bb <span class="ot">&lt;-</span> <span class="fu">inner_join</span>(g,aa, <span class="fu">join_by</span>(x<span class="sc">==</span>x, y<span class="sc">&gt;=</span>ymin, y<span class="sc">&lt;=</span>ymax)) <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="sc">-</span>y) <span class="sc">%&gt;%</span> <span class="fu">distinct</span>()</span>
+<span id="cb51-34"><a href="functions.html#cb51-34" tabindex="-1"></a></span>
+<span id="cb51-35"><a href="functions.html#cb51-35" tabindex="-1"></a>cc <span class="ot">&lt;-</span> g <span class="sc">%&gt;%</span> <span class="fu">left_join</span>(bb, <span class="fu">join_by</span>(x<span class="sc">==</span>x, y<span class="sc">&gt;=</span>ymin, y<span class="sc">&lt;=</span>ymax)) <span class="sc">%&gt;%</span> </span>
+<span id="cb51-36"><a href="functions.html#cb51-36" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(ymin), <span class="sc">!</span><span class="fu">is.na</span>(ymax)) <span class="sc">%&gt;%</span> <span class="fu">select</span>(x,y)</span>
+<span id="cb51-37"><a href="functions.html#cb51-37" tabindex="-1"></a></span>
+<span id="cb51-38"><a href="functions.html#cb51-38" tabindex="-1"></a>dd <span class="ot">&lt;-</span> cc <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(y) <span class="sc">%&gt;%</span> <span class="fu">summarise</span>(<span class="at">xmin=</span><span class="fu">min</span>(x), <span class="at">xmax=</span><span class="fu">max</span>(x))</span>
+<span id="cb51-39"><a href="functions.html#cb51-39" tabindex="-1"></a></span>
+<span id="cb51-40"><a href="functions.html#cb51-40" tabindex="-1"></a>ee <span class="ot">&lt;-</span> <span class="fu">inner_join</span>(g,dd, <span class="fu">join_by</span>(y<span class="sc">==</span>y, x<span class="sc">&gt;=</span>xmin, x<span class="sc">&lt;=</span>xmax)) <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="sc">-</span>x) <span class="sc">%&gt;%</span> <span class="fu">distinct</span>()</span>
+<span id="cb51-41"><a href="functions.html#cb51-41" tabindex="-1"></a></span>
+<span id="cb51-42"><a href="functions.html#cb51-42" tabindex="-1"></a>ff <span class="ot">&lt;-</span> g <span class="sc">%&gt;%</span> <span class="fu">left_join</span>(ee, <span class="fu">join_by</span>(y<span class="sc">==</span>y, x<span class="sc">&gt;=</span>xmin, x<span class="sc">&lt;=</span>xmax)) <span class="sc">%&gt;%</span> </span>
+<span id="cb51-43"><a href="functions.html#cb51-43" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(xmin), <span class="sc">!</span><span class="fu">is.na</span>(xmax)) <span class="sc">%&gt;%</span> <span class="fu">select</span>(x,y)</span>
+<span id="cb51-44"><a href="functions.html#cb51-44" tabindex="-1"></a></span>
+<span id="cb51-45"><a href="functions.html#cb51-45" tabindex="-1"></a>gg <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(cc,ff) <span class="sc">%&gt;%</span> <span class="fu">distinct</span>()</span>
+<span id="cb51-46"><a href="functions.html#cb51-46" tabindex="-1"></a></span>
+<span id="cb51-47"><a href="functions.html#cb51-47" tabindex="-1"></a>aa <span class="ot">&lt;-</span> gg <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(x) <span class="sc">%&gt;%</span> <span class="fu">summarise</span>(<span class="at">ymin=</span><span class="fu">min</span>(y), <span class="at">ymax=</span><span class="fu">max</span>(y))</span>
+<span id="cb51-48"><a href="functions.html#cb51-48" tabindex="-1"></a></span>
+<span id="cb51-49"><a href="functions.html#cb51-49" tabindex="-1"></a>bb <span class="ot">&lt;-</span> <span class="fu">inner_join</span>(g,aa, <span class="fu">join_by</span>(x<span class="sc">==</span>x, y<span class="sc">&gt;=</span>ymin, y<span class="sc">&lt;=</span>ymax)) <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="sc">-</span>y) <span class="sc">%&gt;%</span> <span class="fu">distinct</span>()</span>
+<span id="cb51-50"><a href="functions.html#cb51-50" tabindex="-1"></a></span>
+<span id="cb51-51"><a href="functions.html#cb51-51" tabindex="-1"></a>cc <span class="ot">&lt;-</span> g <span class="sc">%&gt;%</span> <span class="fu">left_join</span>(bb, <span class="fu">join_by</span>(x<span class="sc">==</span>x, y<span class="sc">&gt;=</span>ymin, y<span class="sc">&lt;=</span>ymax)) <span class="sc">%&gt;%</span> </span>
+<span id="cb51-52"><a href="functions.html#cb51-52" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(ymin), <span class="sc">!</span><span class="fu">is.na</span>(ymax)) <span class="sc">%&gt;%</span> <span class="fu">select</span>(x,y)</span>
+<span id="cb51-53"><a href="functions.html#cb51-53" tabindex="-1"></a></span>
+<span id="cb51-54"><a href="functions.html#cb51-54" tabindex="-1"></a>dd <span class="ot">&lt;-</span> cc <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(y) <span class="sc">%&gt;%</span> <span class="fu">summarise</span>(<span class="at">xmin=</span><span class="fu">min</span>(x), <span class="at">xmax=</span><span class="fu">max</span>(x))</span>
+<span id="cb51-55"><a href="functions.html#cb51-55" tabindex="-1"></a></span>
+<span id="cb51-56"><a href="functions.html#cb51-56" tabindex="-1"></a>ee <span class="ot">&lt;-</span> <span class="fu">inner_join</span>(g,dd, <span class="fu">join_by</span>(y<span class="sc">==</span>y, x<span class="sc">&gt;=</span>xmin, x<span class="sc">&lt;=</span>xmax)) <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="sc">-</span>x) <span class="sc">%&gt;%</span> <span class="fu">distinct</span>()</span>
+<span id="cb51-57"><a href="functions.html#cb51-57" tabindex="-1"></a></span>
+<span id="cb51-58"><a href="functions.html#cb51-58" tabindex="-1"></a>ff <span class="ot">&lt;-</span> g <span class="sc">%&gt;%</span> <span class="fu">left_join</span>(ee, <span class="fu">join_by</span>(y<span class="sc">==</span>y, x<span class="sc">&gt;=</span>xmin, x<span class="sc">&lt;=</span>xmax)) <span class="sc">%&gt;%</span> </span>
+<span id="cb51-59"><a href="functions.html#cb51-59" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(xmin), <span class="sc">!</span><span class="fu">is.na</span>(xmax)) <span class="sc">%&gt;%</span> <span class="fu">select</span>(x,y)</span>
+<span id="cb51-60"><a href="functions.html#cb51-60" tabindex="-1"></a></span>
+<span id="cb51-61"><a href="functions.html#cb51-61" tabindex="-1"></a>gg <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(cc,ff) <span class="sc">%&gt;%</span> <span class="fu">distinct</span>()</span>
+<span id="cb51-62"><a href="functions.html#cb51-62" tabindex="-1"></a></span>
+<span id="cb51-63"><a href="functions.html#cb51-63" tabindex="-1"></a>gf1 <span class="ot">&lt;-</span> <span class="fu">gam</span>(re <span class="sc">~</span> <span class="fu">s</span>(x, y), <span class="at">data =</span> hand_pitch_count_df, <span class="at">method =</span> <span class="st">&quot;REML&quot;</span>)</span>
+<span id="cb51-64"><a href="functions.html#cb51-64" tabindex="-1"></a>  </span>
+<span id="cb51-65"><a href="functions.html#cb51-65" tabindex="-1"></a>gg<span class="sc">$</span>lp <span class="ot">&lt;-</span> <span class="fu">predict</span>(gf1, gg, <span class="at">type =</span> <span class="st">&quot;response&quot;</span>)</span>
+<span id="cb51-66"><a href="functions.html#cb51-66" tabindex="-1"></a></span>
+<span id="cb51-67"><a href="functions.html#cb51-67" tabindex="-1"></a>gg <span class="ot">&lt;-</span> gg <span class="sc">%&gt;%</span></span>
+<span id="cb51-68"><a href="functions.html#cb51-68" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">hand =</span> <span class="fu">unique</span>(hand_pitch_count_df<span class="sc">$</span>hand),</span>
+<span id="cb51-69"><a href="functions.html#cb51-69" tabindex="-1"></a>         <span class="at">pitch_type =</span> <span class="fu">unique</span>(hand_pitch_count_df<span class="sc">$</span>pitch_type),</span>
+<span id="cb51-70"><a href="functions.html#cb51-70" tabindex="-1"></a>         <span class="at">count =</span> <span class="fu">unique</span>(hand_pitch_count_df<span class="sc">$</span>count)) <span class="sc">%&gt;%</span></span>
+<span id="cb51-71"><a href="functions.html#cb51-71" tabindex="-1"></a>  <span class="fu">select</span>(hand, pitch_type, count, x, y, lp)</span>
+<span id="cb51-72"><a href="functions.html#cb51-72" tabindex="-1"></a></span>
+<span id="cb51-73"><a href="functions.html#cb51-73" tabindex="-1"></a>gg <span class="ot">&lt;-</span> gg <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">pq =</span> (lp <span class="sc">-</span> <span class="fu">min</span>(lp)) <span class="sc">/</span> (<span class="fu">max</span>(lp) <span class="sc">-</span> <span class="fu">min</span>(lp))) <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="sc">-</span>lp) <span class="sc">%&gt;%</span></span>
+<span id="cb51-74"><a href="functions.html#cb51-74" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">pq =</span> <span class="dv">1</span><span class="sc">-</span>pq)</span>
+<span id="cb51-75"><a href="functions.html#cb51-75" tabindex="-1"></a></span>
+<span id="cb51-76"><a href="functions.html#cb51-76" tabindex="-1"></a><span class="fu">return</span>(gg)</span>
+<span id="cb51-77"><a href="functions.html#cb51-77" tabindex="-1"></a>}</span></code></pre></div>
 </div>
 <div id="function-3" class="section level2 hasAnchor" number="4.3">
 <h2><span class="header-section-number">4.3</span> Function 3<a href="functions.html#function-3" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -315,7 +329,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb52-21"><a href="functions.html#cb52-21" tabindex="-1"></a>  </span>
 <span id="cb52-22"><a href="functions.html#cb52-22" tabindex="-1"></a>  df <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">label =</span> <span class="fu">paste</span>(hand, pitch_type, count, <span class="at">sep =</span> <span class="st">&quot; &quot;</span>))</span>
 <span id="cb52-23"><a href="functions.html#cb52-23" tabindex="-1"></a>    <span class="fu">ggplot</span>() <span class="sc">+</span></span>
-<span id="cb52-24"><a href="functions.html#cb52-24" tabindex="-1"></a>      <span class="fu">geom_tile</span>(<span class="at">data=</span> df, <span class="fu">aes</span>(x,y, <span class="at">fill =</span> lp2), <span class="at">show.legend =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb52-24"><a href="functions.html#cb52-24" tabindex="-1"></a>      <span class="fu">geom_tile</span>(<span class="at">data=</span> df, <span class="fu">aes</span>(x,y, <span class="at">fill =</span> pq), <span class="at">show.legend =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
 <span id="cb52-25"><a href="functions.html#cb52-25" tabindex="-1"></a>      <span class="fu">geom_rect</span>(<span class="fu">aes</span>(<span class="at">ymax =</span> <span class="fl">3.50</span>, <span class="at">ymin =</span> <span class="fl">1.5</span>, <span class="at">xmax =</span> <span class="fl">0.83</span>, <span class="at">xmin =</span> <span class="sc">-</span><span class="fl">0.83</span>),</span>
 <span id="cb52-26"><a href="functions.html#cb52-26" tabindex="-1"></a>                <span class="at">alpha =</span> <span class="dv">0</span>, <span class="at">linewidth=</span><span class="fl">0.1</span>, <span class="at">colour =</span> <span class="st">&quot;red&quot;</span>) <span class="sc">+</span></span>
 <span id="cb52-27"><a href="functions.html#cb52-27" tabindex="-1"></a>      <span class="fu">ggtitle</span>(<span class="fu">unique</span>(df<span class="sc">$</span>label)) <span class="sc">+</span></span>

@@ -13,22 +13,22 @@ loli$pitch_name <- factor(loli$pitch_name, levels = c("Sweeper","Slider","Curveb
 pie$pitch_name <- factor(pie$pitch_name, levels = c("Fastball","Sinker","Cutter","Splitter","Changeup","Curveball","Slider","Sweeper"))
 
 ui <- dashboardPage(
-  dashboardHeader(title = "Pitch Location"),
+  dashboardHeader(title = "Quality of Pitch Location"),
   
   dashboardSidebar(
     selectInput("v_pitchers", "Pitchers", choices = text %>% 
-                  select(player_name, lp2) %>%
+                  select(player_name, pq) %>%
                   group_by(player_name) %>%
-                  summarise(lp2=mean(lp2))%>%
-                  arrange(desc(lp2)) %>%
+                  summarise(pq=mean(pq))%>%
+                  arrange(desc(pq)) %>%
                   select(player_name))
   ),
   dashboardBody(
     fluidRow(
-      box(title = "Average Quality of Pitch", width = 4, plotOutput("text")),
-      box(title = "Quality of Pitch Distribution", width = 8, plotOutput("bar"))),
+      box(title = "Average Quality of Location", width = 4, plotOutput("text")),
+      box(title = "Quality of Location Distribution", width = 8, plotOutput("bar"))),
     fluidRow(
-      box(title = "Quality of Pitch per Pitch Type", plotOutput("loli")),
+      box(title = "Quality of Location Type", plotOutput("loli")),
       box(title = "Pitch Type Usage", plotOutput("pie")))
   )
 )
@@ -39,9 +39,9 @@ server <- function(input, output) {
     
     text %>%
       filter(player_name == input$v_pitchers) %>%
-      ggplot(aes(x = input$v_pitchers, y = lp2, fill=lp2)) +
+      ggplot(aes(x = input$v_pitchers, y = pq, fill=pq)) +
       geom_rect(xmin=0, xmax=2, ymin=0, ymax=1, show.legend = FALSE)+
-      geom_text(aes(label = lp2), size = 50, color="white")+
+      geom_text(aes(label = pq), size = 50, color="white")+
       scale_fill_gradient(low = "#C6DBEF", high = "#08519C", limits = c(0.6,0.7))+
       theme_void()
     
@@ -51,11 +51,11 @@ server <- function(input, output) {
     
     loli %>%
       filter(player_name == input$v_pitchers) %>%
-      ggplot(aes(x = pitch_name, y = lp2, fill = pitch_name), show.legend = FALSE)+
-      geom_segment(aes(x = pitch_name, xend = pitch_name, y = 0.45, yend = lp2),
+      ggplot(aes(x = pitch_name, y = pq, fill = pitch_name), show.legend = FALSE)+
+      geom_segment(aes(x = pitch_name, xend = pitch_name, y = 0.45, yend = pq),
                    color = "gray", lwd = 2) +
       geom_point(size = 24, pch = 21, col = "white", show.legend = FALSE) +
-      geom_text(aes(label = lp2), color = "grey30", size = 5, fontface = "bold") +
+      geom_text(aes(label = pq), color = "grey30", size = 5, fontface = "bold") +
       scale_fill_manual(values = c("Fastball" = "#FBB4AE",
                                    "Curveball" = "#B3CDE3",
                                    "Slider" = "#CCEBC5",
@@ -74,7 +74,7 @@ server <- function(input, output) {
     
     bar %>%
       filter(player_name == input$v_pitchers) %>%
-      ggplot(aes(x = lp2)) +
+      ggplot(aes(x = pq)) +
       geom_histogram(aes(y = after_stat(count / sum(count)), fill = after_stat(count / sum(count))), bins=50, show.legend = FALSE) +
       scale_fill_gradient(low = "#C6DBEF", high = "#08519C", na.value = NA)+
       xlim(0,1)+

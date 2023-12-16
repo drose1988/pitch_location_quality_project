@@ -6,7 +6,7 @@ The result of all this computation will be 288 data frames each with every possi
 
 All 288 data frames will be compiled together into a single data frame to be used to join to a season's worth of data.
 
-## Create Data Frames and Plots
+## Create Data Frames
 
 ```{r data type transformation}
 hand <- tibble(hand_id = c(1,2,3,4), hand = c("RvR","RvL","LvL","LvR"))
@@ -432,6 +432,8 @@ l_r_cu_3_0 <- location_quality(df = mlbraw2, hand = 4, pitch_type = 5, count = 1
 l_r_cu_3_1 <- location_quality(df = mlbraw2, hand = 4, pitch_type = 5, count = 11, gf = gf_l_r_cu)
 l_r_cu_3_2 <- location_quality(df = mlbraw2, hand = 4, pitch_type = 5, count = 12, gf = gf_l_r_cu)
 ```
+
+## Create Plots
 
 ```{r r_r_ff plots}
 plot_r_r_ff_0_0 <- location_quality_plot(r_r_ff_0_0)

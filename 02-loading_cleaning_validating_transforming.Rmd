@@ -1,0 +1,696 @@
+# Loading, Cleaning, Validating, Transforming
+
+## Loading Dataset
+
+We'll start by loading in Statcast data from the 2014 MLB season through the 2023 season, hosted on the baseball savant website. Each records represents a single pitch and every single pitch contains a wealth of information (93 fields). This code reads in each years worth of pitches (roughly 710,000 pitches per year) stored locally. To reproduce the following scripts for the rest of the project, each season's worth of data will need to be scraped and stored with the scripts included in the github folder.
+
+```{r}
+rm(list = ls())
+```
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(baseballr)
+library(CalledStrike)
+library(fuzzyjoin)
+library(broom)
+library(ggpubr)
+library(set)
+library(gsubfn)
+library(mgcv)
+library(gridExtra)
+library(kableExtra)
+library(flextable)
+library(magrittr)
+library(zoo)
+library(shinydashboard)
+library(rsconnect)
+```
+
+```{r import data}
+mlbraw2014 <- read_csv("/Users/dougrose/Desktop/location/raw_statcast/mlbraw2014.csv",show_col_types=0) %>% suppressMessages()
+mlbraw2015 <- read_csv("/Users/dougrose/Desktop/location/raw_statcast/mlbraw2015.csv",show_col_types=0) %>% suppressMessages()
+mlbraw2016 <- read_csv("/Users/dougrose/Desktop/location/raw_statcast/mlbraw2016.csv",show_col_types=0) %>% suppressMessages()
+mlbraw2017 <- read_csv("/Users/dougrose/Desktop/location/raw_statcast/mlbraw2017.csv",show_col_types=0) %>% suppressMessages()
+mlbraw2018 <- read_csv("/Users/dougrose/Desktop/location/raw_statcast/mlbraw2018.csv",show_col_types=0) %>% suppressMessages()
+mlbraw2019 <- read_csv("/Users/dougrose/Desktop/location/raw_statcast/mlbraw2019.csv",show_col_types=0) %>% suppressMessages()
+mlbraw2020 <- read_csv("/Users/dougrose/Desktop/location/raw_statcast/mlbraw2020.csv",show_col_types=0) %>% suppressMessages()
+mlbraw2021 <- read_csv("/Users/dougrose/Desktop/location/raw_statcast/mlbraw2021.csv",show_col_types=0) %>% suppressMessages()
+mlbraw2022 <- read_csv("/Users/dougrose/Desktop/location/raw_statcast/mlbraw2022.csv",show_col_types=0) %>% suppressMessages()
+mlbraw2023 <- read_csv("/Users/dougrose/Desktop/location/raw_statcast/mlbraw2023.csv",show_col_types=0) %>% suppressMessages()
+```
+
+Format the game_date column to ensure all years have the same format.
+
+```{r transform dates, warning=FALSE}
+mlbraw2014$game_date <- as.Date(mlbraw2014$game_date, format="%m/%d/%y")
+mlbraw2015$game_date <- as.Date(mlbraw2015$game_date, format="%m/%d/%y")
+mlbraw2016$game_date <- as.Date(mlbraw2016$game_date, format="%m/%d/%y")
+mlbraw2017$game_date <- as.Date(mlbraw2017$game_date, format="%m/%d/%y")
+mlbraw2018$game_date <- as.Date(mlbraw2018$game_date, format="%m/%d/%y")
+mlbraw2019$game_date <- as.Date(mlbraw2019$game_date, format="%m/%d/%y")
+mlbraw2020$game_date <- as.Date(mlbraw2020$game_date, format="%m/%d/%y")
+mlbraw2021$game_date <- as.Date(mlbraw2021$game_date, format="%m/%d/%y")
+mlbraw2022$game_date <- as.Date(mlbraw2022$game_date, format="%m/%d/%y")
+mlbraw2023$game_date <- as.Date(mlbraw2023$game_date, format="%m/%d/%y")
+```
+
+Create a single data frame containing all years and remove individual year data frames.
+
+```{r complile single data frame}
+mlbraw <- bind_rows(mlbraw2014, mlbraw2015, mlbraw2016, mlbraw2017, mlbraw2018, 
+                    mlbraw2019, mlbraw2020, mlbraw2021, mlbraw2022, mlbraw2023)
+
+mlbraw <- mlbraw %>% arrange(desc(game_year), desc(game_date), game_pk)
+
+rm(mlbraw2014, mlbraw2015, mlbraw2016, mlbraw2017, mlbraw2018, 
+   mlbraw2019, mlbraw2020, mlbraw2021, mlbraw2022, mlbraw2023)
+```
+
+## Explain Variables of Interest
+
+With a single data frame containing all MLB pitches the past 10 years, I'll start to limit it to only the variables relevant to the project.
+
+-   game_year: simply the year the game was played
+
+-   pitch_name: name of the pitch type thrown by the pitcher (Fastball, Curveball etc.)
+
+-   pitch_type: abbreviated pitch_name (FF represents a 4-Seam Fastball)
+
+-   p_throws: does the pitcher throw right-handed or left-handed
+
+-   stand: does the batter stand right-handed or left-handed
+
+-   balls: how many balls were in the count before the pitch of record
+
+-   strikes: how many strikes were in the count before the pitch of record
+
+-   events: what event took place as a result of this pitch (single, walk, hit by pitch, home run)
+
+-   plate_x: the horizontal location of the pitch as its crossing the plate, measured in feet away from the center of the plate
+
+-   plate_z: the vertical location of the pitch as its crossing the plate, measured in feet off the ground
+
+## Create New Variables
+
+The final data set will be a cleaned version of *mlbraw* containing columns: *year, p_type, count, hand, events, plate_x, plate_z, lw*.
+
+First I'll start by creating single column detailing the outcome of an individual pitch (each row). The **events** column only displays a value if that pitch leads to a batter outcome (walk, single, etc.). NA values represent pitches made that don't end the at-bats, like balls and strikes. So this new **events** column details the result of every pitch.
+
+Also, I'll want to combine the **strikes** and **balls** values creating a new **count** column. This represents the batter's count state each pitch occurs in.
+
+The **stand** column specifies whether the batter hits right-handed or left-handed. The **p_throws** column specifies whether the pitcher throws right-handed or left-handed. For the purposes or this project I'm interested in the combination of the batter/pitcher handedness. The new column **hand** details this.
+
+```{r create new columns}
+mlbraw <- mlbraw %>%
+  mutate(events = if_else(is.na(events) | events == "", type, events)) %>%
+  mutate(events = if_else(events == "B", "ball", 
+                          if_else(events == "S", "strike", events))) %>%
+  mutate(count = paste(balls, strikes, sep="-")) %>%
+  mutate(hand = paste(p_throws, stand, sep = "v"))
+
+mlbraw <- mlbraw %>% select(game_year, hand, count, pitch_type, pitch_name, 
+                            events, plate_x, plate_z, delta_run_exp)
+```
+
+A batter's count can only be one of 12 possible counts so I'll filter the data removing impossible counts. And also filter out impossible events in particular counts. (ex. A batter can't draw a walk in a 2-2 count)
+
+```{r limit batter counts}
+mlbraw <- mlbraw %>% 
+  filter(count %in% c("0-0","0-1","0-2","1-0","1-1","1-2",
+                      "2-0","2-1","2-2","3-0","3-1","3-2"))
+
+mlbraw <- mlbraw %>% 
+  filter(!(count == "3-2" & events == "ball")) %>% 
+  filter(!(count == "3-1" & events == "ball")) %>%
+  filter(!(count == "2-2" & events == "walk")) %>%
+  filter(!(count == "2-1" & events == "walk"))
+```
+
+Change the data type of these variables to factors limiting the possible values and setting orders.
+
+```{r}
+mlbraw$count <- 
+  factor(mlbraw$count, levels=c("0-0","0-1","0-2","1-0","1-1","1-2",
+                                "2-0","2-1","2-2","3-0","3-1","3-2"))
+
+mlbraw$hand <- factor(mlbraw$hand, levels=c("RvR", "RvL", "LvR", "LvL"))
+mlbraw$game_year <- factor(mlbraw$game_year, levels=c("2014","2015","2016","2017",
+                                                      "2018","2019","2020","2021",
+                                                      "2022","2023"))
+```
+
+Finally, I'll remove rows with NA values in our columns of interest.
+
+```{r filter out NA}
+mlbraw <- mlbraw %>%
+    filter(!is.na(game_year), !is.na(hand), !is.na(count), 
+           !is.na(pitch_type), !is.na(pitch_name), !is.na(events), 
+           !is.na(plate_x), !is.na(plate_z), !is.na(delta_run_exp))
+```
+
+## Validating Count, Handedness, Game Year
+
+```{r hitter count distribution, fig.height = 6, fig.width = 10, fig.align = "left"}
+plot1 <- mlbraw %>% group_by(count) %>% count() %>% 
+  ungroup() %>% mutate(p= n/ sum(n)) %>% select(-n)
+
+ggplot(data=plot1, aes(x=p, y=fct_rev(count)))+
+  geom_col(fill="steelblue3") +
+  geom_text(aes(label = paste(100*round(p,2), "%", sep="")),
+        hjust = 1.1, size=4, color="white", fontface="bold")+
+  ggtitle("Batter Count distribution \n")+
+  theme_minimal()+
+  theme(strip.background = element_rect(fill = "lightblue"),
+        axis.text=element_text(size=12),
+        axis.text.x = element_blank(),
+        axis.text.y = element_text(hjust=1),
+        axis.ticks.x = element_blank(),
+        axis.title = element_blank(),
+        panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank(),
+        plot.title = element_text(size=20, hjust = 0.5))+
+  xlim(0,0.27)+
+  coord_cartesian(xlim = c(0, 0.27), expand = FALSE)
+```
+
+```{r, echo=FALSE}
+rm(plot1)
+```
+
+The graph above shows the distribution of batter counts. Here I can start to get an idea of how much data there is to work with to build a location metric. 0-0 counts are well accounted for making up 26% of all pitches, while pitches in 3 ball counts are more scarce.
+
+```{r handedness distribution, fig.height = 2, fig.width = 8, fig.align = "left"}
+plot2 <- mlbraw %>% group_by(hand) %>% count() %>% 
+  ungroup() %>% mutate(p= n/ sum(n)) %>% select(-n)
+  
+ggplot(data=plot2, aes(x=p, y=reorder(hand,p)))+
+  geom_col(fill="steelblue3") +
+  geom_text(aes(label = paste(100*round(p,2), "%", sep="")),
+            hjust = 1.3, size=4, color="white", fontface="bold")+
+  ggtitle("Pitcher and Batter Handedness distribution \n") +
+  theme_minimal()+
+  theme(strip.background = element_rect(fill = "lightblue"),
+        axis.text=element_text(size=12),
+        axis.text.x = element_blank(),
+        axis.ticks.x = element_blank(),
+        axis.title = element_blank(),
+        #axis.text.x = element_blank(),
+        panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank(),
+        plot.title = element_text(size=20, hjust = 0.5))+
+  xlim(0,0.43)+
+  coord_cartesian(xlim = c(0, 0.4), expand = FALSE)
+```
+
+```{r, echo=FALSE}
+rm(plot2)
+```
+
+```{r game_year distribution, fig.height = 6, fig.width = 8, fig.align = "left"}
+plot3 <- mlbraw %>% group_by(game_year) %>% count() %>% 
+  ungroup() %>% mutate(p= n/ sum(n)) %>% select(-n)
+  
+ggplot(data=plot3, aes(x=p, y=game_year))+
+  geom_col(fill="steelblue3") +
+  geom_text(aes(label = paste(100*round(p,2), "%", sep="")),
+            hjust = 1.3, size=4, color="white", fontface="bold")+
+  ggtitle("Pitcher and Batter Handedness distribution \n") +
+  theme_minimal()+
+  theme(strip.background = element_rect(fill = "lightblue"),
+        axis.text=element_text(size=12),
+        axis.text.x = element_blank(),
+        axis.ticks.x = element_blank(),
+        axis.title = element_blank(),
+        #axis.text.x = element_blank(),
+        panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank(),
+        plot.title = element_text(size=20, hjust = 0.5))+
+  xlim(0,0.43)+
+  coord_cartesian(xlim = c(0, 0.15), expand = FALSE)
+```
+
+```{r, echo=FALSE}
+rm(plot3)
+```
+
+As expected, the data set is split pretty evenly by game year. Teams plays 162 regular season games per year, giving me about 2400 games worth of data per year. The only exception is the 60 game 2020 season due to COVID-19.
+
+## Remove and Transform Event Values
+
+The events column may contain some other game event description not related to the pitch being thrown. If the pitcher picks off the runner leading off first base, that event will show up as a record in the data set. If a coach argues in between pitches and gets ejected from the game, that event will show up as a record in the data set. For the purpose of this project, I am only concerned with pitches thrown, and specifically competitive pitches where legitimate attempts are made by the batter. This is a somewhat subjective criteria, but I've chosen to limit the data set and remove the following events.
+
+```{r filter non-competitive pitches}
+mlbraw <- mlbraw %>% 
+  filter(!(events %in% c("catcher_interf","caught_stealing_2b","caught_stealing_3b",
+                         "caught_stealing_home","ejection","field_error","game_advisory",
+                         "intent_walk","other_out","passed_ball","pickoff_1b",
+                         "pickoff_2b","pickoff_3b","pickoff_caught_stealing_2b",
+                         "pickoff_caught_stealing_3b","pickoff_caught_stealing_home",
+                         "pickoff_error_2b","pickoff_error_3b","pitchout",
+                         "runner_double_play","stolen_base_2b","stolen_base_3b",
+                         "stolen_base_3b","stolen_base_home")))
+```
+
+Wild pitches are showing up as a unique events in the data set, when in reality they are just balls thrown extremely away from the strike zone. I've changed the **wild_pitch** values to **ball** or **walk** depending on the count it was thrown in.
+
+```{r change wild pitch to ball or walk}
+mlbraw_a <- mlbraw %>% 
+  filter(count %in% c("0-0","0-1","1-0","1-1","2-0","2-1","0-2","1-2","2-2"))
+
+mlbraw_b <- mlbraw %>% 
+  filter(count %in% c("3-0","3-1","3-2"))
+
+mlbraw_a <- mlbraw_a %>% 
+  mutate(events = if_else(events =="wild_pitch", "ball", events))
+
+mlbraw_b <- mlbraw_b %>% 
+  mutate(events = if_else(events =="wild_pitch", "walk", events))
+
+mlbraw <- bind_rows(mlbraw_a, mlbraw_b) %>% 
+  arrange(game_year, count, events)
+
+rm(mlbraw_a, mlbraw_b)
+```
+
+Similarly, foul balls in two strike counts should be labeled **foul** rather than strike. A strike thrown in a 0-2, 1-2, 2-2, or 3-2 count would actually be a strikeout. So whenever a batter fouls a ball off in a these counts, I'll given the event a new value**: foul**.
+
+```{r 2 strike fouls}
+mlbraw_a <- mlbraw %>% filter(count %in% c("0-2","1-2","2-2","3-2"))
+
+mlbraw_b <- mlbraw %>% filter(!(count %in% c("0-2","1-2","2-2","3-2")))
+
+mlbraw_a <- mlbraw_a %>% mutate(events = if_else(events == "strike", "foul", events))
+
+mlbraw <- bind_rows(mlbraw_a, mlbraw_b)
+
+rm(mlbraw_a, mlbraw_b)
+```
+
+```{r rename hr for plotting purposes}
+mlbraw <- mlbraw %>% mutate(events=if_else(events=="home_run","hr",events))
+```
+
+I'll separate the event values as non_outs and outs for future purposes. And check to make sure these are the distinct events values contained in the main data set.
+
+```{r seperate outs from non-outs}
+non_outs <- c("ball","double","hit_by_pitch","hr", "foul","single",
+              "strike","triple","walk","wild_pitch")
+
+outs <- c("double_play","field_out","fielders_choice","fielders_choice_out",
+          "force_out", "grounded_into_double_play","fielders_choice_out",
+          "sac_bunt","sac_bunt_double_play","sac_fly","sac_fly_double_play",
+          "strikeout","strikeout_double_play","triple_play")
+
+mlbraw %>%
+  select(events) %>%
+  filter(!(events %in% non_outs)) %>%
+  filter(!(events %in% outs)) # shouldn't return any records
+```
+
+I'll assign the value **out** to all the different events resulting in an out rather than using their description. Limiting the possible event values will be essential for the steps going forward.
+
+```{r}
+mlbraw <- mlbraw %>% mutate(events = if_else(events %in% outs, "out", events))
+```
+
+Reorder the factor levels for plotting purposes.
+
+```{r}
+mlbraw$events <-factor(mlbraw$events, 
+                       levels=c("strike","foul","ball","walk","hit_by_pitch",
+                                "out","single","double","triple","hr"))
+```
+
+## Event Outcome Frequency by Count
+
+```{r event outcome frequency by count, fig.height = 10, fig.width = 10, fig.align = "left"}
+plot4 <- inner_join(mlbraw %>% group_by(count,events) %>% count(),
+                   mlbraw %>% group_by(count) %>% count(),
+                   join_by(count)) %>%
+  mutate(p = n.x / n.y) %>%
+  select(count, events, p) %>%
+  filter(events != "hit_by_pitch")
+
+ggplot(plot4)+
+  geom_col(aes(x=events, y=p), 
+           fill="grey",width=0.9, show.legend = FALSE)+
+  geom_hline(yintercept=0, linewidth=0.1)+
+  theme_bw()+
+  ylim(0, 0.63)+
+  facet_wrap(~count, ncol=3, nrow=4, scales="free")+
+  ggtitle("Event Outcome Frequency by Count \n")+
+  theme(strip.background = element_rect(fill = "lightblue"),
+        strip.text = element_text(size=20),
+        axis.text=element_text(size=16),
+        axis.text.x = element_text(angle = 45, hjust = 1,
+                                   size=14,color="grey40"),
+        axis.title = element_blank(),
+        plot.title = element_text(size=20, hjust = 0.5),
+        panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank())
+```
+
+```{r, echo=FALSE}
+rm(plot4)
+```
+
+The plot above breaks down the frequency of events in different batter counts, specifically when the events have been narrowed down to 10 values. A pitcher is much more likely to throw a strike in a 3-0 count than a 0-0 count or 0-2 count. And is much more likely to record an out in two-strike counts than no-strike or one-strike counts. Glancing over the plot, the results appear to be what I'd expect which gives some validation to the contents of the data set.
+
+## Average Delta Run Expectancy
+
+The purpose of this project is to quantify how good or bad a pitch location is based on the pitch type, count, handedness of the pitch and batter, and of course the location of the pitch on x and y plane. But what metric should be used quantify and formulate the results.
+
+The column **delta_run_exp** exists in the data frame that specifies the value of that individual event in terms of *how the run expectancy changed based on that individual event*. Every fixed situation in a game has an run expectancy based on where base runners are located prior to the pitch, number of outs prior to the pitch, and the batter count prior to the pitch.
+
+Let's look at an example scenario. An at-bat begins with 0 outs and runners on 1st and 2nd starting in a 0-0 count. In this particular state there is an expected number of runs scored for the remainder of the inning based on those parameters. In 2023, on average 1.465 runs scored in the remainder of the inning for that specific scenario.
+
+If the first pitch thrown in the at-bat is a strike, we have a new scenario with a different expected runs scored for the remainder of the inning. Now there are 0 outs with runners on 1st and 2nd in a 0-1 count. And now the average runs scored for the remained of the inning is slightly different than before: 1.376.
+
+So the strike thrown by the pitcher changed the expected runs scored by -0.089 and will display that vlaue in the **delta_run_exp** column. Every pitch in a baseball game can be evaluated by comparing the expected runs prior to the pitch thrown to the expected runs after the pitch is thrown.
+
+This appears to be best measure available to apply to my location quality metric using the delta_run_exp value to quality the result of any pitch. The only problem is that delta_run_exp derives it's value from: **count**, **outs**, **base runners**, and resulting **event**. In my project I aim to evaluate pitches on different conditions. Really, I am just looking for the average change in run expectancy based on the **count** and **event**. So the goal here is to transform the existing data set so rather than relying on **delta_run_exp** as our metric of success/fail, we create a new variable that gives a change in run expectancy based on the parameters we have set for this project. So when a specific event takes place (ball, strike, double, fielders choice etc.) in a specific count (0-1, 2-0, 3-2 etc.) we have the average change in run expectancy.
+
+```{r}
+re_outs <- mlbraw %>% 
+  filter(events == "out") %>%
+  group_by(count, events) %>%
+  summarise(re = round(mean(delta_run_exp, na.rm = TRUE), 4), .groups = 'drop')
+
+re_non_outs <- mlbraw %>% 
+  filter(events %in% non_outs) %>% 
+  group_by(count, events) %>%  
+  summarise(re = round(mean(delta_run_exp, na.rm = TRUE), 4), .groups = 'drop')
+
+re_lookup <- bind_rows(re_outs, re_non_outs) %>% arrange(count, events)
+
+rm(outs, non_outs, re_outs, re_non_outs)
+```
+
+Treat every event that resulted in an out as a single out event (regardless of the type of out or how many outs resulted in the play), this is meant to neutralize the affect base runners have on the changing run expectancy as well as the effect of number of outs.
+
+I've separated outs from non_outs and aggregated to find the average change in run expectancy for every possible event in every possible count.
+
+```{r}
+anti_join(mlbraw %>% distinct(count, events),
+          re_lookup %>% distinct(count, events),
+          join_by(count, events))
+```
+
+With the clean *mlbraw* data set and linear weights look up table, we check to if any combination of count and events from the two data sets are not compatible No combination of count and events exist in one table that is not in the other.
+
+Finally, if a pitch resulted in a hit by pitch I've decided to treat the event as if it were a ball. And in effect, take the change in run expectancy from *ball* rather than *hit_by_pitch*. This leads to more continuity between location plots where rare *hit_by_pitch* events aren't strongly influencing certain locations and throwing off the remaining areas.
+
+```{r change hbp to ball or walk}
+mlbraw_a <- mlbraw %>% 
+  filter(count %in% c("0-0","0-1","1-0","1-1","2-0","2-1","0-2","1-2","2-2"))
+
+mlbraw_b <- mlbraw %>% 
+  filter(count %in% c("3-0","3-1","3-2"))
+
+mlbraw_a <- mlbraw_a %>% 
+  mutate(events = if_else(events == "hit_by_pitch", "ball", events))
+
+mlbraw_b <- mlbraw_b %>% 
+  mutate(events = if_else(events == "hit_by_pitch", "walk", events))
+
+mlbraw <- bind_rows(mlbraw_a, mlbraw_b) %>% 
+  arrange(game_year, count, events)
+
+rm(mlbraw_a, mlbraw_b)
+```
+
+## Join Lookup Table to Data Set
+
+Now I'll take the main data set with the past 10 years worth of pitches and join the look up table to it, essentially replacing the *delta_run_exp* values with my new average change in run expectancy values.
+
+```{r}
+mlbraw <- mlbraw %>% 
+  left_join(re_lookup, join_by(count, events)) %>% select(-delta_run_exp)
+```
+
+Here is an overview of how each event in each count impacts run expectancy. We now have a specific change in run expectancy value for every combination of count and events.
+
+```{r Average Change in Run Expenctancy Based on Count and Events, fig.height = 12, fig.width = 12, fig.align = "left"}
+plot5 <- re_lookup %>% filter(events != "hit_by_pitch")
+
+plot5$events <-factor(plot5$events, 
+                      levels=c("out","strike","foul","ball","walk",
+                               "single","double","triple","hr"))
+
+ggplot(data = plot5, aes(x=count, y=events, fill=re))+
+  geom_tile(color = "black", show.legend = FALSE)+
+  geom_text(aes(x=count, y=events, label=round(re,2)), color = "black", size = 4)+
+  ggtitle("Average Change in Run Expenctancy Based on Count and Events \n")+
+  scale_fill_gradient2(high="red", mid="white", low="blue") +
+  theme_void()+ 
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, size = 12, hjust = 1),
+        axis.text.y = element_text(size = 12, hjust = 0.9),
+        plot.title = element_text(size=20, hjust = 0.5))+
+  coord_fixed()
+```
+
+```{r, echo=FALSE}
+rm(plot5)
+```
+
+As you might expect, event outcomes have slightly different run expectancy changes depending on the count. A home run hit in an 0-2 count has more added run value than a home run hit in a 3-0 count. This is because an 0-2 count is already a more favorable position for the pitcher to be in than a 3-0 count, with the run expectancy starting out lower before the home run is hit.
+
+Similarly, an out recorded in an 3-0 count is considerably more favorable to the pitcher than an out recorded in a 0-2 count. This makes logical sense to any baseball enthusiast.
+
+Thankfully, when comparing average change in run expectancy values by count we're not seeing any drastic difference from one grouping to the other. And all the values appear to make a great deal of baseball sense.
+
+## Addressing Pitch Types
+
+So far in the cleaning process, we've avoided the pitch_type column. Here's an overview at the pitch types make up a data set containing all pitches thrown the last 10 years in all MLB regular season game.
+
+```{r, fig.height = 5, fig.width = 10, fig.align = "left"}
+plot6 <- mlbraw %>% group_by(pitch_type, pitch_name) %>% count() %>% arrange(desc(n))
+
+ggplot(plot6, aes(x=n, y=reorder(pitch_name, n)))+
+  geom_col(fill="steelblue3")+
+  geom_text(aes(label = n), hjust = -0.1, size=4)+
+  ggtitle("Count of Observations by Pitch Type \n")+
+  theme_minimal()+
+  theme(strip.background = element_rect(fill = "lightblue"),
+        axis.text=element_text(size=12),
+        axis.text.x = element_blank(),
+        axis.text.y = element_text(hjust=1),
+        axis.ticks.x = element_blank(),
+        axis.title = element_blank(),
+        panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank(),
+        plot.title = element_text(size=20, hjust = 0.5))+
+  xlim(0,2500000)+
+  coord_cartesian(expand = FALSE)
+```
+
+```{r, echo=FALSE}
+rm(plot6)
+```
+
+4-Seam Fastballs make up a major chunk of the data set. Sinkers, Sliders, Changeups, Curveballs, and cutters are well accounted for but a significant drop off in observations occurs for the remaining pitch types. For now, we will need to transform some of the pitch types.
+
+Some of the pitch type values are variations of Curveballs including: Knuckle Curves, Slow Curves, and Slurves. These pitch types do have their own distinct qualities and hand grip, but these are minor variations on the standard Curveball, especially when compared to other pitches. I'll transform these Curveball variations so they take the standard Curveball pitch type value.
+
+Some pitch types are so rare compared to the 6 or so most commonly thrown pitches that for the purpose of this project they can be eliminated going forward. Screwballs, forkballs, euphus', other will be removed.
+
+And Pitch Outs are not considered competitive pitches so they will be removed.
+
+Sweepers are a somewhat new pitch type gaining popularity and usage especially within the past year. They are similar to sliders in their movement but tend to have more horizontal break and less vertical break, and tend to have less velocity than sliders. Much debate has been made whether sweepers should be considering their own designated pitch type or as a variation of the slider. For purposes of this project due to the minimal observations, I will transform sweepers into sliders.
+
+```{r}
+mlbraw <- mlbraw %>% filter(pitch_type %in% c("FF","CU","SL","SI","CH","FS",
+                                              "FC","KC","ST","CS","SV"))
+
+mlbraw <- mlbraw %>%
+  mutate(pitch_type = if_else(pitch_type %in% c("CU","CS","KC", "SV"), "CU",
+                              if_else(pitch_type %in% c("CH","FS"), "CH",
+                                      if_else(pitch_type %in% c("SL","ST"), "SL",
+                                              pitch_type)))) %>%
+  mutate(pitch_name = if_else(pitch_type == "CU", "Curveball", pitch_name)) %>%
+  mutate(pitch_name = if_else(pitch_type == "SL", "Slider", pitch_name)) %>%
+  mutate(pitch_name = if_else(pitch_type == "CH", "Changeup", pitch_name))
+```
+
+```{r, fig.height = 3, fig.width = 10, fig.align = "left"}
+plot7 <- mlbraw %>% group_by(pitch_name) %>% count() %>% ungroup() %>% mutate(s=sum(n)) %>% mutate(p = n/s)
+
+ggplot(plot7, aes(x=p, y=reorder(pitch_name, p), label=p))+
+  geom_col(fill="steelblue3")+
+  geom_text(aes(label = paste(100*round(p,2), "%", sep="")),
+            hjust = 1.1, size=4, color="white", fontface="bold")+
+  ggtitle("Updated Count of Observations by Pitch Type \n")+
+  theme_minimal()+
+  theme(strip.background = element_rect(fill = "lightblue"),
+        axis.text=element_text(size=12),
+        axis.text.x = element_blank(),
+        axis.text.y = element_text(hjust=1),
+        axis.ticks.x = element_blank(),
+        axis.title = element_blank(),
+        panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank(),
+        plot.title = element_text(size=20, hjust = 0.5))+
+  xlim(0,0.38)+
+  coord_cartesian(expand = FALSE)
+```
+
+```{r, echo=FALSE}
+rm(plot7)
+```
+
+This leaves me with 6 pitch types to use to build the location quality metric with. 4-Seam Fastballs are much more well represented than the remaining pitch types, so we'll see how this impacts the results going forward.
+
+```{r}
+mlbraw$pitch_type <- factor(mlbraw$pitch_type, levels=c("FF","SI","FC","CH","CU","SL"))
+```
+
+```{r event outcome frequency by pitch type, fig.height = 6, fig.width = 10, fig.align = "left"}
+plot8 <- 
+inner_join(mlbraw %>% group_by(pitch_type,events) %>%count(),
+           mlbraw %>% group_by(pitch_type) %>% count(),
+           join_by(pitch_type)) %>%
+  mutate(p = n.x / n.y) %>%
+  select(pitch_type, events, p)
+
+plot8$pitch_type <- factor(plot8$pitch_type, levels=c("FF","SI","FC","CH","CU","SL"))
+plot8$events <- factor(plot8$events, levels=c("strike","foul","ball","walk","hit_by_pitch",
+                                              "out","single","double","triple","hr"))
+
+ggplot(plot8)+
+  geom_col(aes(x=events, y=p), fill="grey")+
+  ggtitle("Event Outcome Frequency by Pitch Type \n")+
+  ylim(0, 0.4)+
+  theme_bw()+
+  facet_wrap(~pitch_type, ncol=3, nrow=3, scales="free")+
+  theme(strip.background = element_rect(fill = "lightblue"),
+        strip.text = element_text(size=20),
+        axis.text=element_text(size=16),
+        axis.text.x = element_text(angle = 45, hjust = 1,
+                                   size=14,color="grey40"),
+        axis.title = element_blank(),
+        plot.title = element_text(size=20, hjust = 0.5),
+        panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank())
+```
+
+```{r, echo=FALSE}
+rm(plot8)
+```
+
+According to the graph above, event outcomes have generally the same frequency regardless of pitch type. Pitch types like curveballs, sliders, and changeups with more movement and aggressive hand grips are thrown for balls more often than strikes, while variations of fastballs are thrown for strikes more often.
+
+## Cleaning Pitch Locations
+
+Next, I'll bring attention to the location of each pitch. *Plate_x* will take a value depending on how far away the pitch is horizontally from the center of the plate in feet If a pitch is thrown direction down the middle of the plate, its plate_x value will be 0. Home plate is 1.66 feet wide, so pitches with plate_x values ranging from -0.83 to 0.83 cross some part of the plate. Here is the distribution of plate_x values rounded up as whole number.
+
+```{r plot plate_x}
+mlbraw %>% mutate(plate_x = round(plate_x,0)) %>%
+  group_by(plate_x) %>% count() %>% arrange(desc(plate_x)) %>%
+  regulartable() %>% autofit() %>%
+  width(width=1) %>% height(height=0.1)
+```
+
+The plate_x pitch distribution is normal with an extremely high peak at 0. Pitches thrown more than 4 inches to the right or left of the center of the strike zone are extremely rare, so much so that I imagine data entry errors could be the reason for such extreme values. Regardless I've chosen to narrow the data set to only include pitches with plate_x values between -4 and 4.
+
+```{r filter plate_x}
+mlbraw <- mlbraw %>% filter(plate_x >= -4, plate_x <= 4)
+```
+
+Turning attention to plate_z, a similar location distribution exists in the data set. The vast majority of pitches are thrown 2 or 3 feet above the ground (essentially the middle of the strike zone vertically). Pitches more than 6 feet above the ground are quite rare, as well as pitches 2 feet below the ground (bounced on before arriving). I'll mark these heights as cutoffs and filter out pitches from the data set outside this range.
+
+```{r plot plate_z}
+mlbraw %>% mutate(plate_z = round(plate_z,0)) %>%
+  group_by(plate_z) %>% count() %>% arrange(desc(plate_z)) %>%
+  regulartable() %>% autofit() %>%
+  width(j=~plate_z,width=1) %>% width(j=~n,width=1)
+```
+
+```{r filter plate_z}
+mlbraw <- mlbraw %>% filter(plate_z >= -2, plate_z <= 6)
+```
+
+## Count of All Observations
+
+The challenge moving forward is evaluating the effectiveness of a pitch's location when some combination of pitch type, count, and handedness is rare in the data set. 4-Seam Fastballs thrown by a RHP to a RHB in a 0-0 count is by far the most common situation making up 240,591 observations of the data set. While Curveballs thrown by LHP to LHB in 3-0 counts produce only 21 observations. How can 21 observations effectively map out pitch location quality?
+
+```{r rename plate_x plate_z}
+mlbraw <- mlbraw %>%
+  rename(x=plate_x, y=plate_z) %>%
+  select(hand, pitch_type, count, events, x, y, re)
+```
+
+```{r heatmap of all observations, fig.height = 12, fig.width = 12, fig.align = "center"}
+plot9 <- mlbraw %>% group_by(hand, count, pitch_type) %>% count() %>% ungroup()
+
+ggplot(data = plot9, aes(x=pitch_type, y=count))+
+  geom_tile(aes(fill=n), alpha = 0.5,show.legend = FALSE)+
+  facet_wrap(~hand, scale="free")+
+  geom_text(aes(x=pitch_type, y=count, label=n))+
+  scale_fill_gradientn(colours = c("blue","white","red"),
+                       values = scales::rescale(c(min(plot9$n), 
+                                                  quantile(plot9$n, 0.1),
+                                                  max(plot9$n))),
+                       guide="colorbar") +
+  theme_void()+ 
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, size = 8, hjust = 1),
+        axis.text.y = element_text(size = 12, hjust = 0.9),
+        plot.title = element_text(size=20, hjust = 0.5))
+```
+
+```{r, echo=FALSE}
+rm(plot9)
+```
+
+To work around this challenge, I've decided to essentially double the data set. All pitches thrown by RHP to RHB will also include all pitches thrown by LHP to LHB with hand label *LvL* changed to *RvR.* The added data will have opposite plate_x values. So a pitch thrown by LHP to LHB with a plate_x of 1 and plate_z of 4 will be added as a pitch thrown by RHP to RHB with a plate_x of -1 and plate_z of 4. This mutation of data doubles the number of observations in the main data set.
+
+```{r, double up on handedness}
+mlbraw_r_r <- bind_rows(mlbraw %>% filter(hand == "RvR"),
+mlbraw %>% filter(hand == "LvL") %>%
+mutate(x = x*-1) %>%
+mutate(hand = "RvR"))
+
+mlbraw_l_l <- bind_rows(mlbraw %>% filter(hand == "LvL"),
+mlbraw %>% filter(hand == "RvR") %>%
+mutate(x = x*-1) %>%
+mutate(hand = "LvL"))
+
+mlbraw_r_l <- bind_rows(mlbraw %>% filter(hand == "RvL"),
+mlbraw %>% filter(hand == "LvR") %>%
+mutate(x = x*-1) %>%
+mutate(hand = "RvL"))
+
+mlbraw_l_r <- bind_rows(mlbraw %>% filter(hand == "LvR"),
+mlbraw %>% filter(hand == "RvL") %>%
+mutate(x = x*-1) %>%
+mutate(hand = "LvR"))
+
+mlbraw2 <- bind_rows(mlbraw_r_r, mlbraw_l_l,
+mlbraw_r_l, mlbraw_l_r)
+
+rm(mlbraw_r_r, mlbraw_l_l, mlbraw_r_l, mlbraw_l_r, mlbraw)
+```
+
+The same heatmap now shows double the number of observations for each combination of handedness, pitch type, and count. Some combinations still have low number of observations but it's an improvement over the previous data set before doubling up.
+
+```{r, heatmap of all observations2, fig.height = 12, fig.width = 12, fig.align = "center"}
+plot10 <- mlbraw2 %>% group_by(hand, count, pitch_type) %>% count() %>% ungroup()
+
+ggplot(data = plot10, aes(x=pitch_type, y=count))+
+  geom_tile(aes(fill=n), alpha = 0.5,show.legend = FALSE)+
+  facet_wrap(~hand, scale="free")+
+  geom_text(aes(x=pitch_type, y=count, label=n))+
+  scale_fill_gradientn(colours = c("blue","white","red"),
+                       values = scales::rescale(c(min(plot10$n), 
+                                                  quantile(plot10$n, 0.1),
+                                                  max(plot10$n))),
+                       guide="colorbar") +
+  theme_void()+ 
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, size = 8, hjust = 1),
+        axis.text.y = element_text(size = 12, hjust = 0.9),
+        plot.title = element_text(size=20, hjust = 0.5))
+```
+
+```{r, echo=FALSE}
+rm(plot10)
+```

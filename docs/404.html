@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Page not found | Location Quality</title>
-  <meta name="description" content="Page not found | Location Quality" />
+  <title>Page not found | Quality of Location - developing a new pitch metric</title>
+  <meta name="description" content="Page not found | Quality of Location - developing a new pitch metric" />
   <meta name="generator" content="bookdown 0.37 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Page not found | Location Quality" />
+  <meta property="og:title" content="Page not found | Quality of Location - developing a new pitch metric" />
   <meta property="og:type" content="book" />
   
   
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Page not found | Location Quality" />
+  <meta name="twitter:title" content="Page not found | Quality of Location - developing a new pitch metric" />
   
   
   
@@ -23,7 +23,7 @@
 <meta name="author" content="Doug Rose" />
 
 
-<meta name="date" content="2023-12-12" />
+<meta name="date" content="2023-12-14" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -52,6 +52,8 @@
 <link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
 <link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
 <script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<link href="libs/tabwid-1.1.3/tabwid.css" rel="stylesheet" />
+<script src="libs/tabwid-1.1.3/tabwid.js"></script>
 
 
 <style type="text/css">
@@ -143,27 +145,27 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a>
 <ul>
 <li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#project-overview"><i class="fa fa-check"></i><b>1.1</b> Project Overview</a></li>
-<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#loading-dataset"><i class="fa fa-check"></i><b>1.2</b> Loading Dataset</a></li>
 </ul></li>
-<li class="chapter" data-level="2" data-path="cleaning-validating-transforming.html"><a href="cleaning-validating-transforming.html"><i class="fa fa-check"></i><b>2</b> Cleaning, Validating, Transforming</a>
+<li class="chapter" data-level="2" data-path="loading-cleaning-validating-transforming.html"><a href="loading-cleaning-validating-transforming.html"><i class="fa fa-check"></i><b>2</b> Loading, Cleaning, Validating, Transforming</a>
 <ul>
-<li class="chapter" data-level="2.1" data-path="cleaning-validating-transforming.html"><a href="cleaning-validating-transforming.html#explain-variables-of-interest"><i class="fa fa-check"></i><b>2.1</b> Explain Variables of Interest</a></li>
-<li class="chapter" data-level="2.2" data-path="cleaning-validating-transforming.html"><a href="cleaning-validating-transforming.html#create-new-variables"><i class="fa fa-check"></i><b>2.2</b> Create New Variables</a></li>
-<li class="chapter" data-level="2.3" data-path="cleaning-validating-transforming.html"><a href="cleaning-validating-transforming.html#validating-count-handedness-game-year"><i class="fa fa-check"></i><b>2.3</b> Validating Count, Handedness, Game Year</a></li>
-<li class="chapter" data-level="2.4" data-path="cleaning-validating-transforming.html"><a href="cleaning-validating-transforming.html#remove-and-transform-event-values"><i class="fa fa-check"></i><b>2.4</b> Remove and Transform Event Values</a></li>
-<li class="chapter" data-level="2.5" data-path="cleaning-validating-transforming.html"><a href="cleaning-validating-transforming.html#event-outcome-frequency-by-count"><i class="fa fa-check"></i><b>2.5</b> Event Outcome Frequency by Count</a></li>
-<li class="chapter" data-level="2.6" data-path="cleaning-validating-transforming.html"><a href="cleaning-validating-transforming.html#average-delta-run-expectancy"><i class="fa fa-check"></i><b>2.6</b> Average Delta Run Expectancy</a></li>
-<li class="chapter" data-level="2.7" data-path="cleaning-validating-transforming.html"><a href="cleaning-validating-transforming.html#join-lookup-table-to-main-data"><i class="fa fa-check"></i><b>2.7</b> Join Lookup Table To Main Data</a></li>
-<li class="chapter" data-level="2.8" data-path="cleaning-validating-transforming.html"><a href="cleaning-validating-transforming.html#addressing-pitch-types"><i class="fa fa-check"></i><b>2.8</b> Addressing Pitch Types</a></li>
-<li class="chapter" data-level="2.9" data-path="cleaning-validating-transforming.html"><a href="cleaning-validating-transforming.html#cleaning-pitch-locations"><i class="fa fa-check"></i><b>2.9</b> Cleaning Pitch Locations</a></li>
-<li class="chapter" data-level="2.10" data-path="cleaning-validating-transforming.html"><a href="cleaning-validating-transforming.html#count-of-all-observations"><i class="fa fa-check"></i><b>2.10</b> Count of All Observations</a></li>
+<li class="chapter" data-level="2.1" data-path="loading-cleaning-validating-transforming.html"><a href="loading-cleaning-validating-transforming.html#loading-dataset"><i class="fa fa-check"></i><b>2.1</b> Loading Dataset</a></li>
+<li class="chapter" data-level="2.2" data-path="loading-cleaning-validating-transforming.html"><a href="loading-cleaning-validating-transforming.html#explain-variables-of-interest"><i class="fa fa-check"></i><b>2.2</b> Explain Variables of Interest</a></li>
+<li class="chapter" data-level="2.3" data-path="loading-cleaning-validating-transforming.html"><a href="loading-cleaning-validating-transforming.html#create-new-variables"><i class="fa fa-check"></i><b>2.3</b> Create New Variables</a></li>
+<li class="chapter" data-level="2.4" data-path="loading-cleaning-validating-transforming.html"><a href="loading-cleaning-validating-transforming.html#validating-count-handedness-game-year"><i class="fa fa-check"></i><b>2.4</b> Validating Count, Handedness, Game Year</a></li>
+<li class="chapter" data-level="2.5" data-path="loading-cleaning-validating-transforming.html"><a href="loading-cleaning-validating-transforming.html#remove-and-transform-event-values"><i class="fa fa-check"></i><b>2.5</b> Remove and Transform Event Values</a></li>
+<li class="chapter" data-level="2.6" data-path="loading-cleaning-validating-transforming.html"><a href="loading-cleaning-validating-transforming.html#event-outcome-frequency-by-count"><i class="fa fa-check"></i><b>2.6</b> Event Outcome Frequency by Count</a></li>
+<li class="chapter" data-level="2.7" data-path="loading-cleaning-validating-transforming.html"><a href="loading-cleaning-validating-transforming.html#average-delta-run-expectancy"><i class="fa fa-check"></i><b>2.7</b> Average Delta Run Expectancy</a></li>
+<li class="chapter" data-level="2.8" data-path="loading-cleaning-validating-transforming.html"><a href="loading-cleaning-validating-transforming.html#join-lookup-table-to-data-set"><i class="fa fa-check"></i><b>2.8</b> Join Lookup Table to Data Set</a></li>
+<li class="chapter" data-level="2.9" data-path="loading-cleaning-validating-transforming.html"><a href="loading-cleaning-validating-transforming.html#addressing-pitch-types"><i class="fa fa-check"></i><b>2.9</b> Addressing Pitch Types</a></li>
+<li class="chapter" data-level="2.10" data-path="loading-cleaning-validating-transforming.html"><a href="loading-cleaning-validating-transforming.html#cleaning-pitch-locations"><i class="fa fa-check"></i><b>2.10</b> Cleaning Pitch Locations</a></li>
+<li class="chapter" data-level="2.11" data-path="loading-cleaning-validating-transforming.html"><a href="loading-cleaning-validating-transforming.html#count-of-all-observations"><i class="fa fa-check"></i><b>2.11</b> Count of All Observations</a></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="example-model.html"><a href="example-model.html"><i class="fa fa-check"></i><b>3</b> Example Model</a>
 <ul>
-<li class="chapter" data-level="3.1" data-path="example-model.html"><a href="example-model.html#scatterplot-of-example"><i class="fa fa-check"></i><b>3.1</b> Scatterplot of Example</a></li>
-<li class="chapter" data-level="3.2" data-path="example-model.html"><a href="example-model.html#example-scatterplot-filtered"><i class="fa fa-check"></i><b>3.2</b> Example Scatterplot Filtered</a></li>
-<li class="chapter" data-level="3.3" data-path="example-model.html"><a href="example-model.html#create-grid-to-base-the-model-locations-off-of"><i class="fa fa-check"></i><b>3.3</b> Create grid to base the model locations off of</a></li>
-<li class="chapter" data-level="3.4" data-path="example-model.html"><a href="example-model.html#apply-the-game-data-results-to-the-grid"><i class="fa fa-check"></i><b>3.4</b> Apply the game data results to the grid</a></li>
+<li class="chapter" data-level="3.1" data-path="example-model.html"><a href="example-model.html#scatterplot-of-example-data"><i class="fa fa-check"></i><b>3.1</b> Scatterplot of Example Data</a></li>
+<li class="chapter" data-level="3.2" data-path="example-model.html"><a href="example-model.html#scatterplot-of-example-data-filtered"><i class="fa fa-check"></i><b>3.2</b> Scatterplot of Example Data Filtered</a></li>
+<li class="chapter" data-level="3.3" data-path="example-model.html"><a href="example-model.html#create-grid"><i class="fa fa-check"></i><b>3.3</b> Create Grid</a></li>
+<li class="chapter" data-level="3.4" data-path="example-model.html"><a href="example-model.html#apply-game-results-to-grid"><i class="fa fa-check"></i><b>3.4</b> Apply Game Results to Grid</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="functions.html"><a href="functions.html"><i class="fa fa-check"></i><b>4</b> Functions</a>
 <ul>
@@ -173,14 +175,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="5" data-path="applying-functions.html"><a href="applying-functions.html"><i class="fa fa-check"></i><b>5</b> Applying Functions</a>
 <ul>
-<li class="chapter" data-level="5.1" data-path="applying-functions.html"><a href="applying-functions.html#create-data-frames-and-plots"><i class="fa fa-check"></i><b>5.1</b> Create Data Frames and Plots</a></li>
+<li class="chapter" data-level="5.1" data-path="applying-functions.html"><a href="applying-functions.html#create-data-frames"><i class="fa fa-check"></i><b>5.1</b> Create Data Frames</a></li>
+<li class="chapter" data-level="5.2" data-path="applying-functions.html"><a href="applying-functions.html#create-plots"><i class="fa fa-check"></i><b>5.2</b> Create Plots</a></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="visualizing-resulting-plots.html"><a href="visualizing-resulting-plots.html"><i class="fa fa-check"></i><b>6</b> Visualizing Resulting Plots</a></li>
+<li class="chapter" data-level="6" data-path="visualizing-resulting-plots.html"><a href="visualizing-resulting-plots.html"><i class="fa fa-check"></i><b>6</b> Visualizing Resulting Plots</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="visualizing-resulting-plots.html"><a href="visualizing-resulting-plots.html#plot-outputs"><i class="fa fa-check"></i><b>6.1</b> Plot Outputs</a></li>
+<li class="chapter" data-level="6.2" data-path="visualizing-resulting-plots.html"><a href="visualizing-resulting-plots.html#compile-results-into-1-lookup-table"><i class="fa fa-check"></i><b>6.2</b> Compile Results into 1 Lookup Table</a></li>
+</ul></li>
 <li class="chapter" data-level="7" data-path="applying-results-to-2023-season.html"><a href="applying-results-to-2023-season.html"><i class="fa fa-check"></i><b>7</b> Applying Results to 2023 Season</a>
 <ul>
 <li class="chapter" data-level="7.1" data-path="applying-results-to-2023-season.html"><a href="applying-results-to-2023-season.html#cleaning-2023-dataset"><i class="fa fa-check"></i><b>7.1</b> Cleaning 2023 Dataset</a></li>
-<li class="chapter" data-level="7.2" data-path="applying-results-to-2023-season.html"><a href="applying-results-to-2023-season.html#distribution-of-location-quality-by-pitch-type"><i class="fa fa-check"></i><b>7.2</b> Distribution of Location Quality by Pitch Type</a></li>
-<li class="chapter" data-level="7.3" data-path="applying-results-to-2023-season.html"><a href="applying-results-to-2023-season.html#distribution-of-location-quality-by-count"><i class="fa fa-check"></i><b>7.3</b> Distribution of Location Quality by Count</a></li>
+<li class="chapter" data-level="7.2" data-path="applying-results-to-2023-season.html"><a href="applying-results-to-2023-season.html#location-quality-by-pitch-type"><i class="fa fa-check"></i><b>7.2</b> Location Quality by Pitch Type</a></li>
+<li class="chapter" data-level="7.3" data-path="applying-results-to-2023-season.html"><a href="applying-results-to-2023-season.html#location-quality-by-count"><i class="fa fa-check"></i><b>7.3</b> Location Quality by Count</a></li>
 <li class="chapter" data-level="7.4" data-path="applying-results-to-2023-season.html"><a href="applying-results-to-2023-season.html#final-cleaning"><i class="fa fa-check"></i><b>7.4</b> Final Cleaning</a></li>
 </ul></li>
 <li class="chapter" data-level="8" data-path="shiny-dashbaord.html"><a href="shiny-dashbaord.html"><i class="fa fa-check"></i><b>8</b> Shiny Dashbaord</a></li>
@@ -196,7 +203,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <div class="body-inner">
         <div class="book-header" role="navigation">
           <h1>
-            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Location Quality</a>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Quality of Location - developing a new pitch metric</a>
           </h1>
         </div>
 
