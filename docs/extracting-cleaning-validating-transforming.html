@@ -1,0 +1,1122 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 2 Extracting, Cleaning, Validating, Transforming | Quality of Location - developing a new pitch metric</title>
+  <meta name="description" content="Chapter 2 Extracting, Cleaning, Validating, Transforming | Quality of Location - developing a new pitch metric" />
+  <meta name="generator" content="bookdown 0.37 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 2 Extracting, Cleaning, Validating, Transforming | Quality of Location - developing a new pitch metric" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 2 Extracting, Cleaning, Validating, Transforming | Quality of Location - developing a new pitch metric" />
+  
+  
+  
+
+<meta name="author" content="Doug Rose" />
+
+
+<meta name="date" content="2023-12-16" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="index.html"/>
+<link rel="next" href="example-model.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Pitch Location Quality Project</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#project-overview"><i class="fa fa-check"></i><b>1.1</b> Project Overview</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="extracting-cleaning-validating-transforming.html"><a href="extracting-cleaning-validating-transforming.html"><i class="fa fa-check"></i><b>2</b> Extracting, Cleaning, Validating, Transforming</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="extracting-cleaning-validating-transforming.html"><a href="extracting-cleaning-validating-transforming.html#extracting-dataset"><i class="fa fa-check"></i><b>2.1</b> Extracting Dataset</a></li>
+<li class="chapter" data-level="2.2" data-path="extracting-cleaning-validating-transforming.html"><a href="extracting-cleaning-validating-transforming.html#explain-variables-of-interest"><i class="fa fa-check"></i><b>2.2</b> Explain Variables of Interest</a></li>
+<li class="chapter" data-level="2.3" data-path="extracting-cleaning-validating-transforming.html"><a href="extracting-cleaning-validating-transforming.html#create-new-variables"><i class="fa fa-check"></i><b>2.3</b> Create New Variables</a></li>
+<li class="chapter" data-level="2.4" data-path="extracting-cleaning-validating-transforming.html"><a href="extracting-cleaning-validating-transforming.html#validating-count-handedness-game-year"><i class="fa fa-check"></i><b>2.4</b> Validating Count, Handedness, Game Year</a></li>
+<li class="chapter" data-level="2.5" data-path="extracting-cleaning-validating-transforming.html"><a href="extracting-cleaning-validating-transforming.html#remove-and-transform-event-values"><i class="fa fa-check"></i><b>2.5</b> Remove and Transform Event Values</a></li>
+<li class="chapter" data-level="2.6" data-path="extracting-cleaning-validating-transforming.html"><a href="extracting-cleaning-validating-transforming.html#event-outcome-frequency-by-count"><i class="fa fa-check"></i><b>2.6</b> Event Outcome Frequency by Count</a></li>
+<li class="chapter" data-level="2.7" data-path="extracting-cleaning-validating-transforming.html"><a href="extracting-cleaning-validating-transforming.html#average-delta-run-expectancy"><i class="fa fa-check"></i><b>2.7</b> Average Delta Run Expectancy</a></li>
+<li class="chapter" data-level="2.8" data-path="extracting-cleaning-validating-transforming.html"><a href="extracting-cleaning-validating-transforming.html#join-lookup-table-to-data-set"><i class="fa fa-check"></i><b>2.8</b> Join Lookup Table to Data Set</a></li>
+<li class="chapter" data-level="2.9" data-path="extracting-cleaning-validating-transforming.html"><a href="extracting-cleaning-validating-transforming.html#addressing-pitch-types"><i class="fa fa-check"></i><b>2.9</b> Addressing Pitch Types</a></li>
+<li class="chapter" data-level="2.10" data-path="extracting-cleaning-validating-transforming.html"><a href="extracting-cleaning-validating-transforming.html#cleaning-pitch-locations"><i class="fa fa-check"></i><b>2.10</b> Cleaning Pitch Locations</a></li>
+<li class="chapter" data-level="2.11" data-path="extracting-cleaning-validating-transforming.html"><a href="extracting-cleaning-validating-transforming.html#count-of-all-observations"><i class="fa fa-check"></i><b>2.11</b> Count of All Observations</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="example-model.html"><a href="example-model.html"><i class="fa fa-check"></i><b>3</b> Example Model</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="example-model.html"><a href="example-model.html#scatterplot-of-example-data"><i class="fa fa-check"></i><b>3.1</b> Scatterplot of Example Data</a></li>
+<li class="chapter" data-level="3.2" data-path="example-model.html"><a href="example-model.html#scatterplot-of-example-data-filtered"><i class="fa fa-check"></i><b>3.2</b> Scatterplot of Example Data Filtered</a></li>
+<li class="chapter" data-level="3.3" data-path="example-model.html"><a href="example-model.html#create-grid"><i class="fa fa-check"></i><b>3.3</b> Create Grid</a></li>
+<li class="chapter" data-level="3.4" data-path="example-model.html"><a href="example-model.html#apply-game-results-to-grid"><i class="fa fa-check"></i><b>3.4</b> Apply Game Results to Grid</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="functions.html"><a href="functions.html"><i class="fa fa-check"></i><b>4</b> Functions</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="functions.html"><a href="functions.html#function-1"><i class="fa fa-check"></i><b>4.1</b> Function 1</a></li>
+<li class="chapter" data-level="4.2" data-path="functions.html"><a href="functions.html#function-2"><i class="fa fa-check"></i><b>4.2</b> Function 2</a></li>
+<li class="chapter" data-level="4.3" data-path="functions.html"><a href="functions.html#function-3"><i class="fa fa-check"></i><b>4.3</b> Function 3</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="applying-functions.html"><a href="applying-functions.html"><i class="fa fa-check"></i><b>5</b> Applying Functions</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="applying-functions.html"><a href="applying-functions.html#create-data-frames"><i class="fa fa-check"></i><b>5.1</b> Create Data Frames</a></li>
+<li class="chapter" data-level="5.2" data-path="applying-functions.html"><a href="applying-functions.html#create-plots"><i class="fa fa-check"></i><b>5.2</b> Create Plots</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="visualizing-resulting-plots.html"><a href="visualizing-resulting-plots.html"><i class="fa fa-check"></i><b>6</b> Visualizing Resulting Plots</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="visualizing-resulting-plots.html"><a href="visualizing-resulting-plots.html#plot-outputs"><i class="fa fa-check"></i><b>6.1</b> Plot Outputs</a></li>
+<li class="chapter" data-level="6.2" data-path="visualizing-resulting-plots.html"><a href="visualizing-resulting-plots.html#compile-results-into-1-lookup-table"><i class="fa fa-check"></i><b>6.2</b> Compile Results into 1 Lookup Table</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="applying-results-to-2023-season.html"><a href="applying-results-to-2023-season.html"><i class="fa fa-check"></i><b>7</b> Applying Results to 2023 Season</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="applying-results-to-2023-season.html"><a href="applying-results-to-2023-season.html#cleaning-2023-dataset"><i class="fa fa-check"></i><b>7.1</b> Cleaning 2023 Dataset</a></li>
+<li class="chapter" data-level="7.2" data-path="applying-results-to-2023-season.html"><a href="applying-results-to-2023-season.html#location-quality-by-pitch-type"><i class="fa fa-check"></i><b>7.2</b> Location Quality by Pitch Type</a></li>
+<li class="chapter" data-level="7.3" data-path="applying-results-to-2023-season.html"><a href="applying-results-to-2023-season.html#location-quality-by-count"><i class="fa fa-check"></i><b>7.3</b> Location Quality by Count</a></li>
+<li class="chapter" data-level="7.4" data-path="applying-results-to-2023-season.html"><a href="applying-results-to-2023-season.html#final-cleaning"><i class="fa fa-check"></i><b>7.4</b> Final Cleaning</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="shiny-dashbaord.html"><a href="shiny-dashbaord.html"><i class="fa fa-check"></i><b>8</b> Shiny Dashbaord</a></li>
+<li class="chapter" data-level="9" data-path="project-takeaways-and-limitations.html"><a href="project-takeaways-and-limitations.html"><i class="fa fa-check"></i><b>9</b> Project Takeaways and Limitations</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Quality of Location - developing a new pitch metric</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="extracting-cleaning-validating-transforming" class="section level1 hasAnchor" number="2">
+<h1><span class="header-section-number">Chapter 2</span> Extracting, Cleaning, Validating, Transforming<a href="extracting-cleaning-validating-transforming.html#extracting-cleaning-validating-transforming" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="extracting-dataset" class="section level2 hasAnchor" number="2.1">
+<h2><span class="header-section-number">2.1</span> Extracting Dataset<a href="extracting-cleaning-validating-transforming.html#extracting-dataset" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>To begin our project, we will import Statcast data spanning from the 2014 MLB season through the 2023 season. This data is hosted on the Baseball Savant website, with each record representing a single pitch and encompassing a rich set of information across 93 fields. The provided code reads in the pitches for each year, amounting to roughly 710,000 pitches per year, which are stored locally. To replicate the subsequent scripts for the entirety of the project, it is imperative to scrape and store each season’s worth of data using the scripts provided in the GitHub folder. Let’s proceed with this essential data retrieval process.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="extracting-cleaning-validating-transforming.html#cb1-1" tabindex="-1"></a><span class="fu">rm</span>(<span class="at">list =</span> <span class="fu">ls</span>())</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="extracting-cleaning-validating-transforming.html#cb2-1" tabindex="-1"></a>mlbraw2014 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;/Users/dougrose/Desktop/location/raw_statcast/mlbraw2014.csv&quot;</span>,<span class="at">show_col_types=</span><span class="dv">0</span>) <span class="sc">%&gt;%</span> <span class="fu">suppressMessages</span>()</span>
+<span id="cb2-2"><a href="extracting-cleaning-validating-transforming.html#cb2-2" tabindex="-1"></a>mlbraw2015 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;/Users/dougrose/Desktop/location/raw_statcast/mlbraw2015.csv&quot;</span>,<span class="at">show_col_types=</span><span class="dv">0</span>) <span class="sc">%&gt;%</span> <span class="fu">suppressMessages</span>()</span>
+<span id="cb2-3"><a href="extracting-cleaning-validating-transforming.html#cb2-3" tabindex="-1"></a>mlbraw2016 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;/Users/dougrose/Desktop/location/raw_statcast/mlbraw2016.csv&quot;</span>,<span class="at">show_col_types=</span><span class="dv">0</span>) <span class="sc">%&gt;%</span> <span class="fu">suppressMessages</span>()</span>
+<span id="cb2-4"><a href="extracting-cleaning-validating-transforming.html#cb2-4" tabindex="-1"></a>mlbraw2017 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;/Users/dougrose/Desktop/location/raw_statcast/mlbraw2017.csv&quot;</span>,<span class="at">show_col_types=</span><span class="dv">0</span>) <span class="sc">%&gt;%</span> <span class="fu">suppressMessages</span>()</span>
+<span id="cb2-5"><a href="extracting-cleaning-validating-transforming.html#cb2-5" tabindex="-1"></a>mlbraw2018 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;/Users/dougrose/Desktop/location/raw_statcast/mlbraw2018.csv&quot;</span>,<span class="at">show_col_types=</span><span class="dv">0</span>) <span class="sc">%&gt;%</span> <span class="fu">suppressMessages</span>()</span>
+<span id="cb2-6"><a href="extracting-cleaning-validating-transforming.html#cb2-6" tabindex="-1"></a>mlbraw2019 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;/Users/dougrose/Desktop/location/raw_statcast/mlbraw2019.csv&quot;</span>,<span class="at">show_col_types=</span><span class="dv">0</span>) <span class="sc">%&gt;%</span> <span class="fu">suppressMessages</span>()</span>
+<span id="cb2-7"><a href="extracting-cleaning-validating-transforming.html#cb2-7" tabindex="-1"></a>mlbraw2020 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;/Users/dougrose/Desktop/location/raw_statcast/mlbraw2020.csv&quot;</span>,<span class="at">show_col_types=</span><span class="dv">0</span>) <span class="sc">%&gt;%</span> <span class="fu">suppressMessages</span>()</span>
+<span id="cb2-8"><a href="extracting-cleaning-validating-transforming.html#cb2-8" tabindex="-1"></a>mlbraw2021 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;/Users/dougrose/Desktop/location/raw_statcast/mlbraw2021.csv&quot;</span>,<span class="at">show_col_types=</span><span class="dv">0</span>) <span class="sc">%&gt;%</span> <span class="fu">suppressMessages</span>()</span>
+<span id="cb2-9"><a href="extracting-cleaning-validating-transforming.html#cb2-9" tabindex="-1"></a>mlbraw2022 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;/Users/dougrose/Desktop/location/raw_statcast/mlbraw2022.csv&quot;</span>,<span class="at">show_col_types=</span><span class="dv">0</span>) <span class="sc">%&gt;%</span> <span class="fu">suppressMessages</span>()</span>
+<span id="cb2-10"><a href="extracting-cleaning-validating-transforming.html#cb2-10" tabindex="-1"></a>mlbraw2023 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;/Users/dougrose/Desktop/location/raw_statcast/mlbraw2023.csv&quot;</span>,<span class="at">show_col_types=</span><span class="dv">0</span>) <span class="sc">%&gt;%</span> <span class="fu">suppressMessages</span>()</span></code></pre></div>
+<p>Format the game_date column to ensure all years have the same format.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="extracting-cleaning-validating-transforming.html#cb3-1" tabindex="-1"></a>mlbraw <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(</span>
+<span id="cb3-2"><a href="extracting-cleaning-validating-transforming.html#cb3-2" tabindex="-1"></a>  mlbraw2014, mlbraw2015, mlbraw2016, mlbraw2017, mlbraw2018,</span>
+<span id="cb3-3"><a href="extracting-cleaning-validating-transforming.html#cb3-3" tabindex="-1"></a>  mlbraw2019, mlbraw2020, mlbraw2021, mlbraw2022, mlbraw2023</span>
+<span id="cb3-4"><a href="extracting-cleaning-validating-transforming.html#cb3-4" tabindex="-1"></a>)</span>
+<span id="cb3-5"><a href="extracting-cleaning-validating-transforming.html#cb3-5" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="extracting-cleaning-validating-transforming.html#cb3-6" tabindex="-1"></a>mlbraw <span class="ot">&lt;-</span> mlbraw <span class="sc">%&gt;%</span></span>
+<span id="cb3-7"><a href="extracting-cleaning-validating-transforming.html#cb3-7" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">game_date =</span> <span class="fu">as.Date</span>(game_date, <span class="at">format=</span><span class="st">&quot;%m/%d/%y&quot;</span>))</span></code></pre></div>
+<p>Create a single data frame containing all years and remove individual year data frames.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="extracting-cleaning-validating-transforming.html#cb4-1" tabindex="-1"></a>mlbraw <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(mlbraw2014, mlbraw2015, mlbraw2016, mlbraw2017, mlbraw2018, </span>
+<span id="cb4-2"><a href="extracting-cleaning-validating-transforming.html#cb4-2" tabindex="-1"></a>                    mlbraw2019, mlbraw2020, mlbraw2021, mlbraw2022, mlbraw2023)</span>
+<span id="cb4-3"><a href="extracting-cleaning-validating-transforming.html#cb4-3" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="extracting-cleaning-validating-transforming.html#cb4-4" tabindex="-1"></a>mlbraw <span class="ot">&lt;-</span> mlbraw <span class="sc">%&gt;%</span> <span class="fu">arrange</span>(<span class="fu">desc</span>(game_year), <span class="fu">desc</span>(game_date), game_pk)</span>
+<span id="cb4-5"><a href="extracting-cleaning-validating-transforming.html#cb4-5" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="extracting-cleaning-validating-transforming.html#cb4-6" tabindex="-1"></a><span class="fu">rm</span>(mlbraw2014, mlbraw2015, mlbraw2016, mlbraw2017, mlbraw2018, </span>
+<span id="cb4-7"><a href="extracting-cleaning-validating-transforming.html#cb4-7" tabindex="-1"></a>   mlbraw2019, mlbraw2020, mlbraw2021, mlbraw2022, mlbraw2023)</span></code></pre></div>
+</div>
+<div id="explain-variables-of-interest" class="section level2 hasAnchor" number="2.2">
+<h2><span class="header-section-number">2.2</span> Explain Variables of Interest<a href="extracting-cleaning-validating-transforming.html#explain-variables-of-interest" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Now that we have a comprehensive data frame containing all MLB pitches from the past 10 years, we’ll narrow down the variables to those specifically relevant to our project. The selected variables are:</p>
+<p>game_year: Represents the year in which the game was played.
+pitch_name: Denotes the name of the pitch type thrown by the pitcher (e.g., Fastball, Curveball).
+pitch_type: Signifies the abbreviated pitch_name (e.g., FF represents a 4-Seam Fastball).
+p_throws: Indicates whether the pitcher throws right-handed or left-handed.
+stand: Specifies whether the batter stands right-handed or left-handed.
+balls: Represents the number of balls before the pitch of record.
+strikes: Indicates the number of strikes before the pitch of record.
+events: Identifies the event that transpired as a result of this pitch (e.g., single, walk, hit by pitch, home run).
+plate_x: Signifies the horizontal location of the pitch as it crosses the plate, measured in feet away from the center of the plate.
+plate_z: Represents the vertical location of the pitch as it crosses the plate, measured in feet off the ground.</p>
+<p>By focusing on these specific variables, we aim to streamline the dataset for further analysis and visualization, aligning with the project’s objectives.</p>
+</div>
+<div id="create-new-variables" class="section level2 hasAnchor" number="2.3">
+<h2><span class="header-section-number">2.3</span> Create New Variables<a href="extracting-cleaning-validating-transforming.html#create-new-variables" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The refined dataset will feature columns: year, p_type, count, hand, events, plate_x, plate_z, lw.</p>
+<p>Now I will generate a singular column detailing the outcome of each pitch. The original events column exclusively displays a value when the pitch results in a batter outcome, such as a walk or a single. NA values will signify pitches that do not conclude at-bats, such as balls and strikes. This newly created events column will outline the outcome of every pitch.</p>
+<p>In addition, I will combine the values in the strikes and balls columns to craft a new count column. This column will signify the batter’s count state for each pitch occurrence.</p>
+<p>The stand column designates whether the batter hits right-handed or left-handed, while the p_throws column indicates whether the pitcher throws right-handed or left-handed. For the specific objectives of this project, I am focusing on the combination of batter and pitcher handedness, and the new column hand will detail this.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="extracting-cleaning-validating-transforming.html#cb5-1" tabindex="-1"></a>mlbraw <span class="ot">&lt;-</span> mlbraw <span class="sc">%&gt;%</span></span>
+<span id="cb5-2"><a href="extracting-cleaning-validating-transforming.html#cb5-2" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb5-3"><a href="extracting-cleaning-validating-transforming.html#cb5-3" tabindex="-1"></a>    <span class="at">events =</span> <span class="fu">if_else</span>(<span class="fu">is.na</span>(events) <span class="sc">|</span> events <span class="sc">==</span> <span class="st">&quot;&quot;</span>, type, events),</span>
+<span id="cb5-4"><a href="extracting-cleaning-validating-transforming.html#cb5-4" tabindex="-1"></a>    <span class="at">events =</span> <span class="fu">if_else</span>(events <span class="sc">==</span> <span class="st">&quot;B&quot;</span>, <span class="st">&quot;ball&quot;</span>, </span>
+<span id="cb5-5"><a href="extracting-cleaning-validating-transforming.html#cb5-5" tabindex="-1"></a>                     <span class="fu">if_else</span>(events <span class="sc">==</span> <span class="st">&quot;S&quot;</span>, <span class="st">&quot;strike&quot;</span>, events)),</span>
+<span id="cb5-6"><a href="extracting-cleaning-validating-transforming.html#cb5-6" tabindex="-1"></a>    <span class="at">count =</span> <span class="fu">paste</span>(balls, strikes, <span class="at">sep =</span> <span class="st">&quot;-&quot;</span>),</span>
+<span id="cb5-7"><a href="extracting-cleaning-validating-transforming.html#cb5-7" tabindex="-1"></a>    <span class="at">hand =</span> <span class="fu">paste</span>(p_throws, stand, <span class="at">sep =</span> <span class="st">&quot;v&quot;</span>)</span>
+<span id="cb5-8"><a href="extracting-cleaning-validating-transforming.html#cb5-8" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb5-9"><a href="extracting-cleaning-validating-transforming.html#cb5-9" tabindex="-1"></a>  <span class="fu">select</span>(</span>
+<span id="cb5-10"><a href="extracting-cleaning-validating-transforming.html#cb5-10" tabindex="-1"></a>    game_year, hand, count, pitch_type, pitch_name,</span>
+<span id="cb5-11"><a href="extracting-cleaning-validating-transforming.html#cb5-11" tabindex="-1"></a>    events, plate_x, plate_z, delta_run_exp</span>
+<span id="cb5-12"><a href="extracting-cleaning-validating-transforming.html#cb5-12" tabindex="-1"></a>  )</span></code></pre></div>
+<p>A batter’s count is limited to one of 12 possible counts. Therefore, I will filter the data to exclude impossible counts. Additionally, I will eliminate events that are impossible in specific counts. For instance, a batter cannot draw a walk in a 2-2 count.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="extracting-cleaning-validating-transforming.html#cb6-1" tabindex="-1"></a>mlbraw <span class="ot">&lt;-</span> mlbraw <span class="sc">%&gt;%</span> </span>
+<span id="cb6-2"><a href="extracting-cleaning-validating-transforming.html#cb6-2" tabindex="-1"></a>  <span class="fu">filter</span>(count <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;0-0&quot;</span>,<span class="st">&quot;0-1&quot;</span>,<span class="st">&quot;0-2&quot;</span>,<span class="st">&quot;1-0&quot;</span>,<span class="st">&quot;1-1&quot;</span>,<span class="st">&quot;1-2&quot;</span>,</span>
+<span id="cb6-3"><a href="extracting-cleaning-validating-transforming.html#cb6-3" tabindex="-1"></a>                      <span class="st">&quot;2-0&quot;</span>,<span class="st">&quot;2-1&quot;</span>,<span class="st">&quot;2-2&quot;</span>,<span class="st">&quot;3-0&quot;</span>,<span class="st">&quot;3-1&quot;</span>,<span class="st">&quot;3-2&quot;</span>))</span>
+<span id="cb6-4"><a href="extracting-cleaning-validating-transforming.html#cb6-4" tabindex="-1"></a></span>
+<span id="cb6-5"><a href="extracting-cleaning-validating-transforming.html#cb6-5" tabindex="-1"></a>mlbraw <span class="ot">&lt;-</span> mlbraw <span class="sc">%&gt;%</span> </span>
+<span id="cb6-6"><a href="extracting-cleaning-validating-transforming.html#cb6-6" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>(count <span class="sc">==</span> <span class="st">&quot;3-2&quot;</span> <span class="sc">&amp;</span> events <span class="sc">==</span> <span class="st">&quot;ball&quot;</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb6-7"><a href="extracting-cleaning-validating-transforming.html#cb6-7" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>(count <span class="sc">==</span> <span class="st">&quot;3-1&quot;</span> <span class="sc">&amp;</span> events <span class="sc">==</span> <span class="st">&quot;ball&quot;</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb6-8"><a href="extracting-cleaning-validating-transforming.html#cb6-8" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>(count <span class="sc">==</span> <span class="st">&quot;2-2&quot;</span> <span class="sc">&amp;</span> events <span class="sc">==</span> <span class="st">&quot;walk&quot;</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb6-9"><a href="extracting-cleaning-validating-transforming.html#cb6-9" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>(count <span class="sc">==</span> <span class="st">&quot;2-1&quot;</span> <span class="sc">&amp;</span> events <span class="sc">==</span> <span class="st">&quot;walk&quot;</span>))</span></code></pre></div>
+<p>Convert the data type of these variables to factors, restricting the possible values and establishing specific orders.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="extracting-cleaning-validating-transforming.html#cb7-1" tabindex="-1"></a>mlbraw <span class="ot">&lt;-</span> mlbraw <span class="sc">%&gt;%</span></span>
+<span id="cb7-2"><a href="extracting-cleaning-validating-transforming.html#cb7-2" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">count =</span> <span class="fu">factor</span>(count, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;0-0&quot;</span>, <span class="st">&quot;0-1&quot;</span>, <span class="st">&quot;0-2&quot;</span>, <span class="st">&quot;1-0&quot;</span>, <span class="st">&quot;1-1&quot;</span>, <span class="st">&quot;1-2&quot;</span>,</span>
+<span id="cb7-3"><a href="extracting-cleaning-validating-transforming.html#cb7-3" tabindex="-1"></a>                                          <span class="st">&quot;2-0&quot;</span>, <span class="st">&quot;2-1&quot;</span>, <span class="st">&quot;2-2&quot;</span>, <span class="st">&quot;3-0&quot;</span>, <span class="st">&quot;3-1&quot;</span>, <span class="st">&quot;3-2&quot;</span>)),</span>
+<span id="cb7-4"><a href="extracting-cleaning-validating-transforming.html#cb7-4" tabindex="-1"></a>         <span class="at">hand =</span> <span class="fu">factor</span>(hand, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;RvR&quot;</span>, <span class="st">&quot;RvL&quot;</span>, <span class="st">&quot;LvR&quot;</span>, <span class="st">&quot;LvL&quot;</span>)),</span>
+<span id="cb7-5"><a href="extracting-cleaning-validating-transforming.html#cb7-5" tabindex="-1"></a>         <span class="at">game_year =</span> <span class="fu">factor</span>(game_year, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;2014&quot;</span>, <span class="st">&quot;2015&quot;</span>, <span class="st">&quot;2016&quot;</span>, <span class="st">&quot;2017&quot;</span>,</span>
+<span id="cb7-6"><a href="extracting-cleaning-validating-transforming.html#cb7-6" tabindex="-1"></a>                                                  <span class="st">&quot;2018&quot;</span>, <span class="st">&quot;2019&quot;</span>, <span class="st">&quot;2020&quot;</span>, <span class="st">&quot;2021&quot;</span>,</span>
+<span id="cb7-7"><a href="extracting-cleaning-validating-transforming.html#cb7-7" tabindex="-1"></a>                                                  <span class="st">&quot;2022&quot;</span>, <span class="st">&quot;2023&quot;</span>)))</span></code></pre></div>
+<p>Finally, I’ll remove rows with NA values in our columns of interest.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="extracting-cleaning-validating-transforming.html#cb8-1" tabindex="-1"></a>mlbraw <span class="ot">&lt;-</span> mlbraw <span class="sc">%&gt;%</span></span>
+<span id="cb8-2"><a href="extracting-cleaning-validating-transforming.html#cb8-2" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">complete.cases</span>(<span class="fu">across</span>(<span class="fu">c</span>(game_year, hand, count, pitch_type, pitch_name, </span>
+<span id="cb8-3"><a href="extracting-cleaning-validating-transforming.html#cb8-3" tabindex="-1"></a>                                 events, plate_x, plate_z, delta_run_exp))))</span></code></pre></div>
+</div>
+<div id="validating-count-handedness-game-year" class="section level2 hasAnchor" number="2.4">
+<h2><span class="header-section-number">2.4</span> Validating Count, Handedness, Game Year<a href="extracting-cleaning-validating-transforming.html#validating-count-handedness-game-year" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="extracting-cleaning-validating-transforming.html#cb9-1" tabindex="-1"></a>mlbraw <span class="sc">%&gt;%</span></span>
+<span id="cb9-2"><a href="extracting-cleaning-validating-transforming.html#cb9-2" tabindex="-1"></a>  <span class="fu">count</span>(count) <span class="sc">%&gt;%</span></span>
+<span id="cb9-3"><a href="extracting-cleaning-validating-transforming.html#cb9-3" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">p =</span> n <span class="sc">/</span> <span class="fu">sum</span>(n)) <span class="sc">%&gt;%</span></span>
+<span id="cb9-4"><a href="extracting-cleaning-validating-transforming.html#cb9-4" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> p, <span class="at">y =</span> <span class="fu">fct_rev</span>(count))) <span class="sc">+</span></span>
+<span id="cb9-5"><a href="extracting-cleaning-validating-transforming.html#cb9-5" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">fill =</span> <span class="st">&quot;steelblue3&quot;</span>) <span class="sc">+</span></span>
+<span id="cb9-6"><a href="extracting-cleaning-validating-transforming.html#cb9-6" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> <span class="fu">paste</span>(<span class="dv">100</span> <span class="sc">*</span> <span class="fu">round</span>(p, <span class="dv">2</span>), <span class="st">&quot;%&quot;</span>, <span class="at">sep =</span> <span class="st">&quot;&quot;</span>)),</span>
+<span id="cb9-7"><a href="extracting-cleaning-validating-transforming.html#cb9-7" tabindex="-1"></a>            <span class="at">hjust =</span> <span class="fl">1.1</span>, <span class="at">size =</span> <span class="dv">4</span>, <span class="at">color =</span> <span class="st">&quot;white&quot;</span>, <span class="at">fontface =</span> <span class="st">&quot;bold&quot;</span>) <span class="sc">+</span></span>
+<span id="cb9-8"><a href="extracting-cleaning-validating-transforming.html#cb9-8" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">&quot;Batter Count distribution </span><span class="sc">\n</span><span class="st">&quot;</span>) <span class="sc">+</span></span>
+<span id="cb9-9"><a href="extracting-cleaning-validating-transforming.html#cb9-9" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb9-10"><a href="extracting-cleaning-validating-transforming.html#cb9-10" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">strip.background =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">&quot;lightblue&quot;</span>),</span>
+<span id="cb9-11"><a href="extracting-cleaning-validating-transforming.html#cb9-11" tabindex="-1"></a>        <span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>),</span>
+<span id="cb9-12"><a href="extracting-cleaning-validating-transforming.html#cb9-12" tabindex="-1"></a>        <span class="at">axis.text.x =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb9-13"><a href="extracting-cleaning-validating-transforming.html#cb9-13" tabindex="-1"></a>        <span class="at">axis.text.y =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="dv">1</span>),</span>
+<span id="cb9-14"><a href="extracting-cleaning-validating-transforming.html#cb9-14" tabindex="-1"></a>        <span class="at">axis.ticks.x =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb9-15"><a href="extracting-cleaning-validating-transforming.html#cb9-15" tabindex="-1"></a>        <span class="at">axis.title =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb9-16"><a href="extracting-cleaning-validating-transforming.html#cb9-16" tabindex="-1"></a>        <span class="at">panel.grid.major =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb9-17"><a href="extracting-cleaning-validating-transforming.html#cb9-17" tabindex="-1"></a>        <span class="at">panel.grid.minor =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb9-18"><a href="extracting-cleaning-validating-transforming.html#cb9-18" tabindex="-1"></a>        <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">20</span>, <span class="at">hjust =</span> <span class="fl">0.5</span>)) <span class="sc">+</span></span>
+<span id="cb9-19"><a href="extracting-cleaning-validating-transforming.html#cb9-19" tabindex="-1"></a>  <span class="fu">xlim</span>(<span class="dv">0</span>, <span class="fl">0.27</span>) <span class="sc">+</span></span>
+<span id="cb9-20"><a href="extracting-cleaning-validating-transforming.html#cb9-20" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.27</span>), <span class="at">expand =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<p><img src="bookdownproj_files/figure-html/hitter%20count%20distribution-1.png" width="960" style="display: block; margin: auto auto auto 0;" /></p>
+<pre><code>## Warning in rm(plot1): object &#39;plot1&#39; not found</code></pre>
+<p>The depicted graph illustrates the distribution of batter counts. From this, I can begin to gauge the extent of available data for constructing a location metric. Notably, 0-0 counts are prevalent, constituting 26% of all pitches, whereas pitches in 3-ball counts are comparatively more rare.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="extracting-cleaning-validating-transforming.html#cb11-1" tabindex="-1"></a>plot2 <span class="ot">&lt;-</span> mlbraw <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(hand) <span class="sc">%&gt;%</span> <span class="fu">count</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb11-2"><a href="extracting-cleaning-validating-transforming.html#cb11-2" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">p=</span> n<span class="sc">/</span> <span class="fu">sum</span>(n)) <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="sc">-</span>n)</span>
+<span id="cb11-3"><a href="extracting-cleaning-validating-transforming.html#cb11-3" tabindex="-1"></a>  </span>
+<span id="cb11-4"><a href="extracting-cleaning-validating-transforming.html#cb11-4" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>plot2, <span class="fu">aes</span>(<span class="at">x=</span>p, <span class="at">y=</span><span class="fu">reorder</span>(hand,p)))<span class="sc">+</span></span>
+<span id="cb11-5"><a href="extracting-cleaning-validating-transforming.html#cb11-5" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">fill=</span><span class="st">&quot;steelblue3&quot;</span>) <span class="sc">+</span></span>
+<span id="cb11-6"><a href="extracting-cleaning-validating-transforming.html#cb11-6" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> <span class="fu">paste</span>(<span class="dv">100</span><span class="sc">*</span><span class="fu">round</span>(p,<span class="dv">2</span>), <span class="st">&quot;%&quot;</span>, <span class="at">sep=</span><span class="st">&quot;&quot;</span>)),</span>
+<span id="cb11-7"><a href="extracting-cleaning-validating-transforming.html#cb11-7" tabindex="-1"></a>            <span class="at">hjust =</span> <span class="fl">1.3</span>, <span class="at">size=</span><span class="dv">4</span>, <span class="at">color=</span><span class="st">&quot;white&quot;</span>, <span class="at">fontface=</span><span class="st">&quot;bold&quot;</span>)<span class="sc">+</span></span>
+<span id="cb11-8"><a href="extracting-cleaning-validating-transforming.html#cb11-8" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">&quot;Pitcher and Batter Handedness distribution </span><span class="sc">\n</span><span class="st">&quot;</span>) <span class="sc">+</span></span>
+<span id="cb11-9"><a href="extracting-cleaning-validating-transforming.html#cb11-9" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()<span class="sc">+</span></span>
+<span id="cb11-10"><a href="extracting-cleaning-validating-transforming.html#cb11-10" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">strip.background =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">&quot;lightblue&quot;</span>),</span>
+<span id="cb11-11"><a href="extracting-cleaning-validating-transforming.html#cb11-11" tabindex="-1"></a>        <span class="at">axis.text=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">12</span>),</span>
+<span id="cb11-12"><a href="extracting-cleaning-validating-transforming.html#cb11-12" tabindex="-1"></a>        <span class="at">axis.text.x =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb11-13"><a href="extracting-cleaning-validating-transforming.html#cb11-13" tabindex="-1"></a>        <span class="at">axis.ticks.x =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb11-14"><a href="extracting-cleaning-validating-transforming.html#cb11-14" tabindex="-1"></a>        <span class="at">axis.title =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb11-15"><a href="extracting-cleaning-validating-transforming.html#cb11-15" tabindex="-1"></a>        <span class="co">#axis.text.x = element_blank(),</span></span>
+<span id="cb11-16"><a href="extracting-cleaning-validating-transforming.html#cb11-16" tabindex="-1"></a>        <span class="at">panel.grid.major =</span> <span class="fu">element_blank</span>(), </span>
+<span id="cb11-17"><a href="extracting-cleaning-validating-transforming.html#cb11-17" tabindex="-1"></a>        <span class="at">panel.grid.minor =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb11-18"><a href="extracting-cleaning-validating-transforming.html#cb11-18" tabindex="-1"></a>        <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">20</span>, <span class="at">hjust =</span> <span class="fl">0.5</span>))<span class="sc">+</span></span>
+<span id="cb11-19"><a href="extracting-cleaning-validating-transforming.html#cb11-19" tabindex="-1"></a>  <span class="fu">xlim</span>(<span class="dv">0</span>,<span class="fl">0.43</span>)<span class="sc">+</span></span>
+<span id="cb11-20"><a href="extracting-cleaning-validating-transforming.html#cb11-20" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.4</span>), <span class="at">expand =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<p><img src="bookdownproj_files/figure-html/handedness%20distribution-1.png" width="768" style="display: block; margin: auto auto auto 0;" /></p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="extracting-cleaning-validating-transforming.html#cb12-1" tabindex="-1"></a>plot3 <span class="ot">&lt;-</span> mlbraw <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(game_year) <span class="sc">%&gt;%</span> <span class="fu">count</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb12-2"><a href="extracting-cleaning-validating-transforming.html#cb12-2" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">p=</span> n<span class="sc">/</span> <span class="fu">sum</span>(n)) <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="sc">-</span>n)</span>
+<span id="cb12-3"><a href="extracting-cleaning-validating-transforming.html#cb12-3" tabindex="-1"></a>  </span>
+<span id="cb12-4"><a href="extracting-cleaning-validating-transforming.html#cb12-4" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>plot3, <span class="fu">aes</span>(<span class="at">x=</span>p, <span class="at">y=</span>game_year))<span class="sc">+</span></span>
+<span id="cb12-5"><a href="extracting-cleaning-validating-transforming.html#cb12-5" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">fill=</span><span class="st">&quot;steelblue3&quot;</span>) <span class="sc">+</span></span>
+<span id="cb12-6"><a href="extracting-cleaning-validating-transforming.html#cb12-6" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> <span class="fu">paste</span>(<span class="dv">100</span><span class="sc">*</span><span class="fu">round</span>(p,<span class="dv">2</span>), <span class="st">&quot;%&quot;</span>, <span class="at">sep=</span><span class="st">&quot;&quot;</span>)),</span>
+<span id="cb12-7"><a href="extracting-cleaning-validating-transforming.html#cb12-7" tabindex="-1"></a>            <span class="at">hjust =</span> <span class="fl">1.3</span>, <span class="at">size=</span><span class="dv">4</span>, <span class="at">color=</span><span class="st">&quot;white&quot;</span>, <span class="at">fontface=</span><span class="st">&quot;bold&quot;</span>)<span class="sc">+</span></span>
+<span id="cb12-8"><a href="extracting-cleaning-validating-transforming.html#cb12-8" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">&quot;Pitcher and Batter Handedness distribution </span><span class="sc">\n</span><span class="st">&quot;</span>) <span class="sc">+</span></span>
+<span id="cb12-9"><a href="extracting-cleaning-validating-transforming.html#cb12-9" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()<span class="sc">+</span></span>
+<span id="cb12-10"><a href="extracting-cleaning-validating-transforming.html#cb12-10" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">strip.background =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">&quot;lightblue&quot;</span>),</span>
+<span id="cb12-11"><a href="extracting-cleaning-validating-transforming.html#cb12-11" tabindex="-1"></a>        <span class="at">axis.text=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">12</span>),</span>
+<span id="cb12-12"><a href="extracting-cleaning-validating-transforming.html#cb12-12" tabindex="-1"></a>        <span class="at">axis.text.x =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb12-13"><a href="extracting-cleaning-validating-transforming.html#cb12-13" tabindex="-1"></a>        <span class="at">axis.ticks.x =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb12-14"><a href="extracting-cleaning-validating-transforming.html#cb12-14" tabindex="-1"></a>        <span class="at">axis.title =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb12-15"><a href="extracting-cleaning-validating-transforming.html#cb12-15" tabindex="-1"></a>        <span class="co">#axis.text.x = element_blank(),</span></span>
+<span id="cb12-16"><a href="extracting-cleaning-validating-transforming.html#cb12-16" tabindex="-1"></a>        <span class="at">panel.grid.major =</span> <span class="fu">element_blank</span>(), </span>
+<span id="cb12-17"><a href="extracting-cleaning-validating-transforming.html#cb12-17" tabindex="-1"></a>        <span class="at">panel.grid.minor =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb12-18"><a href="extracting-cleaning-validating-transforming.html#cb12-18" tabindex="-1"></a>        <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">20</span>, <span class="at">hjust =</span> <span class="fl">0.5</span>))<span class="sc">+</span></span>
+<span id="cb12-19"><a href="extracting-cleaning-validating-transforming.html#cb12-19" tabindex="-1"></a>  <span class="fu">xlim</span>(<span class="dv">0</span>,<span class="fl">0.43</span>)<span class="sc">+</span></span>
+<span id="cb12-20"><a href="extracting-cleaning-validating-transforming.html#cb12-20" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.15</span>), <span class="at">expand =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<p><img src="bookdownproj_files/figure-html/game_year%20distribution-1.png" width="768" style="display: block; margin: auto auto auto 0;" /></p>
+<p>As anticipated, the dataset is fairly evenly divided by game year. Teams typically play 162 regular season games each year, providing approximately 2400 games worth of data annually. The only exception is the 60-game 2020 season, which was shortened due to COVID-19.</p>
+</div>
+<div id="remove-and-transform-event-values" class="section level2 hasAnchor" number="2.5">
+<h2><span class="header-section-number">2.5</span> Remove and Transform Event Values<a href="extracting-cleaning-validating-transforming.html#remove-and-transform-event-values" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The events column might include various game event descriptions unrelated to the pitch being thrown. For instance, if the pitcher picks off the runner leading off first base or if a coach argues and gets ejected from the game, these events will appear as records in the dataset. For the scope of this project, my focus is solely on pitches thrown, particularly competitive pitches where legitimate attempts are made by the batter. While this criterion has a subjective element, I have opted to narrow down the dataset by excluding the following events.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="extracting-cleaning-validating-transforming.html#cb13-1" tabindex="-1"></a>mlbraw <span class="ot">&lt;-</span> mlbraw <span class="sc">%&gt;%</span></span>
+<span id="cb13-2"><a href="extracting-cleaning-validating-transforming.html#cb13-2" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>events <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;catcher_interf&quot;</span>, <span class="st">&quot;caught_stealing_2b&quot;</span>, <span class="st">&quot;caught_stealing_3b&quot;</span>,</span>
+<span id="cb13-3"><a href="extracting-cleaning-validating-transforming.html#cb13-3" tabindex="-1"></a>                         <span class="st">&quot;caught_stealing_home&quot;</span>, <span class="st">&quot;ejection&quot;</span>, <span class="st">&quot;field_error&quot;</span>, <span class="st">&quot;game_advisory&quot;</span>,</span>
+<span id="cb13-4"><a href="extracting-cleaning-validating-transforming.html#cb13-4" tabindex="-1"></a>                         <span class="st">&quot;intent_walk&quot;</span>, <span class="st">&quot;other_out&quot;</span>, <span class="st">&quot;passed_ball&quot;</span>, <span class="st">&quot;pickoff_1b&quot;</span>,</span>
+<span id="cb13-5"><a href="extracting-cleaning-validating-transforming.html#cb13-5" tabindex="-1"></a>                         <span class="st">&quot;pickoff_2b&quot;</span>, <span class="st">&quot;pickoff_3b&quot;</span>, <span class="st">&quot;pickoff_caught_stealing_2b&quot;</span>,</span>
+<span id="cb13-6"><a href="extracting-cleaning-validating-transforming.html#cb13-6" tabindex="-1"></a>                         <span class="st">&quot;pickoff_caught_stealing_3b&quot;</span>, <span class="st">&quot;pickoff_caught_stealing_home&quot;</span>,</span>
+<span id="cb13-7"><a href="extracting-cleaning-validating-transforming.html#cb13-7" tabindex="-1"></a>                         <span class="st">&quot;pickoff_error_2b&quot;</span>, <span class="st">&quot;pickoff_error_3b&quot;</span>, <span class="st">&quot;pitchout&quot;</span>,</span>
+<span id="cb13-8"><a href="extracting-cleaning-validating-transforming.html#cb13-8" tabindex="-1"></a>                         <span class="st">&quot;runner_double_play&quot;</span>, <span class="st">&quot;stolen_base_2b&quot;</span>, <span class="st">&quot;stolen_base_3b&quot;</span>,</span>
+<span id="cb13-9"><a href="extracting-cleaning-validating-transforming.html#cb13-9" tabindex="-1"></a>                         <span class="st">&quot;stolen_base_3b&quot;</span>, <span class="st">&quot;stolen_base_home&quot;</span>))</span></code></pre></div>
+<p>Wild pitches are currently represented as unique events in the dataset, although in reality, they are simply balls thrown well outside the strike zone. To address this, I have modified the values in the wild_pitch column to either ball or walk, depending on the count in which they were thrown.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="extracting-cleaning-validating-transforming.html#cb14-1" tabindex="-1"></a>mlbraw_a <span class="ot">&lt;-</span> mlbraw <span class="sc">%&gt;%</span> </span>
+<span id="cb14-2"><a href="extracting-cleaning-validating-transforming.html#cb14-2" tabindex="-1"></a>  <span class="fu">filter</span>(count <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;0-0&quot;</span>,<span class="st">&quot;0-1&quot;</span>,<span class="st">&quot;1-0&quot;</span>,<span class="st">&quot;1-1&quot;</span>,<span class="st">&quot;2-0&quot;</span>,<span class="st">&quot;2-1&quot;</span>,<span class="st">&quot;0-2&quot;</span>,<span class="st">&quot;1-2&quot;</span>,<span class="st">&quot;2-2&quot;</span>))</span>
+<span id="cb14-3"><a href="extracting-cleaning-validating-transforming.html#cb14-3" tabindex="-1"></a></span>
+<span id="cb14-4"><a href="extracting-cleaning-validating-transforming.html#cb14-4" tabindex="-1"></a>mlbraw_b <span class="ot">&lt;-</span> mlbraw <span class="sc">%&gt;%</span> </span>
+<span id="cb14-5"><a href="extracting-cleaning-validating-transforming.html#cb14-5" tabindex="-1"></a>  <span class="fu">filter</span>(count <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;3-0&quot;</span>,<span class="st">&quot;3-1&quot;</span>,<span class="st">&quot;3-2&quot;</span>))</span>
+<span id="cb14-6"><a href="extracting-cleaning-validating-transforming.html#cb14-6" tabindex="-1"></a></span>
+<span id="cb14-7"><a href="extracting-cleaning-validating-transforming.html#cb14-7" tabindex="-1"></a>mlbraw_a <span class="ot">&lt;-</span> mlbraw_a <span class="sc">%&gt;%</span> </span>
+<span id="cb14-8"><a href="extracting-cleaning-validating-transforming.html#cb14-8" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">events =</span> <span class="fu">if_else</span>(events <span class="sc">==</span><span class="st">&quot;wild_pitch&quot;</span>, <span class="st">&quot;ball&quot;</span>, events))</span>
+<span id="cb14-9"><a href="extracting-cleaning-validating-transforming.html#cb14-9" tabindex="-1"></a></span>
+<span id="cb14-10"><a href="extracting-cleaning-validating-transforming.html#cb14-10" tabindex="-1"></a>mlbraw_b <span class="ot">&lt;-</span> mlbraw_b <span class="sc">%&gt;%</span> </span>
+<span id="cb14-11"><a href="extracting-cleaning-validating-transforming.html#cb14-11" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">events =</span> <span class="fu">if_else</span>(events <span class="sc">==</span><span class="st">&quot;wild_pitch&quot;</span>, <span class="st">&quot;walk&quot;</span>, events))</span>
+<span id="cb14-12"><a href="extracting-cleaning-validating-transforming.html#cb14-12" tabindex="-1"></a></span>
+<span id="cb14-13"><a href="extracting-cleaning-validating-transforming.html#cb14-13" tabindex="-1"></a>mlbraw <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(mlbraw_a, mlbraw_b) <span class="sc">%&gt;%</span> </span>
+<span id="cb14-14"><a href="extracting-cleaning-validating-transforming.html#cb14-14" tabindex="-1"></a>  <span class="fu">arrange</span>(game_year, count, events)</span>
+<span id="cb14-15"><a href="extracting-cleaning-validating-transforming.html#cb14-15" tabindex="-1"></a></span>
+<span id="cb14-16"><a href="extracting-cleaning-validating-transforming.html#cb14-16" tabindex="-1"></a><span class="fu">rm</span>(mlbraw_a, mlbraw_b)</span></code></pre></div>
+<p>Likewise, foul balls occurring in two-strike counts should be categorized as foul rather than strike. A strike thrown in a 0-2, 1-2, 2-2, or 3-2 count will result in a strikeout. Therefore, when a batter fouls a ball off in these counts, I will assign the event a new value: foul.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="extracting-cleaning-validating-transforming.html#cb15-1" tabindex="-1"></a>mlbraw_a <span class="ot">&lt;-</span> mlbraw <span class="sc">%&gt;%</span> <span class="fu">filter</span>(count <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;0-2&quot;</span>,<span class="st">&quot;1-2&quot;</span>,<span class="st">&quot;2-2&quot;</span>,<span class="st">&quot;3-2&quot;</span>))</span>
+<span id="cb15-2"><a href="extracting-cleaning-validating-transforming.html#cb15-2" tabindex="-1"></a></span>
+<span id="cb15-3"><a href="extracting-cleaning-validating-transforming.html#cb15-3" tabindex="-1"></a>mlbraw_b <span class="ot">&lt;-</span> mlbraw <span class="sc">%&gt;%</span> <span class="fu">filter</span>(<span class="sc">!</span>(count <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;0-2&quot;</span>,<span class="st">&quot;1-2&quot;</span>,<span class="st">&quot;2-2&quot;</span>,<span class="st">&quot;3-2&quot;</span>)))</span>
+<span id="cb15-4"><a href="extracting-cleaning-validating-transforming.html#cb15-4" tabindex="-1"></a></span>
+<span id="cb15-5"><a href="extracting-cleaning-validating-transforming.html#cb15-5" tabindex="-1"></a>mlbraw_a <span class="ot">&lt;-</span> mlbraw_a <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">events =</span> <span class="fu">if_else</span>(events <span class="sc">==</span> <span class="st">&quot;strike&quot;</span>, <span class="st">&quot;foul&quot;</span>, events))</span>
+<span id="cb15-6"><a href="extracting-cleaning-validating-transforming.html#cb15-6" tabindex="-1"></a></span>
+<span id="cb15-7"><a href="extracting-cleaning-validating-transforming.html#cb15-7" tabindex="-1"></a>mlbraw <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(mlbraw_a, mlbraw_b)</span>
+<span id="cb15-8"><a href="extracting-cleaning-validating-transforming.html#cb15-8" tabindex="-1"></a></span>
+<span id="cb15-9"><a href="extracting-cleaning-validating-transforming.html#cb15-9" tabindex="-1"></a><span class="fu">rm</span>(mlbraw_a, mlbraw_b)</span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="extracting-cleaning-validating-transforming.html#cb16-1" tabindex="-1"></a>mlbraw <span class="ot">&lt;-</span> mlbraw <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">events=</span><span class="fu">if_else</span>(events<span class="sc">==</span><span class="st">&quot;home_run&quot;</span>,<span class="st">&quot;hr&quot;</span>,events))</span></code></pre></div>
+<p>I will categorize the event values into two groups: non-outs and outs, for future reference. And I’ll verify that these represent the distinct event values contained in the main dataset.</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="extracting-cleaning-validating-transforming.html#cb17-1" tabindex="-1"></a>non_outs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;ball&quot;</span>,<span class="st">&quot;double&quot;</span>,<span class="st">&quot;hit_by_pitch&quot;</span>,<span class="st">&quot;hr&quot;</span>, <span class="st">&quot;foul&quot;</span>,<span class="st">&quot;single&quot;</span>,</span>
+<span id="cb17-2"><a href="extracting-cleaning-validating-transforming.html#cb17-2" tabindex="-1"></a>              <span class="st">&quot;strike&quot;</span>,<span class="st">&quot;triple&quot;</span>,<span class="st">&quot;walk&quot;</span>,<span class="st">&quot;wild_pitch&quot;</span>)</span>
+<span id="cb17-3"><a href="extracting-cleaning-validating-transforming.html#cb17-3" tabindex="-1"></a></span>
+<span id="cb17-4"><a href="extracting-cleaning-validating-transforming.html#cb17-4" tabindex="-1"></a>outs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;double_play&quot;</span>,<span class="st">&quot;field_out&quot;</span>,<span class="st">&quot;fielders_choice&quot;</span>,<span class="st">&quot;fielders_choice_out&quot;</span>,</span>
+<span id="cb17-5"><a href="extracting-cleaning-validating-transforming.html#cb17-5" tabindex="-1"></a>          <span class="st">&quot;force_out&quot;</span>, <span class="st">&quot;grounded_into_double_play&quot;</span>,<span class="st">&quot;fielders_choice_out&quot;</span>,</span>
+<span id="cb17-6"><a href="extracting-cleaning-validating-transforming.html#cb17-6" tabindex="-1"></a>          <span class="st">&quot;sac_bunt&quot;</span>,<span class="st">&quot;sac_bunt_double_play&quot;</span>,<span class="st">&quot;sac_fly&quot;</span>,<span class="st">&quot;sac_fly_double_play&quot;</span>,</span>
+<span id="cb17-7"><a href="extracting-cleaning-validating-transforming.html#cb17-7" tabindex="-1"></a>          <span class="st">&quot;strikeout&quot;</span>,<span class="st">&quot;strikeout_double_play&quot;</span>,<span class="st">&quot;triple_play&quot;</span>)</span>
+<span id="cb17-8"><a href="extracting-cleaning-validating-transforming.html#cb17-8" tabindex="-1"></a></span>
+<span id="cb17-9"><a href="extracting-cleaning-validating-transforming.html#cb17-9" tabindex="-1"></a>mlbraw <span class="sc">%&gt;%</span></span>
+<span id="cb17-10"><a href="extracting-cleaning-validating-transforming.html#cb17-10" tabindex="-1"></a>  <span class="fu">select</span>(events) <span class="sc">%&gt;%</span></span>
+<span id="cb17-11"><a href="extracting-cleaning-validating-transforming.html#cb17-11" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>(events <span class="sc">%in%</span> non_outs)) <span class="sc">%&gt;%</span></span>
+<span id="cb17-12"><a href="extracting-cleaning-validating-transforming.html#cb17-12" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>(events <span class="sc">%in%</span> outs)) <span class="co"># shouldn&#39;t return any records</span></span></code></pre></div>
+<pre><code>## # A tibble: 0 × 1
+## # ℹ 1 variable: events &lt;chr&gt;</code></pre>
+<p>I will uniformly assign the value out to all distinct events that lead to an out, disregarding their specific descriptions. Restricting the possible event values in this manner will be needed in the following steps of this process.</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="extracting-cleaning-validating-transforming.html#cb19-1" tabindex="-1"></a>mlbraw <span class="ot">&lt;-</span> mlbraw <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">events =</span> <span class="fu">if_else</span>(events <span class="sc">%in%</span> outs, <span class="st">&quot;out&quot;</span>, events))</span></code></pre></div>
+<p>Adjust the order of factor levels for the purpose of plotting.</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="extracting-cleaning-validating-transforming.html#cb20-1" tabindex="-1"></a>mlbraw <span class="ot">&lt;-</span> mlbraw <span class="sc">%&gt;%</span></span>
+<span id="cb20-2"><a href="extracting-cleaning-validating-transforming.html#cb20-2" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">events =</span> <span class="fu">factor</span>(events, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;strike&quot;</span>, <span class="st">&quot;foul&quot;</span>, <span class="st">&quot;ball&quot;</span>, <span class="st">&quot;walk&quot;</span>, <span class="st">&quot;hit_by_pitch&quot;</span>, </span>
+<span id="cb20-3"><a href="extracting-cleaning-validating-transforming.html#cb20-3" tabindex="-1"></a>                                            <span class="st">&quot;out&quot;</span>, <span class="st">&quot;single&quot;</span>, <span class="st">&quot;double&quot;</span>, <span class="st">&quot;triple&quot;</span>, <span class="st">&quot;hr&quot;</span>)))</span></code></pre></div>
+</div>
+<div id="event-outcome-frequency-by-count" class="section level2 hasAnchor" number="2.6">
+<h2><span class="header-section-number">2.6</span> Event Outcome Frequency by Count<a href="extracting-cleaning-validating-transforming.html#event-outcome-frequency-by-count" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="extracting-cleaning-validating-transforming.html#cb21-1" tabindex="-1"></a>plot4 <span class="ot">&lt;-</span> <span class="fu">inner_join</span>(mlbraw <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(count,events) <span class="sc">%&gt;%</span> <span class="fu">count</span>(),</span>
+<span id="cb21-2"><a href="extracting-cleaning-validating-transforming.html#cb21-2" tabindex="-1"></a>                   mlbraw <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(count) <span class="sc">%&gt;%</span> <span class="fu">count</span>(),</span>
+<span id="cb21-3"><a href="extracting-cleaning-validating-transforming.html#cb21-3" tabindex="-1"></a>                   <span class="fu">join_by</span>(count)) <span class="sc">%&gt;%</span></span>
+<span id="cb21-4"><a href="extracting-cleaning-validating-transforming.html#cb21-4" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">p =</span> n.x <span class="sc">/</span> n.y) <span class="sc">%&gt;%</span></span>
+<span id="cb21-5"><a href="extracting-cleaning-validating-transforming.html#cb21-5" tabindex="-1"></a>  <span class="fu">select</span>(count, events, p) <span class="sc">%&gt;%</span></span>
+<span id="cb21-6"><a href="extracting-cleaning-validating-transforming.html#cb21-6" tabindex="-1"></a>  <span class="fu">filter</span>(events <span class="sc">!=</span> <span class="st">&quot;hit_by_pitch&quot;</span>)</span>
+<span id="cb21-7"><a href="extracting-cleaning-validating-transforming.html#cb21-7" tabindex="-1"></a></span>
+<span id="cb21-8"><a href="extracting-cleaning-validating-transforming.html#cb21-8" tabindex="-1"></a><span class="fu">ggplot</span>(plot4)<span class="sc">+</span></span>
+<span id="cb21-9"><a href="extracting-cleaning-validating-transforming.html#cb21-9" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="fu">aes</span>(<span class="at">x=</span>events, <span class="at">y=</span>p), </span>
+<span id="cb21-10"><a href="extracting-cleaning-validating-transforming.html#cb21-10" tabindex="-1"></a>           <span class="at">fill=</span><span class="st">&quot;grey&quot;</span>,<span class="at">width=</span><span class="fl">0.9</span>, <span class="at">show.legend =</span> <span class="cn">FALSE</span>)<span class="sc">+</span></span>
+<span id="cb21-11"><a href="extracting-cleaning-validating-transforming.html#cb21-11" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept=</span><span class="dv">0</span>, <span class="at">linewidth=</span><span class="fl">0.1</span>)<span class="sc">+</span></span>
+<span id="cb21-12"><a href="extracting-cleaning-validating-transforming.html#cb21-12" tabindex="-1"></a>  <span class="fu">theme_bw</span>()<span class="sc">+</span></span>
+<span id="cb21-13"><a href="extracting-cleaning-validating-transforming.html#cb21-13" tabindex="-1"></a>  <span class="fu">ylim</span>(<span class="dv">0</span>, <span class="fl">0.63</span>)<span class="sc">+</span></span>
+<span id="cb21-14"><a href="extracting-cleaning-validating-transforming.html#cb21-14" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>count, <span class="at">ncol=</span><span class="dv">3</span>, <span class="at">nrow=</span><span class="dv">4</span>, <span class="at">scales=</span><span class="st">&quot;free&quot;</span>)<span class="sc">+</span></span>
+<span id="cb21-15"><a href="extracting-cleaning-validating-transforming.html#cb21-15" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">&quot;Event Outcome Frequency by Count </span><span class="sc">\n</span><span class="st">&quot;</span>)<span class="sc">+</span></span>
+<span id="cb21-16"><a href="extracting-cleaning-validating-transforming.html#cb21-16" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">strip.background =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">&quot;lightblue&quot;</span>),</span>
+<span id="cb21-17"><a href="extracting-cleaning-validating-transforming.html#cb21-17" tabindex="-1"></a>        <span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">20</span>),</span>
+<span id="cb21-18"><a href="extracting-cleaning-validating-transforming.html#cb21-18" tabindex="-1"></a>        <span class="at">axis.text=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">16</span>),</span>
+<span id="cb21-19"><a href="extracting-cleaning-validating-transforming.html#cb21-19" tabindex="-1"></a>        <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>,</span>
+<span id="cb21-20"><a href="extracting-cleaning-validating-transforming.html#cb21-20" tabindex="-1"></a>                                   <span class="at">size=</span><span class="dv">14</span>,<span class="at">color=</span><span class="st">&quot;grey40&quot;</span>),</span>
+<span id="cb21-21"><a href="extracting-cleaning-validating-transforming.html#cb21-21" tabindex="-1"></a>        <span class="at">axis.title =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb21-22"><a href="extracting-cleaning-validating-transforming.html#cb21-22" tabindex="-1"></a>        <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">20</span>, <span class="at">hjust =</span> <span class="fl">0.5</span>),</span>
+<span id="cb21-23"><a href="extracting-cleaning-validating-transforming.html#cb21-23" tabindex="-1"></a>        <span class="at">panel.grid.major =</span> <span class="fu">element_blank</span>(), </span>
+<span id="cb21-24"><a href="extracting-cleaning-validating-transforming.html#cb21-24" tabindex="-1"></a>        <span class="at">panel.grid.minor =</span> <span class="fu">element_blank</span>())</span></code></pre></div>
+<p><img src="bookdownproj_files/figure-html/event%20outcome%20frequency%20by%20count-1.png" width="960" style="display: block; margin: auto auto auto 0;" /></p>
+<p>The depicted plot provides a breakdown of event frequencies in various batter counts, particularly when the events have been condensed to 10 values. Notably, a pitcher is significantly more inclined to throw a strike in a 3-0 count than in a 0-0 or 0-2 count. Additionally, there is a increased likelihood of recording an out in two-strike counts compared to no-strike or one-strike counts. A cursory examination of the plot suggests that the outcomes align with my expectations, thereby validating the contents of the dataset.</p>
+</div>
+<div id="average-delta-run-expectancy" class="section level2 hasAnchor" number="2.7">
+<h2><span class="header-section-number">2.7</span> Average Delta Run Expectancy<a href="extracting-cleaning-validating-transforming.html#average-delta-run-expectancy" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The objective of this project is to quantify the effectiveness of pitch locations, taking into account various factors such as pitch type, count, the handedness of the pitcher and batter, along with the spatial coordinates of the pitch on the x and y plane. However, determining the appropriate metric to quantify and interpret the resulting pitch outcome is a critical consideration.</p>
+<p>Within the dataset, there exists a column named delta_run_exp, which denotes the value of each individual event in terms of how the run expectancy changes based on that specific event. Run expectancy is determined for every fixed situation in a game, considering factors such as the location of base runners, the number of outs, and the batter count before the pitch.</p>
+<p>Consider the following scenario as an example: an at-bat starts with 0 outs and runners on 1st and 2nd in a 0-0 count. In this specific state, there is an expected number of runs to be scored for the remainder of the inning. For instance, in 2023, an average of 1.465 runs were scored in the remainder of the inning for this particular scenario.</p>
+<p>If the first pitch in this at-bat is a strike, a new scenario unfolds with a different expected runs scored for the remainder of the inning—now with 0 outs, runners on 1st and 2nd, and a 0-1 count. The average runs scored for the remainder of the inning in this new scenario will be slightly different, for example, 1.376.</p>
+<p>Consequently, the strike thrown by the pitcher has changed the expected runs scored by -0.089, which is reflected in the delta_run_exp column. The fundamental idea is to evaluate every pitch by comparing the expected runs scored that inning before and after the pitch is thrown.</p>
+<p>While delta_run_exp seems to be a suitable measure for my location quality metric, it has a drawback. It derives its value from factors like count, outs, base runners, and the resulting event. In this project, the aim is to assess pitches under different conditions, focusing on the average change in run expectancy based on the count and event. Thus, the goal is to transform the existing dataset so that instead of relying on delta_run_exp as the metric of success or failure, a new variable is created to represent the change in run expectancy based on the specified project parameters. This way, when a specific event occurs (e.g., ball, strike, double, fielder’s choice) in a specific count (e.g., 0-1, 2-0, 3-2), we can observe the average change in run expectancy.</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="extracting-cleaning-validating-transforming.html#cb22-1" tabindex="-1"></a>re_outs <span class="ot">&lt;-</span> mlbraw <span class="sc">%&gt;%</span> </span>
+<span id="cb22-2"><a href="extracting-cleaning-validating-transforming.html#cb22-2" tabindex="-1"></a>  <span class="fu">filter</span>(events <span class="sc">==</span> <span class="st">&quot;out&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb22-3"><a href="extracting-cleaning-validating-transforming.html#cb22-3" tabindex="-1"></a>  <span class="fu">group_by</span>(count, events) <span class="sc">%&gt;%</span></span>
+<span id="cb22-4"><a href="extracting-cleaning-validating-transforming.html#cb22-4" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">re =</span> <span class="fu">round</span>(<span class="fu">mean</span>(delta_run_exp, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="dv">4</span>), <span class="at">.groups =</span> <span class="st">&#39;drop&#39;</span>)</span>
+<span id="cb22-5"><a href="extracting-cleaning-validating-transforming.html#cb22-5" tabindex="-1"></a></span>
+<span id="cb22-6"><a href="extracting-cleaning-validating-transforming.html#cb22-6" tabindex="-1"></a>re_non_outs <span class="ot">&lt;-</span> mlbraw <span class="sc">%&gt;%</span> </span>
+<span id="cb22-7"><a href="extracting-cleaning-validating-transforming.html#cb22-7" tabindex="-1"></a>  <span class="fu">filter</span>(events <span class="sc">%in%</span> non_outs) <span class="sc">%&gt;%</span> </span>
+<span id="cb22-8"><a href="extracting-cleaning-validating-transforming.html#cb22-8" tabindex="-1"></a>  <span class="fu">group_by</span>(count, events) <span class="sc">%&gt;%</span>  </span>
+<span id="cb22-9"><a href="extracting-cleaning-validating-transforming.html#cb22-9" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">re =</span> <span class="fu">round</span>(<span class="fu">mean</span>(delta_run_exp, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="dv">4</span>), <span class="at">.groups =</span> <span class="st">&#39;drop&#39;</span>)</span>
+<span id="cb22-10"><a href="extracting-cleaning-validating-transforming.html#cb22-10" tabindex="-1"></a></span>
+<span id="cb22-11"><a href="extracting-cleaning-validating-transforming.html#cb22-11" tabindex="-1"></a>re_lookup <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(re_outs, re_non_outs) <span class="sc">%&gt;%</span> <span class="fu">arrange</span>(count, events)</span>
+<span id="cb22-12"><a href="extracting-cleaning-validating-transforming.html#cb22-12" tabindex="-1"></a></span>
+<span id="cb22-13"><a href="extracting-cleaning-validating-transforming.html#cb22-13" tabindex="-1"></a><span class="fu">rm</span>(outs, non_outs, re_outs, re_non_outs)</span></code></pre></div>
+<p>Consider each event that leads to an out as a single out event, irrespective of the specific type of out or the number of outs resulting from the play. This approach aims to mitigate the influence of base runners on the changing run expectancy, as well as the impact of the number of outs.</p>
+<p>I have separated outs from non-outs and performed an aggregation to determine the average change in run expectancy for every conceivable event in each possible count.</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="extracting-cleaning-validating-transforming.html#cb23-1" tabindex="-1"></a><span class="fu">anti_join</span>(mlbraw <span class="sc">%&gt;%</span> <span class="fu">distinct</span>(count, events),</span>
+<span id="cb23-2"><a href="extracting-cleaning-validating-transforming.html#cb23-2" tabindex="-1"></a>          re_lookup <span class="sc">%&gt;%</span> <span class="fu">distinct</span>(count, events),</span>
+<span id="cb23-3"><a href="extracting-cleaning-validating-transforming.html#cb23-3" tabindex="-1"></a>          <span class="fu">join_by</span>(count, events))</span></code></pre></div>
+<pre><code>## # A tibble: 0 × 2
+## # ℹ 2 variables: count &lt;fct&gt;, events &lt;fct&gt;</code></pre>
+<p>Using the refined mlbraw dataset and the new run expectancy lookup table, we verify whether any combination of counts and events from the two datasets are incompatible. Specifically, we check if there is no combination of count and events existing in one table that is not present in the other.</p>
+<p>Additionally, for pitches resulting in a hit by pitch, I have opted to treat the event as if it were a ball. Consequently, I calculate the change in run expectancy from the perspective of ball rather than hit_by_pitch. This choice aims to enhance the continuity between location plots, ensuring that rare hit_by_pitch events do not disproportionately influence specific locations and disrupt the overall analysis.</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="extracting-cleaning-validating-transforming.html#cb25-1" tabindex="-1"></a>mlbraw_a <span class="ot">&lt;-</span> mlbraw <span class="sc">%&gt;%</span> </span>
+<span id="cb25-2"><a href="extracting-cleaning-validating-transforming.html#cb25-2" tabindex="-1"></a>  <span class="fu">filter</span>(count <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;0-0&quot;</span>,<span class="st">&quot;0-1&quot;</span>,<span class="st">&quot;1-0&quot;</span>,<span class="st">&quot;1-1&quot;</span>,<span class="st">&quot;2-0&quot;</span>,<span class="st">&quot;2-1&quot;</span>,<span class="st">&quot;0-2&quot;</span>,<span class="st">&quot;1-2&quot;</span>,<span class="st">&quot;2-2&quot;</span>))</span>
+<span id="cb25-3"><a href="extracting-cleaning-validating-transforming.html#cb25-3" tabindex="-1"></a></span>
+<span id="cb25-4"><a href="extracting-cleaning-validating-transforming.html#cb25-4" tabindex="-1"></a>mlbraw_b <span class="ot">&lt;-</span> mlbraw <span class="sc">%&gt;%</span> </span>
+<span id="cb25-5"><a href="extracting-cleaning-validating-transforming.html#cb25-5" tabindex="-1"></a>  <span class="fu">filter</span>(count <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;3-0&quot;</span>,<span class="st">&quot;3-1&quot;</span>,<span class="st">&quot;3-2&quot;</span>))</span>
+<span id="cb25-6"><a href="extracting-cleaning-validating-transforming.html#cb25-6" tabindex="-1"></a></span>
+<span id="cb25-7"><a href="extracting-cleaning-validating-transforming.html#cb25-7" tabindex="-1"></a>mlbraw_a <span class="ot">&lt;-</span> mlbraw_a <span class="sc">%&gt;%</span> </span>
+<span id="cb25-8"><a href="extracting-cleaning-validating-transforming.html#cb25-8" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">events =</span> <span class="fu">if_else</span>(events <span class="sc">==</span> <span class="st">&quot;hit_by_pitch&quot;</span>, <span class="st">&quot;ball&quot;</span>, events))</span>
+<span id="cb25-9"><a href="extracting-cleaning-validating-transforming.html#cb25-9" tabindex="-1"></a></span>
+<span id="cb25-10"><a href="extracting-cleaning-validating-transforming.html#cb25-10" tabindex="-1"></a>mlbraw_b <span class="ot">&lt;-</span> mlbraw_b <span class="sc">%&gt;%</span> </span>
+<span id="cb25-11"><a href="extracting-cleaning-validating-transforming.html#cb25-11" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">events =</span> <span class="fu">if_else</span>(events <span class="sc">==</span> <span class="st">&quot;hit_by_pitch&quot;</span>, <span class="st">&quot;walk&quot;</span>, events))</span>
+<span id="cb25-12"><a href="extracting-cleaning-validating-transforming.html#cb25-12" tabindex="-1"></a></span>
+<span id="cb25-13"><a href="extracting-cleaning-validating-transforming.html#cb25-13" tabindex="-1"></a>mlbraw <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(mlbraw_a, mlbraw_b) <span class="sc">%&gt;%</span> </span>
+<span id="cb25-14"><a href="extracting-cleaning-validating-transforming.html#cb25-14" tabindex="-1"></a>  <span class="fu">arrange</span>(game_year, count, events)</span>
+<span id="cb25-15"><a href="extracting-cleaning-validating-transforming.html#cb25-15" tabindex="-1"></a></span>
+<span id="cb25-16"><a href="extracting-cleaning-validating-transforming.html#cb25-16" tabindex="-1"></a><span class="fu">rm</span>(mlbraw_a, mlbraw_b)</span></code></pre></div>
+</div>
+<div id="join-lookup-table-to-data-set" class="section level2 hasAnchor" number="2.8">
+<h2><span class="header-section-number">2.8</span> Join Lookup Table to Data Set<a href="extracting-cleaning-validating-transforming.html#join-lookup-table-to-data-set" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Next, I will merge the primary dataset containing the pitches from the past 10 years with the lookup table, effectively substituting the existing delta_run_exp values with the newly calculated average change in run expectancy values.</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="extracting-cleaning-validating-transforming.html#cb26-1" tabindex="-1"></a>mlbraw <span class="ot">&lt;-</span> mlbraw <span class="sc">%&gt;%</span> </span>
+<span id="cb26-2"><a href="extracting-cleaning-validating-transforming.html#cb26-2" tabindex="-1"></a>  <span class="fu">left_join</span>(re_lookup, <span class="fu">join_by</span>(count, events)) <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="sc">-</span>delta_run_exp)</span></code></pre></div>
+<p>Now, we have a comprehensive overview of how each event in each count influences run expectancy. For every combination of count and events, we have specific change in run expectancy value.</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="extracting-cleaning-validating-transforming.html#cb27-1" tabindex="-1"></a>plot5 <span class="ot">&lt;-</span> re_lookup <span class="sc">%&gt;%</span> </span>
+<span id="cb27-2"><a href="extracting-cleaning-validating-transforming.html#cb27-2" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>events <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;hit_by_pitch&quot;</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb27-3"><a href="extracting-cleaning-validating-transforming.html#cb27-3" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">events =</span> <span class="fu">factor</span>(events, </span>
+<span id="cb27-4"><a href="extracting-cleaning-validating-transforming.html#cb27-4" tabindex="-1"></a>                        <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;out&quot;</span>, <span class="st">&quot;strike&quot;</span>, <span class="st">&quot;foul&quot;</span>, <span class="st">&quot;ball&quot;</span>, <span class="st">&quot;walk&quot;</span>,</span>
+<span id="cb27-5"><a href="extracting-cleaning-validating-transforming.html#cb27-5" tabindex="-1"></a>                                   <span class="st">&quot;single&quot;</span>, <span class="st">&quot;double&quot;</span>, <span class="st">&quot;triple&quot;</span>, <span class="st">&quot;hr&quot;</span>)))</span>
+<span id="cb27-6"><a href="extracting-cleaning-validating-transforming.html#cb27-6" tabindex="-1"></a></span>
+<span id="cb27-7"><a href="extracting-cleaning-validating-transforming.html#cb27-7" tabindex="-1"></a></span>
+<span id="cb27-8"><a href="extracting-cleaning-validating-transforming.html#cb27-8" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> plot5, <span class="fu">aes</span>(<span class="at">x=</span>count, <span class="at">y=</span>events, <span class="at">fill=</span>re))<span class="sc">+</span></span>
+<span id="cb27-9"><a href="extracting-cleaning-validating-transforming.html#cb27-9" tabindex="-1"></a>  <span class="fu">geom_tile</span>(<span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">show.legend =</span> <span class="cn">FALSE</span>)<span class="sc">+</span></span>
+<span id="cb27-10"><a href="extracting-cleaning-validating-transforming.html#cb27-10" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">x=</span>count, <span class="at">y=</span>events, <span class="at">label=</span><span class="fu">round</span>(re,<span class="dv">2</span>)), <span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">size =</span> <span class="dv">4</span>)<span class="sc">+</span></span>
+<span id="cb27-11"><a href="extracting-cleaning-validating-transforming.html#cb27-11" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">&quot;Average Change in Run Expenctancy Based on Count and Events </span><span class="sc">\n</span><span class="st">&quot;</span>)<span class="sc">+</span></span>
+<span id="cb27-12"><a href="extracting-cleaning-validating-transforming.html#cb27-12" tabindex="-1"></a>  <span class="fu">scale_fill_gradient2</span>(<span class="at">high=</span><span class="st">&quot;red&quot;</span>, <span class="at">mid=</span><span class="st">&quot;white&quot;</span>, <span class="at">low=</span><span class="st">&quot;blue&quot;</span>) <span class="sc">+</span></span>
+<span id="cb27-13"><a href="extracting-cleaning-validating-transforming.html#cb27-13" tabindex="-1"></a>  <span class="fu">theme_void</span>()<span class="sc">+</span> </span>
+<span id="cb27-14"><a href="extracting-cleaning-validating-transforming.html#cb27-14" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">vjust =</span> <span class="dv">1</span>, <span class="at">size =</span> <span class="dv">12</span>, <span class="at">hjust =</span> <span class="dv">1</span>),</span>
+<span id="cb27-15"><a href="extracting-cleaning-validating-transforming.html#cb27-15" tabindex="-1"></a>        <span class="at">axis.text.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>, <span class="at">hjust =</span> <span class="fl">0.9</span>),</span>
+<span id="cb27-16"><a href="extracting-cleaning-validating-transforming.html#cb27-16" tabindex="-1"></a>        <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">20</span>, <span class="at">hjust =</span> <span class="fl">0.5</span>))<span class="sc">+</span></span>
+<span id="cb27-17"><a href="extracting-cleaning-validating-transforming.html#cb27-17" tabindex="-1"></a>  <span class="fu">coord_fixed</span>()</span></code></pre></div>
+<p><img src="bookdownproj_files/figure-html/Average%20Change%20in%20Run%20Expenctancy%20Based%20on%20Count%20and%20Events-1.png" width="1152" style="display: block; margin: auto auto auto 0;" /></p>
+<p>As expected, the outcomes of events yield slightly different changes in run expectancy depending on the count. For instance, a home run hit in an 0-2 count adds more run value than a home run hit in a 3-0 count. This discrepancy arises because an 0-2 count is inherently more advantageous for the pitcher compared to a 3-0 count, given the lower starting run expectancy before the home run is hit.</p>
+<p>Likewise, recording an out in a 3-0 count favors the pitcher compared to recording an out in a 0-2 count, aligning with common baseball understanding.</p>
+<p>Fortunately, when examining average change in run expectancy values by count, no drastic differences are observed between the groupings. Moreover, all the values align coherently with baseball intuition.</p>
+</div>
+<div id="addressing-pitch-types" class="section level2 hasAnchor" number="2.9">
+<h2><span class="header-section-number">2.9</span> Addressing Pitch Types<a href="extracting-cleaning-validating-transforming.html#addressing-pitch-types" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Up to this point in the cleaning process, we have not addressed the pitch_type column. Let’s take a closer look at the distribution of pitch types in a dataset encompassing all pitches thrown over the last 10 years in all MLB regular season games.</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="extracting-cleaning-validating-transforming.html#cb28-1" tabindex="-1"></a>plot6 <span class="ot">&lt;-</span> mlbraw <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(pitch_type, pitch_name) <span class="sc">%&gt;%</span> <span class="fu">count</span>() <span class="sc">%&gt;%</span> <span class="fu">arrange</span>(<span class="fu">desc</span>(n))</span>
+<span id="cb28-2"><a href="extracting-cleaning-validating-transforming.html#cb28-2" tabindex="-1"></a></span>
+<span id="cb28-3"><a href="extracting-cleaning-validating-transforming.html#cb28-3" tabindex="-1"></a><span class="fu">ggplot</span>(plot6, <span class="fu">aes</span>(<span class="at">x=</span>n, <span class="at">y=</span><span class="fu">reorder</span>(pitch_name, n)))<span class="sc">+</span></span>
+<span id="cb28-4"><a href="extracting-cleaning-validating-transforming.html#cb28-4" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">fill=</span><span class="st">&quot;steelblue3&quot;</span>)<span class="sc">+</span></span>
+<span id="cb28-5"><a href="extracting-cleaning-validating-transforming.html#cb28-5" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> n), <span class="at">hjust =</span> <span class="sc">-</span><span class="fl">0.1</span>, <span class="at">size=</span><span class="dv">4</span>)<span class="sc">+</span></span>
+<span id="cb28-6"><a href="extracting-cleaning-validating-transforming.html#cb28-6" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">&quot;Count of Observations by Pitch Type </span><span class="sc">\n</span><span class="st">&quot;</span>)<span class="sc">+</span></span>
+<span id="cb28-7"><a href="extracting-cleaning-validating-transforming.html#cb28-7" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()<span class="sc">+</span></span>
+<span id="cb28-8"><a href="extracting-cleaning-validating-transforming.html#cb28-8" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">strip.background =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">&quot;lightblue&quot;</span>),</span>
+<span id="cb28-9"><a href="extracting-cleaning-validating-transforming.html#cb28-9" tabindex="-1"></a>        <span class="at">axis.text=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">12</span>),</span>
+<span id="cb28-10"><a href="extracting-cleaning-validating-transforming.html#cb28-10" tabindex="-1"></a>        <span class="at">axis.text.x =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb28-11"><a href="extracting-cleaning-validating-transforming.html#cb28-11" tabindex="-1"></a>        <span class="at">axis.text.y =</span> <span class="fu">element_text</span>(<span class="at">hjust=</span><span class="dv">1</span>),</span>
+<span id="cb28-12"><a href="extracting-cleaning-validating-transforming.html#cb28-12" tabindex="-1"></a>        <span class="at">axis.ticks.x =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb28-13"><a href="extracting-cleaning-validating-transforming.html#cb28-13" tabindex="-1"></a>        <span class="at">axis.title =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb28-14"><a href="extracting-cleaning-validating-transforming.html#cb28-14" tabindex="-1"></a>        <span class="at">panel.grid.major =</span> <span class="fu">element_blank</span>(), </span>
+<span id="cb28-15"><a href="extracting-cleaning-validating-transforming.html#cb28-15" tabindex="-1"></a>        <span class="at">panel.grid.minor =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb28-16"><a href="extracting-cleaning-validating-transforming.html#cb28-16" tabindex="-1"></a>        <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">20</span>, <span class="at">hjust =</span> <span class="fl">0.5</span>))<span class="sc">+</span></span>
+<span id="cb28-17"><a href="extracting-cleaning-validating-transforming.html#cb28-17" tabindex="-1"></a>  <span class="fu">xlim</span>(<span class="dv">0</span>,<span class="dv">2500000</span>)<span class="sc">+</span></span>
+<span id="cb28-18"><a href="extracting-cleaning-validating-transforming.html#cb28-18" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">expand =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<p><img src="bookdownproj_files/figure-html/unnamed-chunk-62-1.png" width="960" style="display: block; margin: auto auto auto 0;" /></p>
+<p>4-Seam Fastballs constitute a significant portion of the dataset. Sinkers, Sliders, Changeups, Curveballs, and cutters are well-represented, but there is a notable drop in observations for the remaining pitch types. For now, we need to transform some of the pitch types.</p>
+<p>Certain pitch type values, such as Knuckle Curves, Slow Curves, and Slurves, are variations of Curveballs. While these variations possess distinct qualities and hand grips, they are considered minor in comparison to the standard Curveball. Therefore, I’ll transform these Curveball variations to take on the standard Curveball pitch type value.</p>
+<p>Some pitch types are exceptionally rare compared to the six or so most commonly thrown pitches. For the purpose of this project, these infrequent pitch types can be eliminated. This includes Screwballs, Forkballs, Eephus pitches, among others.</p>
+<p>Pitch Outs are not considered competitive pitches and will be removed from the dataset.</p>
+<p>Sweepers, a relatively new pitch type gaining popularity, are similar to sliders in movement but tend to have more horizontal break and less vertical break, along with lower velocity. While there is ongoing debate about whether sweepers should be considered a distinct pitch type or a variation of the slider, for the purposes of this project, and due to the limited observations, I will transform sweepers into sliders.</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="extracting-cleaning-validating-transforming.html#cb29-1" tabindex="-1"></a>mlbraw <span class="ot">&lt;-</span> mlbraw <span class="sc">%&gt;%</span> <span class="fu">filter</span>(pitch_type <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;FF&quot;</span>,<span class="st">&quot;CU&quot;</span>,<span class="st">&quot;SL&quot;</span>,<span class="st">&quot;SI&quot;</span>,<span class="st">&quot;CH&quot;</span>,<span class="st">&quot;FS&quot;</span>,</span>
+<span id="cb29-2"><a href="extracting-cleaning-validating-transforming.html#cb29-2" tabindex="-1"></a>                                              <span class="st">&quot;FC&quot;</span>,<span class="st">&quot;KC&quot;</span>,<span class="st">&quot;ST&quot;</span>,<span class="st">&quot;CS&quot;</span>,<span class="st">&quot;SV&quot;</span>))</span>
+<span id="cb29-3"><a href="extracting-cleaning-validating-transforming.html#cb29-3" tabindex="-1"></a></span>
+<span id="cb29-4"><a href="extracting-cleaning-validating-transforming.html#cb29-4" tabindex="-1"></a>mlbraw <span class="ot">&lt;-</span> mlbraw <span class="sc">%&gt;%</span></span>
+<span id="cb29-5"><a href="extracting-cleaning-validating-transforming.html#cb29-5" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">pitch_type =</span> <span class="fu">if_else</span>(pitch_type <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;CU&quot;</span>,<span class="st">&quot;CS&quot;</span>,<span class="st">&quot;KC&quot;</span>, <span class="st">&quot;SV&quot;</span>), <span class="st">&quot;CU&quot;</span>,</span>
+<span id="cb29-6"><a href="extracting-cleaning-validating-transforming.html#cb29-6" tabindex="-1"></a>                              <span class="fu">if_else</span>(pitch_type <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;CH&quot;</span>,<span class="st">&quot;FS&quot;</span>), <span class="st">&quot;CH&quot;</span>,</span>
+<span id="cb29-7"><a href="extracting-cleaning-validating-transforming.html#cb29-7" tabindex="-1"></a>                                      <span class="fu">if_else</span>(pitch_type <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;SL&quot;</span>,<span class="st">&quot;ST&quot;</span>), <span class="st">&quot;SL&quot;</span>,</span>
+<span id="cb29-8"><a href="extracting-cleaning-validating-transforming.html#cb29-8" tabindex="-1"></a>                                              pitch_type)))) <span class="sc">%&gt;%</span></span>
+<span id="cb29-9"><a href="extracting-cleaning-validating-transforming.html#cb29-9" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">pitch_name =</span> <span class="fu">if_else</span>(pitch_type <span class="sc">==</span> <span class="st">&quot;CU&quot;</span>, <span class="st">&quot;Curveball&quot;</span>, pitch_name)) <span class="sc">%&gt;%</span></span>
+<span id="cb29-10"><a href="extracting-cleaning-validating-transforming.html#cb29-10" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">pitch_name =</span> <span class="fu">if_else</span>(pitch_type <span class="sc">==</span> <span class="st">&quot;SL&quot;</span>, <span class="st">&quot;Slider&quot;</span>, pitch_name)) <span class="sc">%&gt;%</span></span>
+<span id="cb29-11"><a href="extracting-cleaning-validating-transforming.html#cb29-11" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">pitch_name =</span> <span class="fu">if_else</span>(pitch_type <span class="sc">==</span> <span class="st">&quot;CH&quot;</span>, <span class="st">&quot;Changeup&quot;</span>, pitch_name))</span></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="extracting-cleaning-validating-transforming.html#cb30-1" tabindex="-1"></a>plot7 <span class="ot">&lt;-</span> mlbraw <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(pitch_name) <span class="sc">%&gt;%</span> <span class="fu">count</span>() <span class="sc">%&gt;%</span> <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">s=</span><span class="fu">sum</span>(n)) <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">p =</span> n<span class="sc">/</span>s)</span>
+<span id="cb30-2"><a href="extracting-cleaning-validating-transforming.html#cb30-2" tabindex="-1"></a></span>
+<span id="cb30-3"><a href="extracting-cleaning-validating-transforming.html#cb30-3" tabindex="-1"></a><span class="fu">ggplot</span>(plot7, <span class="fu">aes</span>(<span class="at">x=</span>p, <span class="at">y=</span><span class="fu">reorder</span>(pitch_name, p), <span class="at">label=</span>p))<span class="sc">+</span></span>
+<span id="cb30-4"><a href="extracting-cleaning-validating-transforming.html#cb30-4" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">fill=</span><span class="st">&quot;steelblue3&quot;</span>)<span class="sc">+</span></span>
+<span id="cb30-5"><a href="extracting-cleaning-validating-transforming.html#cb30-5" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> <span class="fu">paste</span>(<span class="dv">100</span><span class="sc">*</span><span class="fu">round</span>(p,<span class="dv">2</span>), <span class="st">&quot;%&quot;</span>, <span class="at">sep=</span><span class="st">&quot;&quot;</span>)),</span>
+<span id="cb30-6"><a href="extracting-cleaning-validating-transforming.html#cb30-6" tabindex="-1"></a>            <span class="at">hjust =</span> <span class="fl">1.1</span>, <span class="at">size=</span><span class="dv">4</span>, <span class="at">color=</span><span class="st">&quot;white&quot;</span>, <span class="at">fontface=</span><span class="st">&quot;bold&quot;</span>)<span class="sc">+</span></span>
+<span id="cb30-7"><a href="extracting-cleaning-validating-transforming.html#cb30-7" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">&quot;Updated Count of Observations by Pitch Type </span><span class="sc">\n</span><span class="st">&quot;</span>)<span class="sc">+</span></span>
+<span id="cb30-8"><a href="extracting-cleaning-validating-transforming.html#cb30-8" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()<span class="sc">+</span></span>
+<span id="cb30-9"><a href="extracting-cleaning-validating-transforming.html#cb30-9" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">strip.background =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">&quot;lightblue&quot;</span>),</span>
+<span id="cb30-10"><a href="extracting-cleaning-validating-transforming.html#cb30-10" tabindex="-1"></a>        <span class="at">axis.text=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">12</span>),</span>
+<span id="cb30-11"><a href="extracting-cleaning-validating-transforming.html#cb30-11" tabindex="-1"></a>        <span class="at">axis.text.x =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb30-12"><a href="extracting-cleaning-validating-transforming.html#cb30-12" tabindex="-1"></a>        <span class="at">axis.text.y =</span> <span class="fu">element_text</span>(<span class="at">hjust=</span><span class="dv">1</span>),</span>
+<span id="cb30-13"><a href="extracting-cleaning-validating-transforming.html#cb30-13" tabindex="-1"></a>        <span class="at">axis.ticks.x =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb30-14"><a href="extracting-cleaning-validating-transforming.html#cb30-14" tabindex="-1"></a>        <span class="at">axis.title =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb30-15"><a href="extracting-cleaning-validating-transforming.html#cb30-15" tabindex="-1"></a>        <span class="at">panel.grid.major =</span> <span class="fu">element_blank</span>(), </span>
+<span id="cb30-16"><a href="extracting-cleaning-validating-transforming.html#cb30-16" tabindex="-1"></a>        <span class="at">panel.grid.minor =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb30-17"><a href="extracting-cleaning-validating-transforming.html#cb30-17" tabindex="-1"></a>        <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">20</span>, <span class="at">hjust =</span> <span class="fl">0.5</span>))<span class="sc">+</span></span>
+<span id="cb30-18"><a href="extracting-cleaning-validating-transforming.html#cb30-18" tabindex="-1"></a>  <span class="fu">xlim</span>(<span class="dv">0</span>,<span class="fl">0.38</span>)<span class="sc">+</span></span>
+<span id="cb30-19"><a href="extracting-cleaning-validating-transforming.html#cb30-19" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">expand =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<p><img src="bookdownproj_files/figure-html/unnamed-chunk-65-1.png" width="960" style="display: block; margin: auto auto auto 0;" /></p>
+<p>This narrows down the pitch types to six for constructing the location quality metric. Notably, 4-Seam Fastballs are more abundantly represented compared to the other pitch types. It will be interesting to observe how this imbalance might influence the results in the subsequent steps.</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="extracting-cleaning-validating-transforming.html#cb31-1" tabindex="-1"></a>mlbraw <span class="ot">&lt;-</span> mlbraw <span class="sc">%&gt;%</span></span>
+<span id="cb31-2"><a href="extracting-cleaning-validating-transforming.html#cb31-2" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">pitch_type =</span> <span class="fu">factor</span>(pitch_type, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;FF&quot;</span>, <span class="st">&quot;SI&quot;</span>, <span class="st">&quot;FC&quot;</span>, <span class="st">&quot;CH&quot;</span>, <span class="st">&quot;CU&quot;</span>, <span class="st">&quot;SL&quot;</span>)))</span></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="extracting-cleaning-validating-transforming.html#cb32-1" tabindex="-1"></a>plot8 <span class="ot">&lt;-</span> </span>
+<span id="cb32-2"><a href="extracting-cleaning-validating-transforming.html#cb32-2" tabindex="-1"></a><span class="fu">inner_join</span>(mlbraw <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(pitch_type,events) <span class="sc">%&gt;%</span><span class="fu">count</span>(),</span>
+<span id="cb32-3"><a href="extracting-cleaning-validating-transforming.html#cb32-3" tabindex="-1"></a>           mlbraw <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(pitch_type) <span class="sc">%&gt;%</span> <span class="fu">count</span>(),</span>
+<span id="cb32-4"><a href="extracting-cleaning-validating-transforming.html#cb32-4" tabindex="-1"></a>           <span class="fu">join_by</span>(pitch_type)) <span class="sc">%&gt;%</span></span>
+<span id="cb32-5"><a href="extracting-cleaning-validating-transforming.html#cb32-5" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">p =</span> n.x <span class="sc">/</span> n.y) <span class="sc">%&gt;%</span></span>
+<span id="cb32-6"><a href="extracting-cleaning-validating-transforming.html#cb32-6" tabindex="-1"></a>  <span class="fu">select</span>(pitch_type, events, p)</span>
+<span id="cb32-7"><a href="extracting-cleaning-validating-transforming.html#cb32-7" tabindex="-1"></a></span>
+<span id="cb32-8"><a href="extracting-cleaning-validating-transforming.html#cb32-8" tabindex="-1"></a>plot8 <span class="ot">&lt;-</span> plot8 <span class="sc">%&gt;%</span></span>
+<span id="cb32-9"><a href="extracting-cleaning-validating-transforming.html#cb32-9" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb32-10"><a href="extracting-cleaning-validating-transforming.html#cb32-10" tabindex="-1"></a>    <span class="at">pitch_type =</span> <span class="fu">factor</span>(pitch_type, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;FF&quot;</span>,<span class="st">&quot;SI&quot;</span>,<span class="st">&quot;FC&quot;</span>,<span class="st">&quot;CH&quot;</span>,<span class="st">&quot;CU&quot;</span>,<span class="st">&quot;SL&quot;</span>)),</span>
+<span id="cb32-11"><a href="extracting-cleaning-validating-transforming.html#cb32-11" tabindex="-1"></a>    <span class="at">events =</span> <span class="fu">factor</span>(events, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;strike&quot;</span>,<span class="st">&quot;foul&quot;</span>,<span class="st">&quot;ball&quot;</span>,<span class="st">&quot;walk&quot;</span>,<span class="st">&quot;hit_by_pitch&quot;</span>,</span>
+<span id="cb32-12"><a href="extracting-cleaning-validating-transforming.html#cb32-12" tabindex="-1"></a>                                       <span class="st">&quot;out&quot;</span>,<span class="st">&quot;single&quot;</span>,<span class="st">&quot;double&quot;</span>,<span class="st">&quot;triple&quot;</span>,<span class="st">&quot;hr&quot;</span>)))</span>
+<span id="cb32-13"><a href="extracting-cleaning-validating-transforming.html#cb32-13" tabindex="-1"></a></span>
+<span id="cb32-14"><a href="extracting-cleaning-validating-transforming.html#cb32-14" tabindex="-1"></a><span class="fu">ggplot</span>(plot8)<span class="sc">+</span></span>
+<span id="cb32-15"><a href="extracting-cleaning-validating-transforming.html#cb32-15" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="fu">aes</span>(<span class="at">x=</span>events, <span class="at">y=</span>p), <span class="at">fill=</span><span class="st">&quot;grey&quot;</span>)<span class="sc">+</span></span>
+<span id="cb32-16"><a href="extracting-cleaning-validating-transforming.html#cb32-16" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">&quot;Event Outcome Frequency by Pitch Type </span><span class="sc">\n</span><span class="st">&quot;</span>)<span class="sc">+</span></span>
+<span id="cb32-17"><a href="extracting-cleaning-validating-transforming.html#cb32-17" tabindex="-1"></a>  <span class="fu">ylim</span>(<span class="dv">0</span>, <span class="fl">0.4</span>)<span class="sc">+</span></span>
+<span id="cb32-18"><a href="extracting-cleaning-validating-transforming.html#cb32-18" tabindex="-1"></a>  <span class="fu">theme_bw</span>()<span class="sc">+</span></span>
+<span id="cb32-19"><a href="extracting-cleaning-validating-transforming.html#cb32-19" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>pitch_type, <span class="at">ncol=</span><span class="dv">3</span>, <span class="at">nrow=</span><span class="dv">3</span>, <span class="at">scales=</span><span class="st">&quot;free&quot;</span>)<span class="sc">+</span></span>
+<span id="cb32-20"><a href="extracting-cleaning-validating-transforming.html#cb32-20" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">strip.background =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">&quot;lightblue&quot;</span>),</span>
+<span id="cb32-21"><a href="extracting-cleaning-validating-transforming.html#cb32-21" tabindex="-1"></a>        <span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">20</span>),</span>
+<span id="cb32-22"><a href="extracting-cleaning-validating-transforming.html#cb32-22" tabindex="-1"></a>        <span class="at">axis.text=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">16</span>),</span>
+<span id="cb32-23"><a href="extracting-cleaning-validating-transforming.html#cb32-23" tabindex="-1"></a>        <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>,</span>
+<span id="cb32-24"><a href="extracting-cleaning-validating-transforming.html#cb32-24" tabindex="-1"></a>                                   <span class="at">size=</span><span class="dv">14</span>,<span class="at">color=</span><span class="st">&quot;grey40&quot;</span>),</span>
+<span id="cb32-25"><a href="extracting-cleaning-validating-transforming.html#cb32-25" tabindex="-1"></a>        <span class="at">axis.title =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb32-26"><a href="extracting-cleaning-validating-transforming.html#cb32-26" tabindex="-1"></a>        <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">20</span>, <span class="at">hjust =</span> <span class="fl">0.5</span>),</span>
+<span id="cb32-27"><a href="extracting-cleaning-validating-transforming.html#cb32-27" tabindex="-1"></a>        <span class="at">panel.grid.major =</span> <span class="fu">element_blank</span>(), </span>
+<span id="cb32-28"><a href="extracting-cleaning-validating-transforming.html#cb32-28" tabindex="-1"></a>        <span class="at">panel.grid.minor =</span> <span class="fu">element_blank</span>())</span></code></pre></div>
+<p><img src="bookdownproj_files/figure-html/event%20outcome%20frequency%20by%20pitch%20type-1.png" width="960" style="display: block; margin: auto auto auto 0;" /></p>
+<p>As illustrated in the graph, the frequency of event outcomes appears to be relatively consistent across different pitch types. Notably, pitch types such as curveballs, sliders, and changeups, characterized by increased movement and aggressive hand grips, are more frequently thrown for balls than strikes. Conversely, variations of fastballs tend to be thrown for strikes more often. This observation aligns with the inherent characteristics and strategic use of these pitch types in baseball.</p>
+</div>
+<div id="cleaning-pitch-locations" class="section level2 hasAnchor" number="2.10">
+<h2><span class="header-section-number">2.10</span> Cleaning Pitch Locations<a href="extracting-cleaning-validating-transforming.html#cleaning-pitch-locations" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Now, let’s delve into the spatial aspect of each pitch, focusing on the plate_x variable. The plate_x value is determined by the horizontal distance of the pitch from the center of the plate, measured in feet. When a pitch is directed down the middle of the plate, its plate_x value is 0. Given that home plate is 1.66 feet wide, pitches with plate_x values ranging from -0.83 to 0.83 cross some part of the plate.</p>
+<p>To provide a clearer picture, let’s examine the distribution of plate_x values, rounded to the nearest whole number. This distribution offers insights into how pitches are distributed across the width of the plate and provides a foundation for evaluating the horizontal location of each pitch.</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="extracting-cleaning-validating-transforming.html#cb33-1" tabindex="-1"></a>mlbraw <span class="sc">%&gt;%</span></span>
+<span id="cb33-2"><a href="extracting-cleaning-validating-transforming.html#cb33-2" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">plate_x =</span> <span class="fu">round</span>(plate_x, <span class="dv">0</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb33-3"><a href="extracting-cleaning-validating-transforming.html#cb33-3" tabindex="-1"></a>  <span class="fu">group_by</span>(plate_x) <span class="sc">%&gt;%</span></span>
+<span id="cb33-4"><a href="extracting-cleaning-validating-transforming.html#cb33-4" tabindex="-1"></a>  <span class="fu">count</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb33-5"><a href="extracting-cleaning-validating-transforming.html#cb33-5" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(plate_x)) <span class="sc">%&gt;%</span></span>
+<span id="cb33-6"><a href="extracting-cleaning-validating-transforming.html#cb33-6" tabindex="-1"></a>  <span class="fu">kable</span>(<span class="st">&quot;html&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb33-7"><a href="extracting-cleaning-validating-transforming.html#cb33-7" tabindex="-1"></a>  <span class="fu">kable_styling</span>(<span class="at">bootstrap_options =</span> <span class="fu">c</span>(<span class="st">&quot;striped&quot;</span>, <span class="st">&quot;hover&quot;</span>), <span class="at">full_width =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<table class="table table-striped table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:right;">
+plate_x
+</th>
+<th style="text-align:right;">
+n
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+9
+</td>
+<td style="text-align:right;">
+2
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+2
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+6
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+35
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+492
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+12492
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+253459
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1631079
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+2883140
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+-1
+</td>
+<td style="text-align:right;">
+1556976
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+-2
+</td>
+<td style="text-align:right;">
+241665
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+-3
+</td>
+<td style="text-align:right;">
+11448
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+-4
+</td>
+<td style="text-align:right;">
+493
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+-5
+</td>
+<td style="text-align:right;">
+45
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+-6
+</td>
+<td style="text-align:right;">
+9
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+-7
+</td>
+<td style="text-align:right;">
+4
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+-8
+</td>
+<td style="text-align:right;">
+2
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+-9
+</td>
+<td style="text-align:right;">
+2
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+-10
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+-11
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+</tbody>
+</table>
+<p>The distribution of plate_x values exhibits a normal pattern with an exceptionally high peak at 0. Pitches thrown more than 4 inches to the right or left of the center of the strike zone are extremely rare. Considering the possibility of data entry errors accounting for such extreme values, I have opted to refine the dataset to include only pitches with plate_x values between -4 and 4. This adjustment aims to ensure the reliability and accuracy of the spatial data, focusing on a more plausible range of horizontal locations within the strike zone.</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="extracting-cleaning-validating-transforming.html#cb34-1" tabindex="-1"></a>mlbraw <span class="ot">&lt;-</span> mlbraw <span class="sc">%&gt;%</span> <span class="fu">filter</span>(plate_x <span class="sc">&gt;=</span> <span class="sc">-</span><span class="dv">4</span>, plate_x <span class="sc">&lt;=</span> <span class="dv">4</span>)</span></code></pre></div>
+<p>Examining plate_z, we observe a comparable distribution of pitch locations in the dataset. The majority of pitches are delivered approximately 2 to 3 feet above the ground, representing the central region of the vertical strike zone. Pitches exceeding 6 feet above the ground are infrequent, as are pitches dipping 2 feet below the ground (suggestive of bouncing before reaching the plate). To enhance the dataset’s accuracy and relevance, I intend to establish these heights as cutoffs and filter out pitches falling outside this specified range. This adjustment aims to focus on a realistic and meaningful span of vertical pitch locations within the strike zone.</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="extracting-cleaning-validating-transforming.html#cb35-1" tabindex="-1"></a>mlbraw <span class="sc">%&gt;%</span></span>
+<span id="cb35-2"><a href="extracting-cleaning-validating-transforming.html#cb35-2" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">plate_z =</span> <span class="fu">round</span>(plate_z, <span class="dv">0</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb35-3"><a href="extracting-cleaning-validating-transforming.html#cb35-3" tabindex="-1"></a>  <span class="fu">group_by</span>(plate_z) <span class="sc">%&gt;%</span></span>
+<span id="cb35-4"><a href="extracting-cleaning-validating-transforming.html#cb35-4" tabindex="-1"></a>  <span class="fu">count</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb35-5"><a href="extracting-cleaning-validating-transforming.html#cb35-5" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(plate_z)) <span class="sc">%&gt;%</span></span>
+<span id="cb35-6"><a href="extracting-cleaning-validating-transforming.html#cb35-6" tabindex="-1"></a>  <span class="fu">kable</span>(<span class="st">&quot;html&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb35-7"><a href="extracting-cleaning-validating-transforming.html#cb35-7" tabindex="-1"></a>  <span class="fu">kable_styling</span>(<span class="at">bootstrap_options =</span> <span class="fu">c</span>(<span class="st">&quot;striped&quot;</span>, <span class="st">&quot;hover&quot;</span>), <span class="at">full_width =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<table class="table table-striped table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:right;">
+plate_z
+</th>
+<th style="text-align:right;">
+n
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+12
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+11
+</td>
+<td style="text-align:right;">
+2
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+10
+</td>
+<td style="text-align:right;">
+2
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+9
+</td>
+<td style="text-align:right;">
+8
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:right;">
+21
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+260
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+4339
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+61776
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+542856
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+2002216
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+2648279
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1102790
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+204405
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+-1
+</td>
+<td style="text-align:right;">
+21991
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+-2
+</td>
+<td style="text-align:right;">
+1925
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+-3
+</td>
+<td style="text-align:right;">
+169
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+-4
+</td>
+<td style="text-align:right;">
+19
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+-5
+</td>
+<td style="text-align:right;">
+3
+</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="extracting-cleaning-validating-transforming.html#cb36-1" tabindex="-1"></a>mlbraw <span class="ot">&lt;-</span> mlbraw <span class="sc">%&gt;%</span> <span class="fu">filter</span>(plate_z <span class="sc">&gt;=</span> <span class="sc">-</span><span class="dv">2</span>, plate_z <span class="sc">&lt;=</span> <span class="dv">6</span>)</span></code></pre></div>
+</div>
+<div id="count-of-all-observations" class="section level2 hasAnchor" number="2.11">
+<h2><span class="header-section-number">2.11</span> Count of All Observations<a href="extracting-cleaning-validating-transforming.html#count-of-all-observations" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Moving forward, a significant challenge lies in assessing the efficacy of a pitch’s location when certain combinations of pitch type, count, and handedness are rare in the dataset. For instance, situations like 4-Seam Fastballs delivered by a right-handed pitcher to a right-handed batter in a 0-0 count are overwhelmingly predominant, comprising 240,591 observations. Conversely, scenarios such as Curveballs thrown by a left-handed pitcher to a left-handed batter in 3-0 counts are exceptionally rare, accounting for only 21 observations. The concern is how to effectively gauge pitch location quality with such limited data points as the latter scenario may not sufficiently map out the nuances of location effectiveness.</p>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="extracting-cleaning-validating-transforming.html#cb37-1" tabindex="-1"></a>mlbraw <span class="ot">&lt;-</span> mlbraw <span class="sc">%&gt;%</span></span>
+<span id="cb37-2"><a href="extracting-cleaning-validating-transforming.html#cb37-2" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">x=</span>plate_x, <span class="at">y=</span>plate_z) <span class="sc">%&gt;%</span></span>
+<span id="cb37-3"><a href="extracting-cleaning-validating-transforming.html#cb37-3" tabindex="-1"></a>  <span class="fu">select</span>(hand, pitch_type, count, events, x, y, re)</span></code></pre></div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="extracting-cleaning-validating-transforming.html#cb38-1" tabindex="-1"></a>plot9 <span class="ot">&lt;-</span> mlbraw <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(hand, count, pitch_type) <span class="sc">%&gt;%</span> <span class="fu">count</span>() <span class="sc">%&gt;%</span> <span class="fu">ungroup</span>()</span>
+<span id="cb38-2"><a href="extracting-cleaning-validating-transforming.html#cb38-2" tabindex="-1"></a></span>
+<span id="cb38-3"><a href="extracting-cleaning-validating-transforming.html#cb38-3" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> plot9, <span class="fu">aes</span>(<span class="at">x=</span>pitch_type, <span class="at">y=</span>count))<span class="sc">+</span></span>
+<span id="cb38-4"><a href="extracting-cleaning-validating-transforming.html#cb38-4" tabindex="-1"></a>  <span class="fu">geom_tile</span>(<span class="fu">aes</span>(<span class="at">fill=</span>n), <span class="at">alpha =</span> <span class="fl">0.5</span>,<span class="at">show.legend =</span> <span class="cn">FALSE</span>)<span class="sc">+</span></span>
+<span id="cb38-5"><a href="extracting-cleaning-validating-transforming.html#cb38-5" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>hand, <span class="at">scale=</span><span class="st">&quot;free&quot;</span>)<span class="sc">+</span></span>
+<span id="cb38-6"><a href="extracting-cleaning-validating-transforming.html#cb38-6" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">x=</span>pitch_type, <span class="at">y=</span>count, <span class="at">label=</span>n))<span class="sc">+</span></span>
+<span id="cb38-7"><a href="extracting-cleaning-validating-transforming.html#cb38-7" tabindex="-1"></a>  <span class="fu">scale_fill_gradientn</span>(<span class="at">colours =</span> <span class="fu">c</span>(<span class="st">&quot;blue&quot;</span>,<span class="st">&quot;white&quot;</span>,<span class="st">&quot;red&quot;</span>),</span>
+<span id="cb38-8"><a href="extracting-cleaning-validating-transforming.html#cb38-8" tabindex="-1"></a>                       <span class="at">values =</span> scales<span class="sc">::</span><span class="fu">rescale</span>(<span class="fu">c</span>(<span class="fu">min</span>(plot9<span class="sc">$</span>n), </span>
+<span id="cb38-9"><a href="extracting-cleaning-validating-transforming.html#cb38-9" tabindex="-1"></a>                                                  <span class="fu">quantile</span>(plot9<span class="sc">$</span>n, <span class="fl">0.1</span>),</span>
+<span id="cb38-10"><a href="extracting-cleaning-validating-transforming.html#cb38-10" tabindex="-1"></a>                                                  <span class="fu">max</span>(plot9<span class="sc">$</span>n))),</span>
+<span id="cb38-11"><a href="extracting-cleaning-validating-transforming.html#cb38-11" tabindex="-1"></a>                       <span class="at">guide=</span><span class="st">&quot;colorbar&quot;</span>) <span class="sc">+</span></span>
+<span id="cb38-12"><a href="extracting-cleaning-validating-transforming.html#cb38-12" tabindex="-1"></a>  <span class="fu">theme_void</span>()<span class="sc">+</span> </span>
+<span id="cb38-13"><a href="extracting-cleaning-validating-transforming.html#cb38-13" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">vjust =</span> <span class="dv">1</span>, <span class="at">size =</span> <span class="dv">8</span>, <span class="at">hjust =</span> <span class="dv">1</span>),</span>
+<span id="cb38-14"><a href="extracting-cleaning-validating-transforming.html#cb38-14" tabindex="-1"></a>        <span class="at">axis.text.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>, <span class="at">hjust =</span> <span class="fl">0.9</span>),</span>
+<span id="cb38-15"><a href="extracting-cleaning-validating-transforming.html#cb38-15" tabindex="-1"></a>        <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">20</span>, <span class="at">hjust =</span> <span class="fl">0.5</span>))</span></code></pre></div>
+<p><img src="bookdownproj_files/figure-html/heatmap%20of%20all%20observations-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<p>To address this challenge, I’ve opted for a workaround that effectively doubles the dataset. All pitches thrown by right-handed pitchers to right-handed batters will be mirrored by pitches thrown by left-handed pitchers to left-handed batters, with the hand label changed from LvL to RvR. The additional data will possess mirrored plate_x values. For instance, a pitch thrown by a left-handed pitcher to a left-handed batter with a plate_x of 1 and plate_z of 4 will be augmented as a pitch thrown by a right-handed pitcher to a right-handed batter with a plate_x of -1 and plate_z of 4. This augmentation results in a dataset with twice the number of observations, providing a more balanced representation across various pitch type, count, and handedness combinations.</p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="extracting-cleaning-validating-transforming.html#cb39-1" tabindex="-1"></a>mlbraw_r_r <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(mlbraw <span class="sc">%&gt;%</span> <span class="fu">filter</span>(hand <span class="sc">==</span> <span class="st">&quot;RvR&quot;</span>),</span>
+<span id="cb39-2"><a href="extracting-cleaning-validating-transforming.html#cb39-2" tabindex="-1"></a>mlbraw <span class="sc">%&gt;%</span> <span class="fu">filter</span>(hand <span class="sc">==</span> <span class="st">&quot;LvL&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb39-3"><a href="extracting-cleaning-validating-transforming.html#cb39-3" tabindex="-1"></a><span class="fu">mutate</span>(<span class="at">x =</span> x<span class="sc">*-</span><span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb39-4"><a href="extracting-cleaning-validating-transforming.html#cb39-4" tabindex="-1"></a><span class="fu">mutate</span>(<span class="at">hand =</span> <span class="st">&quot;RvR&quot;</span>))</span>
+<span id="cb39-5"><a href="extracting-cleaning-validating-transforming.html#cb39-5" tabindex="-1"></a></span>
+<span id="cb39-6"><a href="extracting-cleaning-validating-transforming.html#cb39-6" tabindex="-1"></a>mlbraw_l_l <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(mlbraw <span class="sc">%&gt;%</span> <span class="fu">filter</span>(hand <span class="sc">==</span> <span class="st">&quot;LvL&quot;</span>),</span>
+<span id="cb39-7"><a href="extracting-cleaning-validating-transforming.html#cb39-7" tabindex="-1"></a>mlbraw <span class="sc">%&gt;%</span> <span class="fu">filter</span>(hand <span class="sc">==</span> <span class="st">&quot;RvR&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb39-8"><a href="extracting-cleaning-validating-transforming.html#cb39-8" tabindex="-1"></a><span class="fu">mutate</span>(<span class="at">x =</span> x<span class="sc">*-</span><span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb39-9"><a href="extracting-cleaning-validating-transforming.html#cb39-9" tabindex="-1"></a><span class="fu">mutate</span>(<span class="at">hand =</span> <span class="st">&quot;LvL&quot;</span>))</span>
+<span id="cb39-10"><a href="extracting-cleaning-validating-transforming.html#cb39-10" tabindex="-1"></a></span>
+<span id="cb39-11"><a href="extracting-cleaning-validating-transforming.html#cb39-11" tabindex="-1"></a>mlbraw_r_l <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(mlbraw <span class="sc">%&gt;%</span> <span class="fu">filter</span>(hand <span class="sc">==</span> <span class="st">&quot;RvL&quot;</span>),</span>
+<span id="cb39-12"><a href="extracting-cleaning-validating-transforming.html#cb39-12" tabindex="-1"></a>mlbraw <span class="sc">%&gt;%</span> <span class="fu">filter</span>(hand <span class="sc">==</span> <span class="st">&quot;LvR&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb39-13"><a href="extracting-cleaning-validating-transforming.html#cb39-13" tabindex="-1"></a><span class="fu">mutate</span>(<span class="at">x =</span> x<span class="sc">*-</span><span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb39-14"><a href="extracting-cleaning-validating-transforming.html#cb39-14" tabindex="-1"></a><span class="fu">mutate</span>(<span class="at">hand =</span> <span class="st">&quot;RvL&quot;</span>))</span>
+<span id="cb39-15"><a href="extracting-cleaning-validating-transforming.html#cb39-15" tabindex="-1"></a></span>
+<span id="cb39-16"><a href="extracting-cleaning-validating-transforming.html#cb39-16" tabindex="-1"></a>mlbraw_l_r <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(mlbraw <span class="sc">%&gt;%</span> <span class="fu">filter</span>(hand <span class="sc">==</span> <span class="st">&quot;LvR&quot;</span>),</span>
+<span id="cb39-17"><a href="extracting-cleaning-validating-transforming.html#cb39-17" tabindex="-1"></a>mlbraw <span class="sc">%&gt;%</span> <span class="fu">filter</span>(hand <span class="sc">==</span> <span class="st">&quot;RvL&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb39-18"><a href="extracting-cleaning-validating-transforming.html#cb39-18" tabindex="-1"></a><span class="fu">mutate</span>(<span class="at">x =</span> x<span class="sc">*-</span><span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb39-19"><a href="extracting-cleaning-validating-transforming.html#cb39-19" tabindex="-1"></a><span class="fu">mutate</span>(<span class="at">hand =</span> <span class="st">&quot;LvR&quot;</span>))</span>
+<span id="cb39-20"><a href="extracting-cleaning-validating-transforming.html#cb39-20" tabindex="-1"></a></span>
+<span id="cb39-21"><a href="extracting-cleaning-validating-transforming.html#cb39-21" tabindex="-1"></a>mlbraw2 <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(mlbraw_r_r, mlbraw_l_l,</span>
+<span id="cb39-22"><a href="extracting-cleaning-validating-transforming.html#cb39-22" tabindex="-1"></a>mlbraw_r_l, mlbraw_l_r)</span>
+<span id="cb39-23"><a href="extracting-cleaning-validating-transforming.html#cb39-23" tabindex="-1"></a></span>
+<span id="cb39-24"><a href="extracting-cleaning-validating-transforming.html#cb39-24" tabindex="-1"></a><span class="fu">rm</span>(mlbraw_r_r, mlbraw_l_l, mlbraw_r_l, mlbraw_l_r, mlbraw)</span></code></pre></div>
+<p>The updated heatmap now displays twice the number of observations for each combination of handedness, pitch type, and count. Although certain combinations still exhibit a relatively low number of observations, the augmentation has notably improved the dataset’s representation across various scenarios, offering a more balanced distribution.</p>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="extracting-cleaning-validating-transforming.html#cb40-1" tabindex="-1"></a>plot10 <span class="ot">&lt;-</span> mlbraw2 <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(hand, count, pitch_type) <span class="sc">%&gt;%</span> <span class="fu">count</span>() <span class="sc">%&gt;%</span> <span class="fu">ungroup</span>()</span>
+<span id="cb40-2"><a href="extracting-cleaning-validating-transforming.html#cb40-2" tabindex="-1"></a></span>
+<span id="cb40-3"><a href="extracting-cleaning-validating-transforming.html#cb40-3" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> plot10, <span class="fu">aes</span>(<span class="at">x=</span>pitch_type, <span class="at">y=</span>count))<span class="sc">+</span></span>
+<span id="cb40-4"><a href="extracting-cleaning-validating-transforming.html#cb40-4" tabindex="-1"></a>  <span class="fu">geom_tile</span>(<span class="fu">aes</span>(<span class="at">fill=</span>n), <span class="at">alpha =</span> <span class="fl">0.5</span>,<span class="at">show.legend =</span> <span class="cn">FALSE</span>)<span class="sc">+</span></span>
+<span id="cb40-5"><a href="extracting-cleaning-validating-transforming.html#cb40-5" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>hand, <span class="at">scale=</span><span class="st">&quot;free&quot;</span>)<span class="sc">+</span></span>
+<span id="cb40-6"><a href="extracting-cleaning-validating-transforming.html#cb40-6" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">x=</span>pitch_type, <span class="at">y=</span>count, <span class="at">label=</span>n))<span class="sc">+</span></span>
+<span id="cb40-7"><a href="extracting-cleaning-validating-transforming.html#cb40-7" tabindex="-1"></a>  <span class="fu">scale_fill_gradientn</span>(<span class="at">colours =</span> <span class="fu">c</span>(<span class="st">&quot;blue&quot;</span>,<span class="st">&quot;white&quot;</span>,<span class="st">&quot;red&quot;</span>),</span>
+<span id="cb40-8"><a href="extracting-cleaning-validating-transforming.html#cb40-8" tabindex="-1"></a>                       <span class="at">values =</span> scales<span class="sc">::</span><span class="fu">rescale</span>(<span class="fu">c</span>(<span class="fu">min</span>(plot10<span class="sc">$</span>n), </span>
+<span id="cb40-9"><a href="extracting-cleaning-validating-transforming.html#cb40-9" tabindex="-1"></a>                                                  <span class="fu">quantile</span>(plot10<span class="sc">$</span>n, <span class="fl">0.1</span>),</span>
+<span id="cb40-10"><a href="extracting-cleaning-validating-transforming.html#cb40-10" tabindex="-1"></a>                                                  <span class="fu">max</span>(plot10<span class="sc">$</span>n))),</span>
+<span id="cb40-11"><a href="extracting-cleaning-validating-transforming.html#cb40-11" tabindex="-1"></a>                       <span class="at">guide=</span><span class="st">&quot;colorbar&quot;</span>) <span class="sc">+</span></span>
+<span id="cb40-12"><a href="extracting-cleaning-validating-transforming.html#cb40-12" tabindex="-1"></a>  <span class="fu">theme_void</span>()<span class="sc">+</span> </span>
+<span id="cb40-13"><a href="extracting-cleaning-validating-transforming.html#cb40-13" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">vjust =</span> <span class="dv">1</span>, <span class="at">size =</span> <span class="dv">8</span>, <span class="at">hjust =</span> <span class="dv">1</span>),</span>
+<span id="cb40-14"><a href="extracting-cleaning-validating-transforming.html#cb40-14" tabindex="-1"></a>        <span class="at">axis.text.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>, <span class="at">hjust =</span> <span class="fl">0.9</span>),</span>
+<span id="cb40-15"><a href="extracting-cleaning-validating-transforming.html#cb40-15" tabindex="-1"></a>        <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">20</span>, <span class="at">hjust =</span> <span class="fl">0.5</span>))</span></code></pre></div>
+<p><img src="bookdownproj_files/figure-html/heatmap%20of%20all%20observations2-1.png" width="1152" style="display: block; margin: auto;" /></p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="example-model.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/drose1988/pitch_location_quality_project/edit/main/02-extracting_cleaning_validating_transforming.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": "https://github.com/drose1988/pitch_location_quality_project/blob/main/02-extracting_cleaning_validating_transforming.Rmd",
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

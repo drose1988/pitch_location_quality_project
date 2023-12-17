@@ -2,7 +2,7 @@
 
 ## Scatterplot of Example Data
 
-Now I'll highlight a specific pitch type thrown in a specific count by a specific combination of batter/pitcher handedness. This plot accounts for all recorded sliders thrown by RHP to RHB in 2-2 counts. The red rectangle signifies the strikezone for reference.
+The depicted plot focuses specifically on sliders thrown by right-handed pitchers (RHP) to right-handed batters (RHB) in 2-2 counts. The red rectangle serves as a visual representation of the strike zone for reference. This targeted visualization allows for a detailed examination of the location and distribution of recorded sliders within this particular scenario.
 
 ```{r example data frames}
 count_df <- mlbraw2 %>% filter(count == "2-2")
@@ -17,8 +17,8 @@ hand_count_df <- mlbraw2 %>%
 ```{r}
 n <- hand_pitch_count_df %>% count() %>% as_vector()
 
-if (n > 20000) {
-  hand_pitch_count_df <- hand_pitch_count_df %>% slice_sample(n=20000)
+if (n > 10000) {
+  hand_pitch_count_df <- hand_pitch_count_df %>% slice_sample(n=10000)
 } else {
   hand_pitch_count_df
 }
@@ -45,15 +45,13 @@ ggplot() +
   coord_fixed()
 ```
 
-This plot accounts for all 50,909 recorded sliders thrown by RHP to RHB in 2-2 counts from 2014-2023. The blue rectangle represents the strike zone for reference. The goal here is to use these location points along with run expectancy change associated with the event outcome to tell us where the best and worst possible pitch locations are for pitches thrown under these conditions.
+This plot encompasses all 50,909 recorded sliders thrown by right-handed pitchers (RHP) to right-handed batters (RHB) in 2-2 counts from 2014-2023. The red rectangle serves as a representation of the strike zone for reference. The objective is to utilize these location data points, along with the associated run expectancy change for each event outcome, to discern the optimal and suboptimal pitch locations for sliders thrown under these specific conditions.
 
-A challenge presenting itself here is that clearly these pitches are concentrated in certain regions. An oval shape forms centered in the bottom right corner of the strike zone and the further it expands outward the less observations there are.
-
-In some areas of this plot the observations are so infrequent that attempting to model a smooth doesn't work. So instead of using the whole region to fit a model, we can limit the region to just areas in a higher concentration of observations eliminating pitch outlier regions.
+An apparent challenge arises as these pitches tend to cluster in particular regions. An oval shape emerges, primarily centered in the bottom right corner of the strike zone, expanding outward with diminishing observations. In certain areas, the frequency of observations is so sparse that attempting to model a smooth curve proves challenging. To address this, we can refine our focus to regions with a higher concentration of observations, excluding regions with fewer pitches to avoid potential distortions from outlier pitch locations.
 
 ## Scatterplot of Example Data Filtered
 
-Here is the same plot, but eliminating the top 1% outlier points.
+Here is a rendition of the same plot, with the exclusion of the top 1% of outlier points. This adjustment allows us to concentrate on regions with a more substantial density of observations, providing a clearer representation of the distribution of slider pitches thrown by right-handed pitchers to right-handed batters in 2-2 counts. The red rectangle remains indicative of the strike zone for reference.
 
 ```{r create example without outliers}
 g <- expand.grid(x = seq(-4, 4, 0.01), y = seq(-2, 6, 0.01)) %>% 
@@ -92,7 +90,7 @@ ggplot() +
 
 ## Create Grid
 
-A grid region can be created based on the location of these pitches excluding outlier points. This grid represents the region where 99% of all sliders thrown by RHP to RHB are located.
+Based on the location of these slider pitches, excluding the top 1% of outlier points, a grid region has been established. This grid delineates the area where 99% of all sliders thrown by right-handed pitchers to right-handed batters are concentrated. This grid provides a focused representation of the typical location distribution for these pitches in 2-2 counts.
 
 ```{r make the grid for the example}
 aa <- gfa99 %>% group_by(x) %>% summarise(ymin=min(y), ymax=max(y))
@@ -148,9 +146,11 @@ ggplot() +
 
 ## Apply Game Results to Grid
 
-Next I'll use the GAM function to estimate the change in run expectancy based on pitch location. The resulting plot shows a smooth of optimal and sub-optimal pitch locations for these unique pitch parameters, with best locations appearing bright yellow and worst locations appearing dark blue. As you can see, pitches around the edges of the strike zone rate highest, particularly the low and outside corner where a slider moving away from hitter is generally viewed as an effective location. The further away pitches are from the edge of the strike zone, the less effective they become, as it becomes easier for hitters to recognize an easy take.
+Next, the GAM (Generalized Additive Model) function has been employed to estimate the change in run expectancy based on pitch location for the specified pitch parameters. The resulting plot illustrates a smooth representation of optimal and sub-optimal pitch locations, with optimal locations depicted in bright yellow and less effective locations in dark blue.
 
-I would like to note that the a transformation has been made to the output average run expectancy value. The range of these values differ greatly depending on the count a pitch is thrown in. Pitches in 0-0 counts have considerably less extreme run expectancy values compared to 3-2 counts. In order to effectively evaluate the quality of a pitch location and keep the scale consistent regardless of the count a pitch is thrown in, I've normalized the output values to be take on a value ranging from 0 to 1.
+Observing the plot, pitches around the edges of the strike zone, particularly the low and outside corner, are rated highest. This aligns with the common perception that a slider moving away from the hitter in this location is generally considered effective. Conversely, pitches located further away from the edge of the strike zone tend to be less effective, as they become easier for hitters to recognize and take.
+
+It's worth noting that the output average run expectancy values have undergone a transformation. The range of these values varies significantly depending on the count in which a pitch is thrown. To effectively evaluate the quality of a pitch location and maintain a consistent scale irrespective of the count, the output values have been normalized to a range from 0 to 1. This normalization ensures a standardized assessment of pitch location quality across different count scenarios.
 
 ```{r plot the grid with the lp fill, fig.height = 7, fig.width = 7, fig.align = "left"}
   gf1 <- gam(re ~ s(x, y), data = hand_pitch_count_df, method = "REML")

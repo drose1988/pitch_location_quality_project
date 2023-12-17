@@ -1,7 +1,6 @@
 # Functions
 
-These functions essentially repeat the previous steps from the example model, but allow us to repeat the process for all combinations of handedness, pitch type, and count. The parameters can be inputted into the functions to give us a resulting data frame and plot to visualize for each unique combination of handedness, count, and pitch type.
-
+These functions essentially replicate the previous steps demonstrated in the example model. However, they enable us to iteratively perform the process for all combinations of handedness, pitch type, and count. By inputting specific parameters into these functions, we can generate a resulting data frame and plot for each unique combination of handedness, count, and pitch type. This systematic approach allows for a comprehensive examination of pitch location effectiveness across a wide range of scenarios in the dataset.
 
 ## Function 1
 
@@ -28,13 +27,12 @@ location_quality <- function(df, hand, pitch_type, count, gf) {
   hand_pitch_count_df <- df %>% filter(UQ(hand) == hand, UQ(pitch_type) == pitch_type, UQ(count) == count)
   hand_count_df <- df %>% filter(UQ(hand) == hand, UQ(count) == count)
   
-  n <- hand_pitch_count_df %>% count() %>% as_vector()
+  n <- hand_pitch_count_df %>% count() %>% pull()
   
-  if (n > 20000) {
-    hand_pitch_count_df <- hand_pitch_count_df %>% slice_sample(n=20000)
-    } else {
-      hand_pitch_count_df
-    }
+  if (n > 10000) {
+    hand_pitch_count_df <- hand_pitch_count_df %>% slice_sample(n = 10000)
+  }
+  
   
 g <- expand.grid(x = seq(-4, 4, 0.01), y = seq(-2, 6, 0.01)) %>% 
   mutate(x=round(x,2), y=round(y,2)) %>% 

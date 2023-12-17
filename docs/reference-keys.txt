@@ -1,7 +1,7 @@
 introduction
 project-overview
-loading-cleaning-validating-transforming
-loading-dataset
+extracting-cleaning-validating-transforming
+extracting-dataset
 explain-variables-of-interest
 create-new-variables
 validating-count-handedness-game-year

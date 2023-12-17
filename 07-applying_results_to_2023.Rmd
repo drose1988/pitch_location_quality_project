@@ -1,8 +1,8 @@
 # Applying Results to 2023 Season
 
-Now we have a compiled pitch quality data frame that can be joined to a season's worth of data. So any given pitch from 2023 will have a corresponding pitch location value. However, outlier pitches falling outside the 99% region will not have a corresponding pitch value. For the time being, these pitches are removed from the analysis going forward.
+Now, with the compiled pitch quality data frame, we have the means to associate a pitch location value with each pitch in a given season, such as 2023. It's important to note that outlier pitches falling outside the 99% region won't have a corresponding pitch value for now. As a temporary solution, these outliers are excluded from the ongoing analysis.
 
-Here, I'll load 2023 season data back in and do some cleaning before joining the pitch quality lookup data frame to it. 
+In the following steps, I'll reload the 2023 season data and perform some cleaning before integrating the pitch quality lookup data frame.
 
 ## Cleaning 2023 Dataset
 

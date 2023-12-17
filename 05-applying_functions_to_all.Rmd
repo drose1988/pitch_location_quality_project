@@ -1,10 +1,10 @@
 # Applying Functions
 
-There are 288 unique combinations of handedness, pitch type, and count. Each combination will get its own GAM smooth. Running this code takes considerable processing time, so to speed up the process I'll convert the category values of the mlbraw2 data frame to integers with indexed values. Then after the computations are complete, I'll convert the integer values back to the original categorical values.
+There are 288 unique combinations of handedness, pitch type, and count. Each combination will have its own GAM smooth. To expedite the processing time, I'll convert the categorical values of the mlbraw2 data frame to integers using indexed values. After the computations are complete, I'll revert the integer values back to the original categorical values.
 
-The result of all this computation will be 288 data frames each with every possible combination of x and y value from its grid plot. For example, the grid region representing 99% of all sliders thrown RHP to RHB will have every possible combination of x and y value in it. Along with x and y values with its corresponding change in run expectancy as visualized before.
+The outcome of this extensive computation will be 288 data frames, each encompassing every possible combination of x and y values from its respective grid plot. For instance, the grid region representing 99% of all sliders thrown by RHP to RHB will include every conceivable combination of x and y values, along with the corresponding change in run expectancy as visualized before.
 
-All 288 data frames will be compiled together into a single data frame to be used to join to a season's worth of data.
+All 288 data frames will be consolidated into a single data frame to be utilized for joining with a season's worth of data. This unified dataset will serve as the foundation for further analysis and insights.
 
 ## Create Data Frames
 

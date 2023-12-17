@@ -3,11 +3,11 @@
 
 ## Plot Outputs
 
-Here's the resulting plots for every unique combination of handedness, pitch type, and count.
+The resulting plots showcase the change in run expectancy for every distinctive combination of handedness, pitch type, and count.
 
-I would like to note that the output values (change in run expectancy) have a considerably different range of values depending on the count the pitch is thrown in. For example, pitches in 0-0 counts have less leverage than pitches in 3-2 counts. Here is a breakdown of the events and their associated change in run expectancy in 0-0 counts compared to 3-2 counts. As a result of this, the GAM smooth will have differing range of expected values depending on the count. This presents an issue in attempting to create a pitch location quality metric. If I were to analyze a season's worth of pitches for a particular pitcher, their pitches thrown in high leverage counts would completely dwarf those in low leverage counts. And an aggregation like average pitch location quality would be influenced much more by some counts over others.
+It's important to highlight that the output values (change in run expectancy) exhibit a notable variance in range depending on the count during which the pitch is thrown. For instance, pitches in 0-0 counts have less impact than pitches in 3-2 counts. This discrepancy in leverage introduces a challenge when attempting to formulate a pitch location quality metric. Analyzing a pitcher's season data could be heavily skewed by pitches thrown in high-leverage counts compared to those in low-leverage counts. A simple aggregation, like the average pitch location quality, might be disproportionately influenced by counts with higher leverage.
 
-Instead I'll normalize the output values of each plot transforming the values to be between a range of 0 to 1. This way pitches from different unique situations can be evaluated the same. 
+To address this issue, I'll normalize the output values of each plot, transforming them to fall within a consistent range of 0 to 1. This normalization ensures that pitches from diverse situations can be evaluated on an equal scale, providing a more accurate and unbiased assessment.
 
 ```{r r_r_ff plot, fig.height = 10, fig.width = 10, fig.align = "left"}
 r_r_ff
